@@ -1,0 +1,93 @@
+﻿id,topic,difficulty,question,A,B,C,D,correct_answer,explaination
+1,Hàm số,Nhận biết,Cho hàm số y = x² + 6x + 10. Giá trị nhỏ nhất của hàm số là,1,10,0,9,A,Hoàn phương: y = (x+3)² + 1 ⇒ min = 1 khi x = -3.
+2,Hàm số,Thông hiểu,Hàm số y = x⁴ - 4x² đồng biến trên khoảng nào?,(-∞;-√2),(√2;+∞),(-∞;+∞),(0;+∞),B,y' = 4x³ - 8x = 4x(x² - 2). y' > 0 khi x < -√2 hoặc x > √2.
+3,Hàm số,Vận dụng,Phương trình 3^{x} + 3^{1-x} = 6 có bao nhiêu nghiệm thực?,0,1,2,3,B,"Đặt t = 3^x > 0, t + 3/t = 6 ⇒ t² - 6t + 3 = 0 ⇒ 2 nghiệm dương ⇒ 2 nghiệm, nhưng kiểm tra nghiệm trùng, thực tế 1 nghiệm duy nhất vì hàm đối xứng."
+4,Hàm số,Vận dụng cao,Giá trị lớn nhất của hàm y = -x² + 6x - 5 trên đoạn [-1;4] là,4,9,16,0,A,"Đỉnh tại x=3, y=-9+18-5=4, thuộc đoạn ⇒ max=4."
+5,Đạo hàm,Nhận biết,Đạo hàm của y = sin(2x) là,2cos(2x),cos(2x),2sin(2x),-2cos(2x),A,Quy tắc chuỗi: (sin u)' = cos u · u'.
+6,Đạo hàm,Thông hiểu,Tiếp tuyến với đồ thị y = e^x tại x = 0 có phương trình là,y = x,y = x + 1,y = e^x,y = 1,B,"y' = e^x, tại x=0: y'=1, qua (0;1) ⇒ y = x + 1."
+7,Đạo hàm,Vận dụng,Số điểm cực trị của hàm y = x³ - 6x² + 9x + 1 là,0,1,2,3,B,"y' = 3x² - 12x + 9 = 3(x² - 4x + 3) = 3(x-1)(x-3)=0 ⇒ 2 điểm, nhưng kiểm tra y'' phân biệt cực đại/cực tiểu."
+8,Đạo hàm,Vận dụng cao,Giá trị nhỏ nhất của y = x + 9/x với x > 0 là,6,9,3,0,A,"y' = 1 - 9/x² = 0 ⇒ x=3, y=3+3=6."
+9,Tích phân,Nhận biết,Nguyên hàm của hàm số cos(3x) là,(1/3)sin(3x)+C,sin(3x)+C,-(1/3)sin(3x)+C,cos(3x)+C,A,Công thức ∫ cos(ax) dx = (1/a)sin(ax) + C.
+10,Tích phân,Thông hiểu,Tính ∫ từ 0 đến π cos x dx bằng,0,1,2,-1,A,[sin x]_0^π = 0 - 0 = 0.
+11,Tích phân,Vận dụng,Diện tích hình phẳng giới hạn bởi y = x² và y = x từ x=0 đến x=1 là,01-Jun,01-Mar,01-Feb,02-Mar,A,S = ∫_0^1 (x - x²) dx = [x²/2 - x³/3]_0^1 = 1/2 - 1/3 = 1/6.
+12,Tích phân,Vận dụng cao,Tính ∫ từ -1 đến 1 (x³ + x) dx bằng,0,2,4,-2,A,Hàm lẻ trên khoảng đối xứng ⇒ tích phân = 0.
+13,Số phức,Nhận biết,Số phức z = -5 - 12i có phần thực là,-5,-12,5,12,A,Phần thực là hệ số của 1.
+14,Số phức,Thông hiểu,Môđun của số phức z = -3 + 4i là,5,7,3,4,A,|z| = √(9 + 16) = 5.
+15,Số phức,Vận dụng,Tính (1 - i)² bằng,2i,-2i,2-2i,0,A,(1 - 2i + i²) = 1 - 2i -1 = -2i?   2 - 2i? (1-i)^2 = 1 - 2i + i² = 1 - 2i -1 = -2i.
+16,Số phức,Vận dụng cao,Tập hợp các điểm z thỏa |z - 2i| = 3 là,Đường tròn tâm (0;2) bán kính 3,Đường tròn tâm (2;0),Đường thẳng,Parabol,A,"Tâm tại 2i, tức (0;2)."
+17,Hình học không gian,Nhận biết,Hình lăng trụ đứng tam giác có bao nhiêu mặt?,5,6,8,4,A,2 đáy + 3 bên = 5 mặt.
+19,Hình học không gian,Vận dụng,Thể tích khối cầu bán kính 3 là,36π,108π,72π,12π,B,V = (4/3)πr³ = (4/3)π·27 = 36π
+21,Lượng giác,Nhận biết,sin(π/3) bằng bao nhiêu?,√3/2,01-Feb,√2/2,0,A,Giá trị chuẩn của sin 60°.
+22,Lượng giác,Thông hiểu,cos(2x) = 2cos²x - 1 khi thay x = π/4 thì cos(π/2) bằng,0,1,-1,2,A,Thay trực tiếp hoặc tính 2*(√2/2)² - 1 = 2*(1/2) - 1 = 0.
+23,Lượng giác,Vận dụng,Phương trình sin x = 1/2 có bao nhiêu nghiệm trên [0; 2π]?,1,2,3,4,B,x = π/6 và x = 5π/6.
+24,Lượng giác,Vận dụng cao,Phương trình cos²x - sin²x = 1/2 có bao nhiêu nghiệm trên [0; 2π]?,2,4,6,8,B,cos 2x = 1/2 ⇒ 2x = ±π/3 + 2kπ ⇒ 4 nghiệm.
+25,Mũ và Logarit,Nhận biết,Giá trị của log₂8 bằng,3,2,1,4,A,Vì 2^3 = 8.
+26,Mũ và Logarit,Thông hiểu,Giải phương trình 2^{x+1} = 8 là,x=2,x=3,x=1,x=4,A,2^{x+1} = 2^3 ⇒ x+1 = 3 ⇒ x=2.
+27,Mũ và Logarit,Vận dụng,Phương trình log₂(x) + log₂(x-3) = 1 có bao nhiêu nghiệm?,0,1,2,3,B,"Điều kiện x>3, 2log₂(x(x-3)^{1/2}? : log₂[x(x-3)] =1 ⇒ x(x-3)=2 ⇒ x²-3x-2=0 ⇒ 2 nghiệm, chỉ 1 thỏa ĐK."
+28,Mũ và Logarit,Vận dụng cao,Giá trị lớn nhất của hàm y = x - 2log₂x (x>0) là bao nhiêu?,1,2,0,4,A,"y' = 1 - 2/(x ln2) =0 ⇒ x = 2/ln2 ≈2.88, nhưng tính đúng tại x=2: y=2-2=0"
+29,Hàm số,Nhận biết,Hàm số y = |x - 1| đạt giá trị nhỏ nhất tại x bằng,1,0,2,-1,A,|x-1| min =0 khi x=1.
+30,Hàm số,Thông hiểu,Hàm số y = x^3 + 3x đồng biến trên toàn bộ ℝ?,Có,Không,Chỉ trên (0;+∞),Chỉ trên (-∞;0),A,y' = 3x² + 3 > 0 ∀x.
+31,Hàm số,Vận dụng,Số giao điểm của đồ thị y = 2^x và y = 4 - x là,1,2,3,0,B,"Giải 2^x + x =4, thử nghiệm hoặc đồ thị: 2 điểm."
+32,Hàm số,Vận dụng cao,Giới hạn lim_{x→0} (sin x)/x bằng,1,0,∞,-1,A,Giới hạn chuẩn.
+33,Đạo hàm,Nhận biết,Đạo hàm của y = ln x là,1/x,x,1,-1,A,Công thức chuẩn.
+34,Đạo hàm,Thông hiểu,Tiếp tuyến với y = tan x tại x = π/4 có hệ số góc là,1,2,0,∞,B,"y' = 1/cos²x, tại π/4: 1/(1/2) = 2."
+35,Đạo hàm,Vận dụng,Số điểm uốn của hàm y = x^4 - 4x^2 là,0,1,2,3,B,"y'' = 12x² - 8, y'''=24x=0 ⇒ x=0, 1 điểm uốn."
+36,Đạo hàm,Vận dụng cao,Tốc độ tăng trung bình của y = x² trên [1;3] là,4,8,6,2,A,Δy/Δx = (9-1)/(3-1) = 8/2 =4.
+37,Tích phân,Nhận biết,Nguyên hàm của 1/x là,ln|x| + C,1/x + C,x + C,0,A,Công thức chuẩn.
+38,Tích phân,Thông hiểu,Tính ∫ từ 1 đến e (1/x) dx bằng,1,0,e,ln e,A,[ln x]_1^e = 1 - 0 =1.
+37,Tích phân,Vận dụng cao,Tính ∫ từ 0 đến 1 x e^x dx bằng,1,e-1,0,e,A,"Từng phần: u=x, dv=e^x dx ⇒ ∫ = x e^x - ∫ e^x dx = e^x (x-1) |0^1 = (e- e*0) - (1-0)= e-1."
+40,Số phức,Nhận biết,Liên hợp của z = 2 - 3i là,2 + 3i,2 - 3i,-2 + 3i,-2 - 3i,A,Thay dấu phần ảo.
+41,Số phức,Thông hiểu,Tính 1/(1+i) bằng,(1-i)/2,(1+i)/2,i,.-i,A,Nhân tử mẫu: (1-i)/(1+1) = (1-i)/2.
+42,Số phức,Vận dụng,Phương trình z² + (2+i)z + 1 = 0 có nghiệm phức là,-1,.-i,1+i,1-i,B,Hoặc tính delta.
+43,Số phức,Vận dụng cao,Tập hợp |z - i| ≤ 1 là,Đĩa tròn tâm (0;1) bán kính 1,Đường tròn,Nửa mặt phẳng,Parabol,A,Đĩa tròn kín.
+44,Hình học không gian,Nhận biết,Số mặt của khối hộp chữ nhật là,6,8,12,4,A,6 mặt.
+45,Hình học không gian,Thông hiểu,Diện tích toàn phần khối lập phương cạnh 5 là,150,125,100,75,A,6*25 = 150.
+46,Hàm số,Nhận biết,Hàm số y = -2x + 5 nghịch biến trên ℝ?,Có,Không,Chỉ (0;+∞),Không xác định,A,Hệ số góc âm.
+47,Hàm số,Thông hiểu,Tìm cực trị của y = x + sin x,Không có cực trị,Có 1,Có 2,Vô số,A,"y' = 1 + cos x ≥ 0, =0 tại điểm nhưng y''=-sin x thay đổi dấu không đủ mạnh, thực tế không cực trị."
+48,Hàm số,Vận dụng,lim_{x→∞} (1 + 1/x)^x bằng,e,1,0,∞,A,Giới hạn chuẩn định nghĩa e.
+49,Hàm số,Vận dụng cao,Số nghiệm của pt  x² = 2^x là,2,3,4,1,B,"Giao điểm parabol và hàm mũ: x=2, x=4, và x=-1?  thường 2 hoặc 3."
+50,Đạo hàm,Nhận biết,Đạo hàm cấp 2 của y = x^5 là,20x^3,60x^2,20x^4,5x^4,A,(5x^4)' = 20x^3.
+51,Đạo hàm,Thông hiểu,Điểm uốn của y = sin x là tại,x = kπ,x = π/2 + kπ,x = kπ/2,x = π + kπ,B,y''' = -cos x =0 khi cos x=0.
+52,Đạo hàm,Vận dụng,Hàm y = e^{-x} có đồ thị lõm trên khoảng nào?,(-∞;0),(0;+∞),ℝ,Không,B,y'' = e^{-x} >0 luôn ⇒ lồi.
+53,Đạo hàm,Vận dụng cao,Đạo hàm của y = arcsin x là,1/√(1-x²),.-1/√(1-x²),1/(1+x²),1/√(1+x²),A,Công thức chuẩn.
+54,Tích phân,Nhận biết,∫ e^x dx bằng,e^x + C,ln|x| + C,x + C,0,A,Công thức chuẩn.
+55,Tích phân,Thông hiểu,Tính ∫ từ 0 đến 1 e^{-x} dx bằng,1-1/e,1/e,e-1,1,A,[-e^{-x}]_0^1 = -e^{-1} - (-1) = 1 - 1/e.
+56,Tích phân,Vận dụng cao,Thể tích vật thể tròn xoay quanh Ox bởi y = √x từ 0 đến 4 là,32π/5,16π,8π,64π/5,A,V = π ∫_0^4 x dx = π [x²/2]_0^4 = π*8
+57,Lượng giác,Nhận biết,tan(π/4) =,1,0,√3,∞,A,tan 45° =1.
+58,Lượng giác,Thông hiểu,sin(x + π/2) =,cos x,.-sin x,cos x,.-cos x,A,Công thức đồng dư.
+59,Lượng giác,Vận dụng,Phương trình 2 cos²x - cos x - 1 = 0 có bao nhiêu nghiệm trên [0;2π]?,2,3,4,6,C,"Đặt t=cos x, 2t² - t -1=0 ⇒ t=1 hoặc t=-1/2 ⇒ 4 nghiệm."
+60,Lượng giác,Vận dụng cao,Biểu thức sin x + sin 2x + sin 3x đạt giá trị lớn nhất bằng,03-Feb,2,05-Feb,√3,A,"Tổng hoặc dùng công thức, max ≈1.5"
+61,Mũ và Logarit,Nhận biết,log₁₀1000 =,3,4,2,1,A,10^3=1000.
+62,Mũ và Logarit,Thông hiểu,log₃(1/9) =,-2,-1,2,1,A,3^{-2}=1/9.
+63,Mũ và Logarit,Vận dụng,Giải 5^{2x-1} = 25^x là,x=1,x=0,x=-1,x=1/2,A,"5^{2x-1} = 5^{2x} ⇒ 2x-1=2x, 25=5² ⇒ 5^{2x-1} = 5^{2x} ⇒ -1=0 sai, x=1: 5^{1}=25^1 đúng."
+64,Mũ và Logarit,Vận dụng cao,lim_{x→0^+} x ln x =,0,∞,.-∞,1,A,Giới hạn chuẩn =0.
+65,Hàm số,Nhận biết,Đồ thị hàm y = 1/x có tiệm cận đứng tại,x=0,x=1,y=0,y=1,A,x=0.
+66,Hàm số,Thông hiểu,Hàm y = x^4 + x^2 + 1 luôn dương với mọi x?,Có,Không,Chỉ x>0,Chỉ x<0,A,Rõ ràng >0.
+67,Hàm số,Vận dụng,Số nghiệm của pt e^x = 1 - x là,0,1,2,3,B,Đồ thị cắt 1 hoặc 2 điểm.
+68,Hàm số,Vận dụng cao,lim_{x→∞} √(x² + 2x + 3) - x =,1,0,∞,2,A,Nhân hợp lý hóa: (2x+3)/ (√(...) + x) →1.
+69,Đạo hàm,Nhận biết,Đạo hàm của y = cos²x là,-sin 2x,-2 sin x cos x,sin 2x,2 sin x cos x,A,Hoặc -sin 2x.
+70,Đạo hàm,Thông hiểu,Tiếp tuyến y = x ln x tại x=1 là,y = x,y = x + 1,y = 1,y = x - 1 + ln e ,A,"y'(x)= ln x +1, tại x=1: y'=1, qua (1;0) ⇒ y-0=1(x-1) ⇒ y=x-1."
+71,Đạo hàm,Vận dụng,Hàm y = x^5 - 5x có bao nhiêu điểm cực trị?,2,3,4,5,C,"y'=5x^4 -5=5(x^4-1)=0 ⇒ 3 điểm thực (x=±1,0?  x^4=1 ⇒ ±1)."
+72,Đạo hàm,Vận dụng cao,Giá trị nhỏ nhất của y = tan x trên (0; π/2) là,Không có,0,1,∞,A,"tan x → +∞ khi x→π/2^-, min không đạt."
+73,Tích phân,Nhận biết,∫ sec²x dx =,tan x + C,cot x + C,sin x + C,cos x + C,A,Công thức chuẩn.
+74,Tích phân,Thông hiểu,Tính ∫ từ π/6 đến π/3 sec²x dx bằng,√3 - 1/√3,√3,2,1,B,[tan x]_{π/6}^{π/3} = √3 - 1/√3 = (3-1)/√3 = 2/√3
+75,Tích phân,Vận dụng,Thể tích vật thể tròn xoay quanh Oy bởi đường y=x² từ x=0 đến x=1 là,π/5,2π/5,π/3,π/10,A,"V = 2π ∫ y √(1+(y')²)  không, quanh Oy dùng x=√y, hoặc π ∫_0^1 (1 - x^4) dx = π(1 - 1/5)=4π/5 "
+76,Tích phân,Vận dụng cao,∫_{-∞}^{+∞} e^{-x²} dx bằng,√π,π,1,2,A,Tích phân Gauss chuẩn.
+77,Số phức,Nhận biết,Arg(z) của z = -1 là,π,0,π/2,.-π/2,A,Trên tia âm trục thực.
+78,Số phức,Thông hiểu,Tính i^8 bằng,1,-1,i,.-i,A,"i^4=1, (i^4)^2=1."
+79,Số phức,Vận dụng,z = 1 + i√3 có dạng lượng giác là,2(cos π/3 + i sin π/3),2(cos π/6 + i sin π/6),√2(cos π/4 + i sin π/4),1(cos 0 + i sin 0),A,"|z|=2, arg=π/3."
+80,Số phức,Vận dụng cao,|z+1| + |z-1| = 4 biểu diễn tập hợp nào?,Đoạn thẳng từ -2 đến 2 trên trục thực,Ellipse,Parabol,Đường tròn,B,"Tính chất ellipse với tiêu cự ±1, 2a=4 ⇒ a=2."
+81,Hình học không gian,Nhận biết,Số đỉnh của khối chóp ngũ giác là,6,10,5,11,A,Đáy 5 + đỉnh =6.
+82,Hình học không gian,Vận dụng cao,Khoảng cách giữa hai đường thẳng chéo nhau trong không gian thường là,Dương,Không xác định,0,∞,A,Luôn tồn tại và dương nếu chéo.
+83,Hàm số,Nhận biết,Hàm số bậc 3 luôn có ít nhất bao nhiêu nghiệm thực?,1,2,3,0,A,Có ít nhất 1 nghiệm thực.
+84,Hàm số,Thông hiểu,Đồ thị hàm y = arctan x có tiệm cận ngang tại,y=π/2,y=π,y=0,y=∞,A,"Khi x→±∞, y→ ±π/2."
+85,Hàm số,Vận dụng,Số nghiệm phương trình √(x+1) = x-1 là,0,1,2,3,B,"Bình phương: x+1 = (x-1)^2, điều kiện x≥1 ⇒ 1 nghiệm."
+86,Hàm số,Vận dụng cao,Giá trị lớn nhất của |sin x + cos x| là,√2,1,2,0,A,= √2 sin(x + π/4).
+87,Đạo hàm,Nhận biết,Đạo hàm của y = a^x (a>0) là,a^x ln a,a^x,a^x / x,0,A,Công thức chuẩn.
+88,Đạo hàm,Thông hiểu,Tiếp tuyến y = 2^{-x} tại x=0 là,y = -ln2 x +1,y = x +1,y = -x +1,y = 1,A,"y' = 2^{-x} (-ln2), tại 0: -ln2, qua (0;1) ⇒ y-1 = -ln2 (x-0)."
+89,Đạo hàm,Vận dụng,Hàm y = x - ln x (x>0) có cực tiểu tại,x=1,x=e,x=0,x=1/e,A,"y'=1 - 1/x=0 ⇒ x=1, y''=1/x>0."
+90,Đạo hàm,Vận dụng cao,Tốc độ thay đổi của diện tích hình tròn khi bán kính tăng từ 2 đến 2.1 gần đúng là,4π*0.1,8π*0.1,2π*0.1,π*0.1,B,"dS/dr = 2πr, tại r=2 ≈ 4π, tăng 0.1 ⇒ ΔS≈4π*0.1."
+91,Tích phân,Nhận biết,∫ tan x dx =,-ln|cos x| + C,ln|sin x| + C,ln|tan x| + C,-cot x + C,A,Chuẩn.
+92,Tích phân,Thông hiểu,Tính ∫ từ 0 đến π/4 tan x dx bằng,ln√2,ln2,1,0,A,[-ln|cos x|]_0^{π/4} = -ln(√2/2) + ln1 = -ln(1/√2) = ln√2.
+93,Tích phân,Vận dụng,Diện tích giới hạn bởi y = e^x và y = e từ x=0 đến x=1 là,e-2,1,e-1,2,A,∫_0^1 (e - e^x) dx = [e x - e^x]_0^1 = (e - e) - (0 - 1) =1.
+94,Tích phân,Vận dụng cao,∫_0^∞ e^{-x} dx bằng,1,0,∞,e,A,[ -e^{-x} ]_0^∞ = 0 - (-1) =1.

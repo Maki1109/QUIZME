@@ -1,0 +1,101 @@
+﻿id,topic,difficulty,question,A,B,C,D,correct_answer,explaination
+1,Hàm số,Nhận biết,Cho hàm số y = x^2 − 2x + 1. Giá trị y tại x = 1 bằng bao nhiêu?,0,1,2,−1,A,Thay x = 1 vào hàm số: y = 1^2 − 2·1 + 1 = 0.
+2,Hàm số,Thông hiểu,Hàm số y = x^3 − 3x + 1 nghịch biến trên khoảng nào?,(−∞; −1),(−1; 1),(1; +∞),(−∞; +∞),B,Đạo hàm y' = 3x^2 − 3. Hàm nghịch biến khi y' < 0 ⇔ |x| < 1 ⇒ (−1;1).
+3,Hàm số,Vận dụng,Số nghiệm của phương trình x^4 − 2x^2 + 1 = 0 là,0,1,2,4,C,Ta có (x^2 − 1)^2 = 0 ⇒ x = ±1 ⇒ có 2 nghiệm phân biệt.
+4,Hàm số,Vận dụng cao,Giá trị nhỏ nhất của hàm số y = x^2 − 4x + 5 là,1,5,−1,0,A,Parabol đạt GTNN tại x = −b/(2a)=2. y_min = 2^2 − 8 + 5 = 1.
+5,Đạo hàm,Nhận biết,Đạo hàm của hàm số y = 3x^2 là,6x,3x,x^2,9x,A,Áp dụng quy tắc đạo hàm: (x^n)' = n·x^(n−1).
+6,Đạo hàm,Thông hiểu,Tiếp tuyến của đồ thị y = x^2 tại điểm x = 1 có hệ số góc là,1,2,0,−1,B,Hệ số góc tiếp tuyến là y' tại x=1. y' = 2x ⇒ y'(1)=2.
+7,Đạo hàm,Vận dụng,Hàm số y = x^3 − 3x^2 + 1 có bao nhiêu điểm cực trị?,0,1,2,3,C,"y' = 3x^2 − 6x = 0 ⇒ x=0,2 ⇒ có 2 điểm cực trị."
+8,Đạo hàm,Vận dụng cao,Giá trị lớn nhất của y = −x^2 + 4x − 1 là,3,4,5,1,A,Parabol quay xuống. Đỉnh tại x=2 ⇒ y_max = −4 + 8 − 1 = 3.
+9,Tích phân,Nhận biết,∫ x dx bằng,x^2/2 + C,x + C,2x + C,x^2 + C,A,Áp dụng công thức ∫x^n dx = x^(n+1)/(n+1) + C.
+10,Tích phân,Thông hiểu,∫₀¹ 2x dx bằng,1,2,0,01-Feb,A,∫₀¹ 2x dx = [x^2]₀¹ = 1.
+11,Tích phân,Vận dụng,Diện tích hình phẳng giới hạn bởi y = x và trục hoành từ 0 đến 2 là,2,4,1,3,A,S = ∫₀² x dx = x^2/2|₀² = 2.
+12,Tích phân,Vận dụng cao,∫₁² (2x − 1) dx bằng,2,3,1,0,B,∫(2x−1)dx = x^2 − x. Thay cận 1→2: (4−2) − (1−1) = 2.
+13,Số phức,Nhận biết,Số phức z = 3 + 4i có phần ảo bằng,3,4,−4,i,B,"Phần ảo là hệ số của i, bằng 4."
+14,Số phức,Thông hiểu,Môđun của số phức z = 1 − i là,√2,2,1,0,A,|z| = √(1^2 + (−1)^2) = √2.
+15,Số phức,Vận dụng,Cho z = 2 + i. Giá trị |z|^2 bằng,5,√5,3,2,A,|z|^2 = 2^2 + 1^2 = 5.
+16,Số phức,Vận dụng cao,Tìm z thỏa |z − 1| = 2.,Đường tròn tâm (1;0),Đường thẳng,Parabol,Elip,A,"Tập hợp điểm biểu diễn là đường tròn tâm 1, bán kính 2."
+17,Hình học không gian,Nhận biết,Một hình lập phương có bao nhiêu cạnh?,6,8,12,4,C,Hình lập phương có 12 cạnh bằng nhau.
+18,Hình học không gian,Thông hiểu,Thể tích khối lập phương cạnh a là,a^2,4a,a^3,6a^2,C,Thể tích hình lập phương V = a^3.
+19,Hình học không gian,Vận dụng,"Thể tích hình hộp chữ nhật có kích thước 2,3,4 là",24,12,10,8,A,V = 2×3×4 = 24.
+20,Hình học không gian,Vận dụng cao,Thể tích hình chóp có diện tích đáy 6 và chiều cao 5 là,30,10,15,20,C,V = (1/3)·S_đáy·h = (1/3)·6·5 = 10.
+1,Hàm số,Nhận biết,Cho hàm số y = x^2 − 2x + 1. Giá trị y tại x = 1 bằng bao nhiêu?,0,1,2,−1,A,Thay x = 1 vào hàm số: y = 1^2 − 2·1 + 1 = 0.
+2,Hàm số,Thông hiểu,Hàm số y = x^3 − 3x + 1 nghịch biến trên khoảng nào?,(−∞; −1),(−1; 1),(1; +∞),(−∞; +∞),B,Đạo hàm y' = 3x^2 − 3. Hàm nghịch biến khi y' < 0 ⇔ |x| < 1 ⇒ (−1;1).
+3,Hàm số,Vận dụng,Số nghiệm của phương trình x^4 − 2x^2 + 1 = 0 là,0,1,2,4,C,Ta có (x^2 − 1)^2 = 0 ⇒ x = ±1 ⇒ có 2 nghiệm phân biệt.
+4,Hàm số,Vận dụng cao,Giá trị nhỏ nhất của hàm số y = x^2 − 4x + 5 là,1,5,−1,0,A,Parabol đạt GTNN tại x = −b/(2a)=2. y_min = 2^2 − 8 + 5 = 1.
+5,Đạo hàm,Nhận biết,Đạo hàm của hàm số y = 3x^2 là,6x,3x,x^2,9x,A,Áp dụng quy tắc đạo hàm: (x^n)' = n·x^(n−1).
+6,Đạo hàm,Thông hiểu,Tiếp tuyến của đồ thị y = x^2 tại điểm x = 1 có hệ số góc là,1,2,0,−1,B,Hệ số góc tiếp tuyến là y' tại x=1. y' = 2x ⇒ y'(1)=2.
+7,Đạo hàm,Vận dụng,Hàm số y = x^3 − 3x^2 + 1 có bao nhiêu điểm cực trị?,0,1,2,3,C,"y' = 3x^2 − 6x = 0 ⇒ x=0,2 ⇒ có 2 điểm cực trị."
+8,Đạo hàm,Vận dụng cao,Giá trị lớn nhất của y = −x^2 + 4x − 1 là,3,4,5,1,A,Parabol quay xuống. Đỉnh tại x=2 ⇒ y_max = −4 + 8 − 1 = 3.
+9,Tích phân,Nhận biết,∫ x dx bằng,x^2/2 + C,x + C,2x + C,x^2 + C,A,Áp dụng công thức ∫x^n dx = x^(n+1)/(n+1) + C.
+10,Tích phân,Thông hiểu,∫₀¹ 2x dx bằng,1,2,0,01-Feb,A,∫₀¹ 2x dx = [x^2]₀¹ = 1.
+11,Tích phân,Vận dụng,Diện tích hình phẳng giới hạn bởi y = x và trục hoành từ 0 đến 2 là,2,4,1,3,A,S = ∫₀² x dx = x^2/2|₀² = 2.
+12,Tích phân,Vận dụng cao,∫₁² (2x − 1) dx bằng,2,3,1,0,B,∫(2x−1)dx = x^2 − x. Thay cận 1→2: (4−2) − (1−1) = 2.
+13,Số phức,Nhận biết,Số phức z = 3 + 4i có phần ảo bằng,3,4,−4,i,B,"Phần ảo là hệ số của i, bằng 4."
+14,Số phức,Thông hiểu,Môđun của số phức z = 1 − i là,√2,2,1,0,A,|z| = √(1^2 + (−1)^2) = √2.
+15,Số phức,Vận dụng,Cho z = 2 + i. Giá trị |z|^2 bằng,5,√5,3,2,A,|z|^2 = 2^2 + 1^2 = 5.
+16,Số phức,Vận dụng cao,Tìm z thỏa |z − 1| = 2.,Đường tròn tâm (1;0),Đường thẳng,Parabol,Elip,A,"Tập hợp điểm biểu diễn là đường tròn tâm 1, bán kính 2."
+17,Hình học không gian,Nhận biết,Một hình lập phương có bao nhiêu cạnh?,6,8,12,4,C,Hình lập phương có 12 cạnh bằng nhau.
+18,Hình học không gian,Thông hiểu,Thể tích khối lập phương cạnh a là,a^2,4a,a^3,6a^2,C,Thể tích hình lập phương V = a^3.
+19,Hình học không gian,Vận dụng,"Thể tích hình hộp chữ nhật có kích thước 2,3,4 là",24,12,10,8,A,V = 2×3×4 = 24.
+20,Hình học không gian,Vận dụng cao,Thể tích hình chóp có diện tích đáy 6 và chiều cao 5 là,30,10,15,20,C,V = (1/3)·S_đáy·h = (1/3)·6·5 = 10.
+1,Hàm số,Nhận biết,Cho hàm số y = x^2 − 2x + 1. Giá trị y tại x = 1 bằng bao nhiêu?,0,1,2,−1,A,Thay x = 1 vào hàm số: y = 1^2 − 2·1 + 1 = 0.
+2,Hàm số,Thông hiểu,Hàm số y = x^3 − 3x + 1 nghịch biến trên khoảng nào?,(−∞; −1),(−1; 1),(1; +∞),(−∞; +∞),B,Đạo hàm y' = 3x^2 − 3. Hàm nghịch biến khi y' < 0 ⇔ |x| < 1 ⇒ (−1;1).
+3,Hàm số,Vận dụng,Số nghiệm của phương trình x^4 − 2x^2 + 1 = 0 là,0,1,2,4,C,Ta có (x^2 − 1)^2 = 0 ⇒ x = ±1 ⇒ có 2 nghiệm phân biệt.
+4,Hàm số,Vận dụng cao,Giá trị nhỏ nhất của hàm số y = x^2 − 4x + 5 là,1,5,−1,0,A,Parabol đạt GTNN tại x = −b/(2a)=2. y_min = 2^2 − 8 + 5 = 1.
+5,Đạo hàm,Nhận biết,Đạo hàm của hàm số y = 3x^2 là,6x,3x,x^2,9x,A,Áp dụng quy tắc đạo hàm: (x^n)' = n·x^(n−1).
+6,Đạo hàm,Thông hiểu,Tiếp tuyến của đồ thị y = x^2 tại điểm x = 1 có hệ số góc là,1,2,0,−1,B,Hệ số góc tiếp tuyến là y' tại x=1. y' = 2x ⇒ y'(1)=2.
+7,Đạo hàm,Vận dụng,Hàm số y = x^3 − 3x^2 + 1 có bao nhiêu điểm cực trị?,0,1,2,3,C,"y' = 3x^2 − 6x = 0 ⇒ x=0,2 ⇒ có 2 điểm cực trị."
+8,Đạo hàm,Vận dụng cao,Giá trị lớn nhất của y = −x^2 + 4x − 1 là,3,4,5,1,A,Parabol quay xuống. Đỉnh tại x=2 ⇒ y_max = −4 + 8 − 1 = 3.
+9,Tích phân,Nhận biết,∫ x dx bằng,x^2/2 + C,x + C,2x + C,x^2 + C,A,Áp dụng công thức ∫x^n dx = x^(n+1)/(n+1) + C.
+10,Tích phân,Thông hiểu,∫₀¹ 2x dx bằng,1,2,0,01-Feb,A,∫₀¹ 2x dx = [x^2]₀¹ = 1.
+11,Tích phân,Vận dụng,Diện tích hình phẳng giới hạn bởi y = x và trục hoành từ 0 đến 2 là,2,4,1,3,A,S = ∫₀² x dx = x^2/2|₀² = 2.
+12,Tích phân,Vận dụng cao,∫₁² (2x − 1) dx bằng,2,3,1,0,B,∫(2x−1)dx = x^2 − x. Thay cận 1→2: (4−2) − (1−1) = 2.
+13,Số phức,Nhận biết,Số phức z = 3 + 4i có phần ảo bằng,3,4,−4,i,B,"Phần ảo là hệ số của i, bằng 4."
+14,Số phức,Thông hiểu,Môđun của số phức z = 1 − i là,√2,2,1,0,A,|z| = √(1^2 + (−1)^2) = √2.
+15,Số phức,Vận dụng,Cho z = 2 + i. Giá trị |z|^2 bằng,5,√5,3,2,A,|z|^2 = 2^2 + 1^2 = 5.
+16,Số phức,Vận dụng cao,Tìm z thỏa |z − 1| = 2.,Đường tròn tâm (1;0),Đường thẳng,Parabol,Elip,A,"Tập hợp điểm biểu diễn là đường tròn tâm 1, bán kính 2."
+17,Hình học không gian,Nhận biết,Một hình lập phương có bao nhiêu cạnh?,6,8,12,4,C,Hình lập phương có 12 cạnh bằng nhau.
+18,Hình học không gian,Thông hiểu,Thể tích khối lập phương cạnh a là,a^2,4a,a^3,6a^2,C,Thể tích hình lập phương V = a^3.
+19,Hình học không gian,Vận dụng,"Thể tích hình hộp chữ nhật có kích thước 2,3,4 là",24,12,10,8,A,V = 2×3×4 = 24.
+20,Hình học không gian,Vận dụng cao,Thể tích hình chóp có diện tích đáy 6 và chiều cao 5 là,30,10,15,20,C,V = (1/3)·S_đáy·h = (1/3)·6·5 = 10.
+1,Hàm số,Nhận biết,Cho hàm số y = x^2 − 2x + 1. Giá trị y tại x = 1 bằng bao nhiêu?,0,1,2,−1,A,Thay x = 1 vào hàm số: y = 1^2 − 2·1 + 1 = 0.
+2,Hàm số,Thông hiểu,Hàm số y = x^3 − 3x + 1 nghịch biến trên khoảng nào?,(−∞; −1),(−1; 1),(1; +∞),(−∞; +∞),B,Đạo hàm y' = 3x^2 − 3. Hàm nghịch biến khi y' < 0 ⇔ |x| < 1 ⇒ (−1;1).
+3,Hàm số,Vận dụng,Số nghiệm của phương trình x^4 − 2x^2 + 1 = 0 là,0,1,2,4,C,Ta có (x^2 − 1)^2 = 0 ⇒ x = ±1 ⇒ có 2 nghiệm phân biệt.
+4,Hàm số,Vận dụng cao,Giá trị nhỏ nhất của hàm số y = x^2 − 4x + 5 là,1,5,−1,0,A,Parabol đạt GTNN tại x = −b/(2a)=2. y_min = 2^2 − 8 + 5 = 1.
+5,Đạo hàm,Nhận biết,Đạo hàm của hàm số y = 3x^2 là,6x,3x,x^2,9x,A,Áp dụng quy tắc đạo hàm: (x^n)' = n·x^(n−1).
+6,Đạo hàm,Thông hiểu,Tiếp tuyến của đồ thị y = x^2 tại điểm x = 1 có hệ số góc là,1,2,0,−1,B,Hệ số góc tiếp tuyến là y' tại x=1. y' = 2x ⇒ y'(1)=2.
+7,Đạo hàm,Vận dụng,Hàm số y = x^3 − 3x^2 + 1 có bao nhiêu điểm cực trị?,0,1,2,3,C,"y' = 3x^2 − 6x = 0 ⇒ x=0,2 ⇒ có 2 điểm cực trị."
+8,Đạo hàm,Vận dụng cao,Giá trị lớn nhất của y = −x^2 + 4x − 1 là,3,4,5,1,A,Parabol quay xuống. Đỉnh tại x=2 ⇒ y_max = −4 + 8 − 1 = 3.
+9,Tích phân,Nhận biết,∫ x dx bằng,x^2/2 + C,x + C,2x + C,x^2 + C,A,Áp dụng công thức ∫x^n dx = x^(n+1)/(n+1) + C.
+10,Tích phân,Thông hiểu,∫₀¹ 2x dx bằng,1,2,0,01-Feb,A,∫₀¹ 2x dx = [x^2]₀¹ = 1.
+11,Tích phân,Vận dụng,Diện tích hình phẳng giới hạn bởi y = x và trục hoành từ 0 đến 2 là,2,4,1,3,A,S = ∫₀² x dx = x^2/2|₀² = 2.
+12,Tích phân,Vận dụng cao,∫₁² (2x − 1) dx bằng,2,3,1,0,B,∫(2x−1)dx = x^2 − x. Thay cận 1→2: (4−2) − (1−1) = 2.
+13,Số phức,Nhận biết,Số phức z = 3 + 4i có phần ảo bằng,3,4,−4,i,B,"Phần ảo là hệ số của i, bằng 4."
+14,Số phức,Thông hiểu,Môđun của số phức z = 1 − i là,√2,2,1,0,A,|z| = √(1^2 + (−1)^2) = √2.
+15,Số phức,Vận dụng,Cho z = 2 + i. Giá trị |z|^2 bằng,5,√5,3,2,A,|z|^2 = 2^2 + 1^2 = 5.
+16,Số phức,Vận dụng cao,Tìm z thỏa |z − 1| = 2.,Đường tròn tâm (1;0),Đường thẳng,Parabol,Elip,A,"Tập hợp điểm biểu diễn là đường tròn tâm 1, bán kính 2."
+17,Hình học không gian,Nhận biết,Một hình lập phương có bao nhiêu cạnh?,6,8,12,4,C,Hình lập phương có 12 cạnh bằng nhau.
+18,Hình học không gian,Thông hiểu,Thể tích khối lập phương cạnh a là,a^2,4a,a^3,6a^2,C,Thể tích hình lập phương V = a^3.
+19,Hình học không gian,Vận dụng,"Thể tích hình hộp chữ nhật có kích thước 2,3,4 là",24,12,10,8,A,V = 2×3×4 = 24.
+20,Hình học không gian,Vận dụng cao,Thể tích hình chóp có diện tích đáy 6 và chiều cao 5 là,30,10,15,20,C,V = (1/3)·S_đáy·h = (1/3)·6·5 = 10.
+1,Hàm số,Nhận biết,Cho hàm số y = x^2 − 2x + 1. Giá trị y tại x = 1 bằng bao nhiêu?,0,1,2,−1,A,Thay x = 1 vào hàm số: y = 1^2 − 2·1 + 1 = 0.
+2,Hàm số,Thông hiểu,Hàm số y = x^3 − 3x + 1 nghịch biến trên khoảng nào?,(−∞; −1),(−1; 1),(1; +∞),(−∞; +∞),B,Đạo hàm y' = 3x^2 − 3. Hàm nghịch biến khi y' < 0 ⇔ |x| < 1 ⇒ (−1;1).
+3,Hàm số,Vận dụng,Số nghiệm của phương trình x^4 − 2x^2 + 1 = 0 là,0,1,2,4,C,Ta có (x^2 − 1)^2 = 0 ⇒ x = ±1 ⇒ có 2 nghiệm phân biệt.
+4,Hàm số,Vận dụng cao,Giá trị nhỏ nhất của hàm số y = x^2 − 4x + 5 là,1,5,−1,0,A,Parabol đạt GTNN tại x = −b/(2a)=2. y_min = 2^2 − 8 + 5 = 1.
+5,Đạo hàm,Nhận biết,Đạo hàm của hàm số y = 3x^2 là,6x,3x,x^2,9x,A,Áp dụng quy tắc đạo hàm: (x^n)' = n·x^(n−1).
+6,Đạo hàm,Thông hiểu,Tiếp tuyến của đồ thị y = x^2 tại điểm x = 1 có hệ số góc là,1,2,0,−1,B,Hệ số góc tiếp tuyến là y' tại x=1. y' = 2x ⇒ y'(1)=2.
+7,Đạo hàm,Vận dụng,Hàm số y = x^3 − 3x^2 + 1 có bao nhiêu điểm cực trị?,0,1,2,3,C,"y' = 3x^2 − 6x = 0 ⇒ x=0,2 ⇒ có 2 điểm cực trị."
+8,Đạo hàm,Vận dụng cao,Giá trị lớn nhất của y = −x^2 + 4x − 1 là,3,4,5,1,A,Parabol quay xuống. Đỉnh tại x=2 ⇒ y_max = −4 + 8 − 1 = 3.
+9,Tích phân,Nhận biết,∫ x dx bằng,x^2/2 + C,x + C,2x + C,x^2 + C,A,Áp dụng công thức ∫x^n dx = x^(n+1)/(n+1) + C.
+10,Tích phân,Thông hiểu,∫₀¹ 2x dx bằng,1,2,0,01-Feb,A,∫₀¹ 2x dx = [x^2]₀¹ = 1.
+11,Tích phân,Vận dụng,Diện tích hình phẳng giới hạn bởi y = x và trục hoành từ 0 đến 2 là,2,4,1,3,A,S = ∫₀² x dx = x^2/2|₀² = 2.
+12,Tích phân,Vận dụng cao,∫₁² (2x − 1) dx bằng,2,3,1,0,B,∫(2x−1)dx = x^2 − x. Thay cận 1→2: (4−2) − (1−1) = 2.
+13,Số phức,Nhận biết,Số phức z = 3 + 4i có phần ảo bằng,3,4,−4,i,B,"Phần ảo là hệ số của i, bằng 4."
+14,Số phức,Thông hiểu,Môđun của số phức z = 1 − i là,√2,2,1,0,A,|z| = √(1^2 + (−1)^2) = √2.
+15,Số phức,Vận dụng,Cho z = 2 + i. Giá trị |z|^2 bằng,5,√5,3,2,A,|z|^2 = 2^2 + 1^2 = 5.
+16,Số phức,Vận dụng cao,Tìm z thỏa |z − 1| = 2.,Đường tròn tâm (1;0),Đường thẳng,Parabol,Elip,A,"Tập hợp điểm biểu diễn là đường tròn tâm 1, bán kính 2."
+17,Hình học không gian,Nhận biết,Một hình lập phương có bao nhiêu cạnh?,6,8,12,4,C,Hình lập phương có 12 cạnh bằng nhau.
+18,Hình học không gian,Thông hiểu,Thể tích khối lập phương cạnh a là,a^2,4a,a^3,6a^2,C,Thể tích hình lập phương V = a^3.
+19,Hình học không gian,Vận dụng,"Thể tích hình hộp chữ nhật có kích thước 2,3,4 là",24,12,10,8,A,V = 2×3×4 = 24.
+20,Hình học không gian,Vận dụng cao,Thể tích hình chóp có diện tích đáy 6 và chiều cao 5 là,30,10,15,20,C,V = (1/3)·S_đáy·h = (1/3)·6·5 = 10.
