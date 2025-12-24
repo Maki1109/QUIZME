@@ -61,6 +61,6 @@
       },
       "scripts": {
             "dev": "vite",
-            "build": "vite build"
+            "build": "npm install --prefix apps && npm install --prefix FE && npm run build --prefix FE"
       }
 }
