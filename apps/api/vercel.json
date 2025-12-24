@@ -10,10 +10,6 @@
     {
       "source": "/api/(.*)",
       "destination": "src/app.js"
-    },
-    {
-      "source": "/(.*)",
-      "destination": "src/app.js"
     }
   ]
 }
