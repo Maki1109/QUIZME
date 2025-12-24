@@ -50,8 +50,10 @@ export function RegisterPage({ onSwitchToLogin }: RegisterPageProps) {
 
     try {
       await register(name, email, password);
-    } catch (err: any) {
-      setError(err.response?.data?.message || err.message || 'Đăng ký thất bại');
+      // After successful registration, user will be redirected to onboarding
+    } catch (err) {
+      const message = err instanceof Error ? err.message : 'Đăng ký thất bại';
+      setError(message);
       setIsLoading(false);
     }
   };
