@@ -13,7 +13,7 @@ const API_BASE_URL = (typeof import.meta !== 'undefined' && import.meta.env?.VIT
 // Tạo axios instance
 const api = axios.create({
   baseURL: API_BASE_URL,
-  timeout: 15000, // 15 seconds
+  timeout: 60000, // 60 seconds
   headers: {
     'Content-Type': 'application/json',
   },
