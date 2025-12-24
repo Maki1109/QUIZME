@@ -48,7 +48,7 @@ export const ErrorHistoryReview: React.FC<ErrorHistoryReviewProps> = ({ onBack }
         const token = localStorage.getItem('quizme_token') || localStorage.getItem('token');
         if (!token) return;
 
-        const response = await fetch('${import.meta.env.VITE_API_URL}/challenges/history', {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/challenges/history`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         

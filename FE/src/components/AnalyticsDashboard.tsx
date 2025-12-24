@@ -65,11 +65,13 @@ export function AnalyticsDashboard() {
         
         const headers = { 'Authorization': `Bearer ${token}` };
 
+        const baseUrl = import.meta.env.VITE_API_URL;
+
         const [radarRes, weakRes, progressRes, errorRes] = await Promise.all([
-          fetch('${import.meta.env.VITE_API_URL}/analytics/competency-radar', { headers }),
-          fetch('${import.meta.env.VITE_API_URL}/analytics/weak-topics', { headers }),
-          fetch('${import.meta.env.VITE_API_URL}/analytics/progress-trend', { headers }),
-          fetch('${import.meta.env.VITE_API_URL}/analytics/error-analysis/by-difficulty', { headers })
+          fetch(`${baseUrl}/analytics/competency-radar`, { headers }),
+          fetch(`${baseUrl}/analytics/weak-topics`, { headers }),
+          fetch(`${baseUrl}/analytics/progress-trend`, { headers }),
+          fetch(`${baseUrl}/analytics/error-analysis/by-difficulty`, { headers })
         ]);
 
         const radarJson = await radarRes.json();
