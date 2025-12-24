@@ -8,11 +8,20 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 // API Base URL - Lấy từ environment variable hoặc default localhost
 const API_BASE_URL = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_URL) 
   ? import.meta.env.VITE_API_URL 
-  : `${import.meta.env.VITE_API_URL}`;
+  : '';
+
+// Ensure API URL includes /api suffix
+const getBaseUrl = (url: string) => {
+  if (!url) return url;
+  if (url.endsWith('/api')) return url;
+  return url.endsWith('/') ? `${url}api` : `${url}/api`;
+};
+
+const FINAL_API_BASE_URL = getBaseUrl(API_BASE_URL);
 
 // Tạo axios instance
 const api = axios.create({
-  baseURL: API_BASE_URL,
+  baseURL: FINAL_API_BASE_URL,
   timeout: 60000, // 60 seconds
   headers: {
     'Content-Type': 'application/json',
