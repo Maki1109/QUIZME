@@ -71,14 +71,16 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       });
       
       // Set user from API response
+      if (response && response.token) {
       setUser({
-        id: response.user.id,
-        name: response.user.fullName,
-        email: response.user.email,
-        onboardingCompleted: response.user.onboardingCompleted || false,
-        level: response.user.level || 1,
-        xp: response.user.xp || 0,
+        id: response.userId || '', 
+        name: name,   
+        email: email, 
+        onboardingCompleted: false,
+        level: 1,
+        xp: 0,
       });
+    }
     } catch (error) {
       console.error('Register error:', error);
       throw error;

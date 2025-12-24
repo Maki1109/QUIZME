@@ -50,9 +50,8 @@ export function RegisterPage({ onSwitchToLogin }: RegisterPageProps) {
 
     try {
       await register(name, email, password);
-      // After successful registration, user will be redirected to onboarding
-    } catch (err) {
-      setError('Đăng ký thất bại. Email có thể đã được sử dụng.');
+    } catch (err: any) {
+      setError(err.response?.data?.message || err.message || 'Đăng ký thất bại');
       setIsLoading(false);
     }
   };

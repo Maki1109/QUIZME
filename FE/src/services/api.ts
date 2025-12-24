@@ -8,7 +8,7 @@ import axios, { AxiosError, InternalAxiosRequestConfig } from 'axios';
 // API Base URL - Lấy từ environment variable hoặc default localhost
 const API_BASE_URL = (typeof import.meta !== 'undefined' && import.meta.env?.VITE_API_URL) 
   ? import.meta.env.VITE_API_URL 
-  : '${import.meta.env.VITE_API_URL}';
+  : `${import.meta.env.VITE_API_URL}`;
 
 // Tạo axios instance
 const api = axios.create({
@@ -90,7 +90,7 @@ export default api;
 // This ensures apiLogger interceptors are registered
 // NOTE: apiLogger interceptors will run BEFORE the main response interceptor
 // because Axios runs interceptors in reverse order (last added runs first)
-if (process.env.NODE_ENV === 'development' || import.meta.env.DEV) {
+if (import.meta.env.DEV) {
   // Use dynamic import to avoid blocking
   import('../utils/apiLogger').catch(() => {
     // Silently fail if apiLogger has issues - don't break the app

@@ -141,7 +141,7 @@ export const LearningRoadmapEnhanced: React.FC = () => {
         const headers = { 'Authorization': `Bearer ${token}` };
 
         // Lấy số lượng challenge
-        const historyRes = await fetch('${import.meta.env.VITE_API_URL}/challenges/history', { headers });
+        const historyRes = await fetch(`${import.meta.env.VITE_API_URL}/challenges/history`, { headers });
         const historyData = await historyRes.json();
         const count = historyData.success ? historyData.count : 0;
         setChallengeCount(count);

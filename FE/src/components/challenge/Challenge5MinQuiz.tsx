@@ -66,13 +66,18 @@ export function Challenge5MinQuiz({ onComplete }: Challenge5MinQuizProps) {
       try {
         setLoading(true);
         const token = localStorage.getItem('quizme_token') || localStorage.getItem('token');
+        const baseUrl = import.meta.env.VITE_API_URL;
         
-        // Gọi API
-        const response = await fetch('${import.meta.env.VITE_API_URL}/questions/daily-challenge', {
+        const response = await fetch(`${baseUrl}/questions/daily-challenge`, {
              headers: { 'Authorization': `Bearer ${token}` }
         });
 
-        if (!response.ok) throw new Error('Failed to fetch');
+        if (!response.ok) {
+          const errorData = await response.text();
+          console.error("Server Response Error:", errorData);
+          throw new Error('Không thể tải đề thi từ server');
+        }
+        
         const data = await response.json();
         
         console.log("🔥 Dữ liệu Challenge trả về:", data); // Debug
@@ -204,19 +209,18 @@ export function Challenge5MinQuiz({ onComplete }: Challenge5MinQuizProps) {
 
   const handleComplete = async () => {
     const totalTimeSpent = Math.floor((Date.now() - quizStartTime) / 1000);
+    const baseUrl = import.meta.env.VITE_API_URL;
 
-    // 1. Tạo payload đúng format Backend cần
-    // Backend cần: answers: [{ questionId, selectedAnswer }]
     const payloadAnswers = answers.map(a => ({
       questionId: a.questionId,
-      selectedAnswer: a.selectedAnswer ?? -1 // Nếu null/undefined thì gửi -1
+      selectedAnswer: a.selectedAnswer ?? -1
     }));
 
     try {
-      // 2. Gọi API Submit
       const token = localStorage.getItem('quizme_token') || localStorage.getItem('token'); 
       
-      const response = await fetch('${import.meta.env.VITE_API_URL}/challenges/submit', {
+      // 🔥 SỬA: Thay đổi nháy đơn thành dấu huyền `
+      const response = await fetch(`${baseUrl}/challenges/submit`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -224,8 +228,8 @@ export function Challenge5MinQuiz({ onComplete }: Challenge5MinQuizProps) {
         },
         body: JSON.stringify({
           answers: payloadAnswers,
-          timeSpent: totalTimeSpent,
-          challengeId: null // Hoặc ID nếu có
+          totalTimeSpent: totalTimeSpent, 
+          type: 'challenge_5min'
         })
       });
 

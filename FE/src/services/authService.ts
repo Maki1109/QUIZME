@@ -23,11 +23,11 @@ export interface AuthResponse {
   success: boolean;
   message: string;
   token: string;
-  user: {
+  userId: string; 
+  user?: {        
     id: string;
     fullName: string;
     email: string;
-    role: string;
     level?: number;
     xp?: number;
     onboardingCompleted?: boolean;
