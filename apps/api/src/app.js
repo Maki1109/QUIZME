@@ -11,6 +11,7 @@ const morgan = require('morgan');
 const connectDB = require('./config/database');
 const errorHandler = require('./middleware/errorHandler');
 const corsOptions = require('./config/cors');
+const path = require('path');
 
 // Load env vars
 dotenv.config();
@@ -69,6 +70,15 @@ app.use('/api/roadmap', require('./routes/learningPaths')); // Alias for learnin
 app.use('/api/profile', require('./routes/profile'));
 app.use('/api/notifications', require('./routes/notifications'));
 app.use('/api/settings', require('./routes/settings'));
+
+app.get('/', (req, res) => {
+  res.status(200).json({
+    success: true,
+    message: 'QuizMe Backend API is running 🚀',
+    docs: '/api',
+    health: '/api/health',
+  });
+});
 
 // Health check endpoint
 app.get('/api/health', (req, res) => {
