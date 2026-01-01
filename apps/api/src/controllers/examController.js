@@ -5,6 +5,7 @@
 
 const Exam = require('../models/Exam');
 const ExamAttempt = require('../models/ExamAttempt');
+const User = require('../models/User');
 
 // @desc    Lấy danh sách tất cả exams
 // @route   GET /api/exams
@@ -171,6 +172,39 @@ exports.createCustomExam = async (req, res, next) => {
       success: true,
       data: exam,
       message: 'Đề thi tùy chỉnh đã được tạo',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.submitExamResult = async (req, res, next) => {
+  try {
+    const { mode, answers, totalTimeSpent, correctCount, totalQuestions } = req.body;
+    const userId = req.user.id;
+
+    // Tính toán XP thưởng: Sprint (150 XP), Marathon (500 XP)
+    const xpEarned = mode === 'sprint' ? 150 : 500;
+
+    const examAttempt = await ExamAttempt.create({
+      user: userId,
+      mode,
+      answers, // Mảng kết quả từng câu từ Frontend gửi lên
+      score: (correctCount / totalQuestions) * 100,
+      correctAnswers: correctCount,
+      totalQuestions,
+      totalTimeSpent,
+      xpEarned,
+      completedAt: new Date()
+    });
+
+    // Cập nhật XP cho người dùng
+    await User.findByIdAndUpdate(userId, { $inc: { xp: xpEarned } });
+
+    res.status(201).json({
+      success: true,
+      data: examAttempt,
+      message: `Đã lưu kết quả thi ${mode}!`
     });
   } catch (error) {
     next(error);

@@ -4,22 +4,24 @@ import { Zap, Clock, CheckCircle, XCircle, ChevronRight, AlertCircle, Loader2 } 
 import { Button } from '../ui/button';
 import { Card, CardContent } from '../ui/card';
 import { Progress } from '../ui/progress';
+import { Input } from '../ui/input';
 import { toast } from 'sonner';
 
 // --- Interface ---
 interface Question {
-  id: string; // Đổi thành string vì MongoDB ID là string
-  question: string;
-  options: string[];
-  correctAnswer: number;
+  id: string; 
+  image_url: string;
+  question_type: 'MCQ' | 'TrueFalse' | 'ShortAnswer';
+  correctAnswer: string;
   topic: string;
-  difficulty: 'easy' | 'medium' | 'hard';
+  difficulty: string;
 }
 
 interface QuestionResult {
-  questionId: string; // Đổi thành string
+  questionId: string; 
   correct: boolean;
   timeSpent: number;
+  selectedAnswer: string; 
 }
 
 interface SprintModeProps {
@@ -37,58 +39,40 @@ const SprintMode: React.FC<SprintModeProps> = ({ onComplete, onExit }) => {
   const [loading, setLoading] = useState(true);
   
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
-  const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
+  const [isAnswered, setIsAnswered] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
-  const [timeLeft, setTimeLeft] = useState(15 * 60); // 15 phút
+  const [timeLeft, setTimeLeft] = useState(15 * 60); 
   const [questionStartTime, setQuestionStartTime] = useState(Date.now());
   const [questionResults, setQuestionResults] = useState<QuestionResult[]>([]);
   const [correctCount, setCorrectCount] = useState(0);
 
-  // --- 1. Fetch Questions from API ---
-  // --- 1. Fetch Questions from API ---
+  // States cho từng dạng đáp án giống Challenge
+  const [selectedMCQ, setSelectedMCQ] = useState<string | null>(null);
+  const [tfAnswers, setTfAnswers] = useState<string[]>(["D", "D", "D", "D"]);
+  const [shortAnswer, setShortAnswer] = useState("");
+
+  // --- 1. Fetch 10 Questions from API ---
   useEffect(() => {
     const fetchQuestions = async () => {
       try {
         const token = localStorage.getItem('quizme_token') || localStorage.getItem('token');
         if (!token) return;
 
-        // Gọi API lấy 15 câu hỏi ngẫu nhiên cho Sprint Mode
-        const response = await fetch('${import.meta.env.VITE_API_URL}/questions/random?limit=15', {
+        const response = await fetch(`${import.meta.env.VITE_API_URL}/questions/random?limit=10`, {
           headers: { 'Authorization': `Bearer ${token}` }
         });
         
         const data = await response.json();
         
-        console.log("🔥 Dữ liệu API trả về:", data);
-        
         if (data.success && data.data) {
-          // Map dữ liệu từ API sang format của Component
-          const formattedQuestions: Question[] = data.data.map((q: any) => {
-            const questionContent = q.text || q.question || "Nội dung câu hỏi bị thiếu";
-
-            let topicName = 'Tổng hợp';
-            if (q.topic) {
-                if (typeof q.topic === 'object' && q.topic.name) {
-                    topicName = q.topic.name; // Nếu đã populate
-                } else if (typeof q.topic === 'string' && q.topic.length < 15) {
-                    topicName = q.topic; // Nếu là tên ngắn (VD: "Toán")
-                }
-                // Nếu là ID dài (24 ký tự) thì giữ nguyên 'Tổng hợp'
-            }
-
-            const rawAnswer = q.correctAnswer !== undefined ? q.correctAnswer : q.correct_answer;
-            // Nếu là số thì dùng luôn, nếu là chữ (A,B..) thì parse
-            const finalAnswerIndex = typeof rawAnswer === 'number' ? rawAnswer : parseCorrectAnswer(rawAnswer);
-
-            return {
-              id: q._id,
-              question: questionContent, // Dùng biến đã xử lý ở trên
-              options: q.options || [],
-              correctAnswer: finalAnswerIndex,
-              topic: topicName,
-              difficulty: mapDifficulty(q.difficulty)
-            };
-          });
+          const formattedQuestions: Question[] = data.data.map((q: any) => ({
+            id: q._id,
+            image_url: q.image_url,
+            question_type: q.question_type || 'MCQ',
+            correctAnswer: q.correct_answer,
+            topic: q.topic?.name || q.topic || 'Tổng hợp',
+            difficulty: q.difficulty_level || 'th'
+          }));
           
           setQuestions(formattedQuestions);
         } else {
@@ -99,28 +83,16 @@ const SprintMode: React.FC<SprintModeProps> = ({ onComplete, onExit }) => {
         toast.error("Lỗi kết nối máy chủ.");
       } finally {
         setLoading(false);
+        setQuestionStartTime(Date.now());
       }
     };
 
     fetchQuestions();
   }, []);
 
-  // --- Helper Functions ---
-  const parseCorrectAnswer = (ans: string | number): number => {
-    if (typeof ans === 'number') return ans;
-    const map: Record<string, number> = { 'A': 0, 'B': 1, 'C': 2, 'D': 3 };
-    return map[String(ans).toUpperCase()] || 0;
-  };
-
-  const mapDifficulty = (level: number): 'easy' | 'medium' | 'hard' => {
-    if (level <= 1) return 'easy';
-    if (level === 2 || level === 3) return 'medium';
-    return 'hard';
-  };
-
-  // --- Timer Logic (Giữ nguyên) ---
+  // --- Timer Logic ---
   useEffect(() => {
-    if (loading || questions.length === 0) return; // Chỉ chạy timer khi đã có câu hỏi
+    if (loading || questions.length === 0) return;
 
     const timer = setInterval(() => {
       setTimeLeft((prev) => {
@@ -136,7 +108,6 @@ const SprintMode: React.FC<SprintModeProps> = ({ onComplete, onExit }) => {
     return () => clearInterval(timer);
   }, [loading, questions]);
 
-  // Format time MM:SS
   const formatTime = (seconds: number) => {
     const mins = Math.floor(seconds / 60);
     const secs = seconds % 60;
@@ -149,82 +120,107 @@ const SprintMode: React.FC<SprintModeProps> = ({ onComplete, onExit }) => {
     return 'text-red-400';
   };
 
-  // --- Interaction Handlers ---
-  const handleAnswerSelect = (answerIndex: number) => {
-    if (showFeedback) return;
-    setSelectedAnswer(answerIndex);
+  // --- Handlers ---
+  const handleTFToggle = (index: number) => {
+    if (isAnswered) return;
+    const newTF = [...tfAnswers];
+    newTF[index] = newTF[index] === "D" ? "S" : "D";
+    setTfAnswers(newTF);
   };
 
-  const handleSubmitAnswer = () => {
-    if (selectedAnswer === null) return;
-
+  const handleAnswerSubmit = (userValue: string) => {
+    if (isAnswered) return;
+    const currentQ = questions[currentQuestionIndex];
+    
+    const isCorrect = userValue.trim().toUpperCase() === currentQ.correctAnswer.trim().toUpperCase();
     const timeSpent = Math.floor((Date.now() - questionStartTime) / 1000);
-    const isCorrect = selectedAnswer === questions[currentQuestionIndex].correctAnswer;
 
     const result: QuestionResult = {
-      questionId: questions[currentQuestionIndex].id,
-      correct: isCorrect,
-      timeSpent
+    questionId: currentQuestion.id,
+    correct: isCorrect,
+    timeSpent: Math.floor((Date.now() - questionStartTime) / 1000),
+    selectedAnswer: userValue 
     };
 
     setQuestionResults([...questionResults, result]);
-    if (isCorrect) {
-      setCorrectCount(correctCount + 1);
-    }
+    if (isCorrect) setCorrectCount(prev => prev + 1);
 
+    setIsAnswered(true);
     setShowFeedback(true);
   };
 
   const handleNextQuestion = () => {
     if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(currentQuestionIndex + 1);
-      setSelectedAnswer(null);
+      setCurrentQuestionIndex(prev => prev + 1);
+      setIsAnswered(false);
       setShowFeedback(false);
+      setSelectedMCQ(null);
+      setTfAnswers(["D", "D", "D", "D"]);
+      setShortAnswer("");
       setQuestionStartTime(Date.now());
     } else {
       handleComplete();
     }
   };
 
-  const handleComplete = () => {
-    const totalTime = 15 * 60 - timeLeft;
-    onComplete({
-      correctCount,
-      totalQuestions: questions.length,
-      totalTime,
-      questionResults
-    });
+  const handleComplete = async () => {
+  const totalTimeSpent = 900 - timeLeft; // 15 phút * 60s - thời gian còn lại
+
+  // 1. Chuẩn bị dữ liệu để lưu vào bảng ExamAttempt
+  const examData = {
+    mode: 'sprint', // hoặc 'marathon'
+    totalTimeSpent: totalTimeSpent,
+    correctCount: correctCount,
+    totalQuestions: questions.length,
+    // Ánh xạ mảng kết quả của bạn sang format Backend yêu cầu
+    answers: questionResults.map(res => ({
+      questionId: res.questionId,
+      answer: res.selectedAnswer, // Bạn cần đảm bảo đã lưu lại giá trị người dùng chọn
+      isCorrect: res.correct,
+      timeSpent: res.timeSpent
+    }))
   };
+
+  try {
+    const token = localStorage.getItem('quizme_token') || localStorage.getItem('token');
+    
+    // 2. Gửi yêu cầu lưu vào Database
+    const response = await fetch(`${import.meta.env.VITE_API_URL}/examAttempts/submit`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${token}`
+      },
+      body: JSON.stringify(examData)
+    });
+
+    const result = await response.json();
+
+    if (result.success) {
+      toast.success("Kết quả đã được lưu lại!");
+      // 3. Gọi callback onComplete để hiện màn hình tổng kết trên UI
+      onComplete({
+        correctCount,
+        totalQuestions: questions.length,
+        totalTime: totalTimeSpent,
+        questionResults
+      });
+    }
+  } catch (error) {
+    console.error("Lỗi khi nộp bài:", error);
+    toast.error("Không thể lưu kết quả bài thi.");
+  }
+};
 
   const handleAutoSubmit = () => {
-    const totalTime = 15 * 60;
     onComplete({
       correctCount,
       totalQuestions: questions.length,
-      totalTime,
+      totalTime: 15 * 60,
       questionResults
     });
   };
 
-  const getDifficultyColor = (difficulty: string) => {
-    switch (difficulty) {
-      case 'easy': return 'bg-green-500/20 text-green-300';
-      case 'medium': return 'bg-yellow-500/20 text-yellow-300';
-      case 'hard': return 'bg-red-500/20 text-red-300';
-      default: return 'bg-slate-500/20 text-slate-300';
-    }
-  };
-
-  const getDifficultyText = (difficulty: string) => {
-    switch (difficulty) {
-      case 'easy': return 'Dễ';
-      case 'medium': return 'Trung bình';
-      case 'hard': return 'Khó';
-      default: return '';
-    }
-  };
-
-  // --- Render Loading State ---
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-950 flex flex-col items-center justify-center text-cyan-400">
@@ -234,14 +230,13 @@ const SprintMode: React.FC<SprintModeProps> = ({ onComplete, onExit }) => {
     );
   }
 
-  // --- Render Main Interface (Giữ nguyên) ---
   const currentQuestion = questions[currentQuestionIndex];
   const progress = ((currentQuestionIndex + 1) / questions.length) * 100;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-950 via-cyan-950 to-slate-950 p-4">
       <div className="max-w-3xl mx-auto pt-8">
-        {/* Header */}
+        {/* Header - GIỮ NGUYÊN */}
         <div className="flex items-center justify-between mb-6">
           <div className="flex items-center gap-3">
             <div className="p-2 rounded-lg bg-gradient-to-br from-cyan-500 to-teal-600">
@@ -264,17 +259,16 @@ const SprintMode: React.FC<SprintModeProps> = ({ onComplete, onExit }) => {
               <Clock className="w-5 h-5" />
               <span className="text-xl">{formatTime(timeLeft)}</span>
             </div>
-            {/* Nút thoát */}
             <Button variant="ghost" onClick={onExit} className="text-slate-400 hover:text-white hover:bg-white/10">
               Thoát
             </Button>
           </div>
         </div>
 
-        {/* Progress Bar */}
+        {/* Progress Bar - GIỮ NGUYÊN */}
         <Progress value={progress} className="mb-8 h-2" />
 
-        {/* Question Card */}
+        {/* Question Card - THAY ĐỔI NỘI DUNG THEO CHALLENGE */}
         <AnimatePresence mode="wait">
           {currentQuestion && (
             <motion.div
@@ -285,105 +279,122 @@ const SprintMode: React.FC<SprintModeProps> = ({ onComplete, onExit }) => {
               transition={{ duration: 0.3 }}
             >
               <Card className="bg-slate-900/50 border-2 border-cyan-500/20">
-                <CardContent className="p-6">
-                  {/* Topic & Difficulty */}
-                  <div className="flex items-center gap-2 mb-4">
-                    <span className="px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 text-sm">
+                <CardContent className="p-6 space-y-6">
+                  {/* Topic Tag */}
+                  <div className="flex items-center gap-2">
+                    <span className="px-3 py-1 rounded-full bg-cyan-500/20 text-cyan-300 text-xs font-bold uppercase tracking-wider">
                       {currentQuestion.topic}
                     </span>
-                    <span className={`px-3 py-1 rounded-full text-sm ${getDifficultyColor(currentQuestion.difficulty)}`}>
-                      {getDifficultyText(currentQuestion.difficulty)}
-                    </span>
                   </div>
 
-                  {/* Question */}
-                  <h3 className="text-white mb-6 text-lg font-medium leading-relaxed">
-                    {currentQuestion.question}
-                  </h3>
+                  {/* ẢNH CÂU HỎI (Giống Challenge) */}
+                  <div className="rounded-xl overflow-hidden border-2 border-slate-700 bg-slate-800/50 flex items-center justify-center p-2 min-h-[250px]">
+                    <img 
+                      src={currentQuestion.image_url} 
+                      alt="Question" 
+                      className="max-w-full max-h-[400px] object-contain pointer-events-none" 
+                    />
+                  </div>
 
-                  {/* Options */}
-                  <div className="space-y-3 mb-6">
-                    {currentQuestion.options.map((option, index) => {
-                      const isSelected = selectedAnswer === index;
-                      const isCorrect = index === currentQuestion.correctAnswer;
-                      const showCorrect = showFeedback && isCorrect;
-                      const showWrong = showFeedback && isSelected && !isCorrect;
-
-                      return (
+                  {/* CÁC DẠNG TRẢ LỜI (Giống Challenge) */}
+                  
+                  {/* 1. MCQ */}
+                  {currentQuestion.question_type === 'MCQ' && (
+                    <div className="grid grid-cols-4 gap-4">
+                      {['A', 'B', 'C', 'D'].map((opt) => (
                         <button
-                          key={index}
-                          onClick={() => handleAnswerSelect(index)}
-                          disabled={showFeedback}
-                          className={`w-full text-left p-4 rounded-lg border-2 transition-all ${
-                            showCorrect
-                              ? 'bg-green-500/20 border-green-500 text-green-300'
-                              : showWrong
-                              ? 'bg-red-500/20 border-red-500 text-red-300'
-                              : isSelected
-                              ? 'bg-cyan-500/20 border-cyan-500 text-cyan-300'
-                              : 'bg-slate-800/50 border-slate-700 text-slate-300 hover:border-cyan-500/50'
+                          key={opt}
+                          disabled={isAnswered}
+                          onClick={() => { setSelectedMCQ(opt); handleAnswerSubmit(opt); }}
+                          className={`h-14 rounded-xl border-2 font-bold text-lg transition-all ${
+                            showFeedback && opt === currentQuestion.correctAnswer ? 'border-green-500 bg-green-500/20 text-green-400' :
+                            selectedMCQ === opt ? 'border-cyan-500 bg-cyan-500/20 text-cyan-300' : 
+                            'border-slate-700 text-slate-400 hover:border-slate-500'
                           }`}
                         >
-                          <div className="flex items-center justify-between">
-                            <span>{option}</span>
-                            {showCorrect && <CheckCircle className="w-5 h-5 text-green-400" />}
-                            {showWrong && <XCircle className="w-5 h-5 text-red-400" />}
-                          </div>
+                          {opt}
                         </button>
-                      );
-                    })}
-                  </div>
+                      ))}
+                    </div>
+                  )}
 
-                  {/* Feedback */}
+                  {/* 2. True/False */}
+                  {currentQuestion.question_type === 'TrueFalse' && (
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      {['a', 'b', 'c', 'd'].map((label, i) => (
+                        <div key={label} className="flex flex-col items-center gap-2">
+                          <button
+                            disabled={isAnswered}
+                            onClick={() => handleTFToggle(i)}
+                            className={`w-full h-20 rounded-2xl border-4 font-bold text-2xl flex items-center justify-center transition-all ${
+                              tfAnswers[i] === "D" ? "border-teal-500 bg-teal-500/10 text-teal-400" : "border-orange-500 bg-orange-500/10 text-orange-400"
+                            }`}
+                          >
+                            {label}.{tfAnswers[i]}
+                          </button>
+                        </div>
+                      ))}
+                      {!isAnswered && (
+                        <Button 
+                          className="col-span-full h-14 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl mt-2" 
+                          onClick={() => handleAnswerSubmit(tfAnswers.join(" "))}
+                        >
+                          XÁC NHẬN ĐÁP ÁN
+                        </Button>
+                      )}
+                    </div>
+                  )}
+
+                  {/* 3. Short Answer */}
+                  {currentQuestion.question_type === 'ShortAnswer' && (
+                    <div className="space-y-4">
+                      <Input
+                        placeholder="Nhập câu trả lời..."
+                        value={shortAnswer}
+                        onChange={(e) => setShortAnswer(e.target.value)}
+                        disabled={isAnswered}
+                        className="h-16 text-center text-2xl font-bold bg-slate-800 border-slate-700 text-white rounded-xl focus:border-cyan-500"
+                      />
+                      {!isAnswered && (
+                        <Button 
+                          className="w-full h-14 bg-cyan-600 hover:bg-cyan-500 text-white font-bold rounded-xl" 
+                          onClick={() => handleAnswerSubmit(shortAnswer)}
+                        >
+                          NỘP BÀI
+                        </Button>
+                      )}
+                    </div>
+                  )}
+
+                  {/* Feedback Message */}
                   {showFeedback && (
                     <motion.div
                       initial={{ opacity: 0, y: -10 }}
                       animate={{ opacity: 1, y: 0 }}
-                      className={`p-4 rounded-lg mb-4 ${
-                        selectedAnswer === currentQuestion.correctAnswer
-                          ? 'bg-green-500/20 border-2 border-green-500/30'
-                          : 'bg-red-500/20 border-2 border-red-500/30'
+                      className={`p-4 rounded-lg flex items-center gap-3 ${
+                        questionResults[currentQuestionIndex]?.correct
+                          ? 'bg-green-500/20 border border-green-500/30 text-green-300'
+                          : 'bg-red-500/20 border border-red-500/30 text-red-300'
                       }`}
                     >
-                      <div className="flex items-center gap-2">
-                        {selectedAnswer === currentQuestion.correctAnswer ? (
-                          <>
-                            <CheckCircle className="w-5 h-5 text-green-400" />
-                            <span className="text-green-300">✅ Chính xác! Tuyệt vời! 🎉</span>
-                          </>
-                        ) : (
-                          <>
-                            <XCircle className="w-5 h-5 text-red-400" />
-                            <span className="text-red-300">
-                              ❌ Chưa đúng. Đáp án đúng là: {String.fromCharCode(65 + currentQuestion.correctAnswer)}
-                            </span>
-                          </>
-                        )}
-                      </div>
+                      {questionResults[currentQuestionIndex]?.correct ? (
+                        <><CheckCircle className="w-5 h-5" /> <span>Chính xác!</span></>
+                      ) : (
+                        <><XCircle className="w-5 h-5" /> <span>Sai rồi. Đáp án: {currentQuestion.correctAnswer}</span></>
+                      )}
                     </motion.div>
                   )}
 
-                  {/* Action Button */}
-                  {!showFeedback ? (
-                    <Button
-                      onClick={handleSubmitAnswer}
-                      disabled={selectedAnswer === null}
-                      className="w-full bg-gradient-to-r from-cyan-500 to-teal-600 hover:from-cyan-600 hover:to-teal-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      Xác nhận đáp án
-                    </Button>
-                  ) : (
+                  {/* Next Button */}
+                  {showFeedback && (
                     <Button
                       onClick={handleNextQuestion}
-                      className="w-full bg-gradient-to-r from-cyan-500 to-teal-600 hover:from-cyan-600 hover:to-teal-700 text-white"
+                      className="w-full h-14 bg-white text-slate-900 hover:bg-slate-100 font-bold text-lg rounded-xl"
                     >
                       {currentQuestionIndex < questions.length - 1 ? (
-                        <>
-                          Câu tiếp theo
-                          <ChevronRight className="w-4 h-4 ml-1" />
-                        </>
+                        <>Câu tiếp theo <ChevronRight className="w-4 h-4 ml-1" /></>
                       ) : (
-                        'Xem kết quả 🎯'
+                        'Xem kết quả tổng quát 🎯'
                       )}
                     </Button>
                   )}
@@ -393,7 +404,7 @@ const SprintMode: React.FC<SprintModeProps> = ({ onComplete, onExit }) => {
           )}
         </AnimatePresence>
 
-        {/* Bottom Stats */}
+        {/* Bottom Stats - GIỮ NGUYÊN */}
         <div className="flex items-center justify-center gap-6 mt-6">
           <div className="flex items-center gap-2 px-4 py-2 rounded-lg bg-green-500/10 border border-green-500/20">
             <CheckCircle className="w-4 h-4 text-green-400" />

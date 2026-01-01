@@ -17,7 +17,7 @@ interface TestsHubProps {
 const examModes = [
   {
     id: 'sprint',
-    title: 'Sprint 15 Phút',
+    title: 'Test 15 Phút',
     subtitle: 'Tốc độ là tất cả',
     description: 'Hoàn thành 15 câu trong 15 phút',
     icon: Zap,
@@ -31,7 +31,7 @@ const examModes = [
   },
   {
     id: 'marathon',
-    title: 'Marathon 90 Phút',
+    title: 'Kiểm tra full đề 90 Phút',
     subtitle: 'Thử thách sức bền',
     description: 'Làm trọn 1 đề thi thật - 40 câu',
     icon: Mountain,
@@ -42,20 +42,6 @@ const examModes = [
     timer: '90:00',
     bgPattern: '🏔️',
     players: 892
-  },
-  {
-    id: 'weekly',
-    title: 'Leo Rank Tuần',
-    subtitle: 'Cạnh tranh toàn quốc',
-    description: 'Tích điểm mỗi ngày để lên top',
-    icon: Trophy,
-    gradient: 'from-amber-300 via-orange-400 to-rose-400',
-    accentColor: 'amber',
-    xp: 1000,
-    difficulty: 'Thách thức',
-    timer: 'Còn 3 ngày',
-    bgPattern: '🏆',
-    players: 15678
   }
 ];
 
@@ -114,10 +100,10 @@ export function TestsHub({ onOpenExamRoom }: TestsHubProps) {
           </TabsTrigger>
         </TabsList>
 
-        {/* Exam Room Tab */}
+        {/* Exam Room Tab */}     
         <TabsContent value="exam-room" className="space-y-8 mt-6">
           {/* Exam Modes Grid */}
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="max-w-4xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
             {examModes.map((game, index) => (
               <motion.div
                 key={game.id}
@@ -218,6 +204,7 @@ export function TestsHub({ onOpenExamRoom }: TestsHubProps) {
               </motion.div>
             ))}
           </div>
+          
 
           {/* Live Leaderboard */}
           <Card className="bg-gradient-to-br from-violet-50 to-purple-50 border-2 border-purple-200 shadow-xl">

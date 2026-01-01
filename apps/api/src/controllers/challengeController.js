@@ -4,7 +4,8 @@
  */
 const ChallengeAttempt = require('../models/ChallengeAttempt');
 const Question = require('../models/Question');
-const DailyChallenge = require('../models/DailyChallenge'); // Nếu có dùng
+const DailyChallenge = require('../models/DailyChallenge'); 
+const User = require('../models/User');
 
 // --- HÀM PHỤ TRỢ ---
 // Chuyển đổi đáp án từ mọi định dạng (A, B, "0", 1...) về Index số (0, 1, 2, 3)

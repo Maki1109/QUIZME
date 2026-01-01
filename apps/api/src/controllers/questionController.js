@@ -1,54 +1,54 @@
 /**
  * Question Controller
- * Xử lý các logic liên quan đến Question (Câu hỏi)
+ * Xử lý các logic liên quan đến Question (Câu hỏi) với cấu hình CAT và Hình ảnh
  */
 
 const Question = require('../models/Question');
+const aiService = require('../services/aiService'); // Import logic AI
 
-// @desc    Lấy đề thi Daily Challenge (5 câu: 2 Dễ, 1 TB, 1 Khó, 1 Rất Khó)
+// @desc    Lấy đề thi Daily Challenge (5 câu thích nghi hoặc ngẫu nhiên theo độ khó)
 // @route   GET /api/questions/daily-challenge
 // @access  Public
 exports.getDailyQuiz = async (req, res, next) => {
   try {
+    // Truy vấn theo mã độ khó mới từ CSV: N_B (Dễ), T_H (Trung bình), V_D (Khó), V_D_C (Cực khó)
     const easyQuestions = await Question.aggregate([
-      { $match: { difficulty: 'nb' } }, // ❌ Bỏ isActive: true
+      { $match: { difficulty_level: 'N_B' } }, 
       { $sample: { size: 2 } }
     ]);
 
     const mediumQuestions = await Question.aggregate([
-      { $match: { difficulty: 'th' } }, // ❌ Bỏ isActive: true
+      { $match: { difficulty_level: 'T_H' } }, 
       { $sample: { size: 1 } }
     ]);
 
     const hardQuestions = await Question.aggregate([
-      { $match: { difficulty: 'vd' } }, // ❌ Bỏ isActive: true
+      { $match: { difficulty_level: 'V_D' } }, 
       { $sample: { size: 1 } }
     ]);
 
     const veryHardQuestions = await Question.aggregate([
-      { $match: { difficulty: 'vdc' } }, // ❌ Bỏ isActive: true
+      { $match: { difficulty_level: 'V_D_C' } }, 
       { $sample: { size: 1 } }
     ]);
 
-    // 2. Gộp lại
+    // Gộp lại thành đề 5 câu
     let quiz = [
-      ...nbQuestions,
-      ...thQuestions,
-      ...vdQuestions,
-      ...vdcQuestions
+      ...easyQuestions,
+      ...mediumQuestions,
+      ...hardQuestions,
+      ...veryHardQuestions
     ];
 
-    // 3. Trộn ngẫu nhiên thứ tự câu hỏi trong đề
+    // Trộn ngẫu nhiên thứ tự câu hỏi trong đề
     quiz = quiz.sort(() => Math.random() - 0.5);
 
-    // Kiểm tra nếu không đủ câu hỏi (ít hơn 5 câu)
     if (quiz.length < 5) {
-      // Vẫn trả về số câu lấy được, nhưng kèm message cảnh báo
       return res.status(200).json({
         success: true,
         count: quiz.length,
         data: quiz,
-        message: "Cảnh báo: Không đủ câu hỏi trong ngân hàng đề để tạo đúng cấu trúc (2-1-1-1)."
+        message: "Cảnh báo: Không đủ câu hỏi trong ngân hàng đề để tạo đúng cấu trúc 5 câu."
       });
     }
 
@@ -62,43 +62,61 @@ exports.getDailyQuiz = async (req, res, next) => {
   }
 };
 
-// @desc    Lấy danh sách tất cả questions (có lọc)
+// @desc    Lấy câu hỏi thích nghi tiếp theo dựa trên năng lực (CAT)
+// @route   POST /api/questions/next-adaptive
+// @access  Private
+exports.getNextAdaptiveQuestion = async (req, res, next) => {
+  try {
+    const { currentTheta, answeredQuestionIds } = req.body;
+
+    // 1. Lấy danh sách toàn bộ câu hỏi khả dụng chưa làm
+    const availableQuestions = await Question.find({
+      question_id: { $nin: answeredQuestionIds }
+    }).select('question_id irt_difficulty_b topic');
+
+    if (availableQuestions.length === 0) {
+      return res.status(200).json({
+        success: true,
+        isFinished: true,
+        message: "Đã hoàn thành toàn bộ ngân hàng câu hỏi."
+      });
+    }
+
+    // 2. Gọi AI Service để tính toán câu hỏi mang lại thông tin cao nhất
+    const recommendation = await aiService.getRecommendation(
+      currentTheta || 0,
+      availableQuestions
+    );
+
+    // 3. Truy vấn đầy đủ thông tin câu hỏi (bao gồm Image URL từ Cloudinary)
+    const nextQuestion = await Question.findOne({ 
+      question_id: recommendation.next_question_id 
+    });
+
+    res.status(200).json({
+      success: true,
+      data: nextQuestion,
+      expectedDifficulty: recommendation.irt_difficulty_b
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Lấy danh sách tất cả questions (hỗ trợ lọc theo dữ liệu CSV mới)
 // @route   GET /api/questions
-// @access  Public
 exports.getQuestions = async (req, res, next) => {
   try {
-    const { topic, subject, difficulty, type, includeAnswer } = req.query;
+    const { topic, difficulty_level, question_type } = req.query;
 
-    const query = { isActive: true };
+    const query = {};
 
-    if (topic) {
-      query.topic = topic;
-    }
-
-    if (subject) {
-      query.subject = subject;
-    }
-
-    if (difficulty) {
-      query.difficulty = difficulty;
-    }
-
-    if (type) {
-      query.type = type;
-    }
-
-    let selectFields = '-__v';
-    // Nếu không muốn lộ đáp án khi lấy danh sách (để làm quiz bên client thì cần che đi nếu muốn bảo mật cao hơn)
-    // Tuy nhiên, logic hiện tại của bạn là client tự check đáp án nên có thể cần trả về.
-    if (includeAnswer !== 'true') {
-      // selectFields += ' -correctAnswer'; 
-    }
+    if (topic) query.topic = topic;
+    if (difficulty_level) query.difficulty_level = difficulty_level;
+    if (question_type) query.question_type = question_type;
 
     const questions = await Question.find(query)
-      // Nếu topic/subject là ObjectId ref thì populate, nếu là String thì bỏ qua
-      // .populate('topic', 'name') 
-      // .populate('subject', 'name code')
-      .select(selectFields)
+      .select('-__v')
       .sort({ createdAt: -1 });
 
     res.status(200).json({
@@ -112,164 +130,73 @@ exports.getQuestions = async (req, res, next) => {
 };
 
 // @desc    Lấy chi tiết một câu hỏi
-// @route   GET /api/questions/:id
-// @access  Public
 exports.getQuestion = async (req, res, next) => {
   try {
     const question = await Question.findById(req.params.id);
 
     if (!question) {
-      return res.status(404).json({
-        success: false,
-        message: 'Không tìm thấy câu hỏi',
-      });
+      return res.status(404).json({ success: false, message: 'Không tìm thấy câu hỏi' });
     }
 
-    res.status(200).json({
-      success: true,
-      data: question,
-    });
+    res.status(200).json({ success: true, data: question });
   } catch (error) {
     next(error);
   }
 };
 
-// @desc    Tạo mới một câu hỏi
-// @route   POST /api/questions
-// @access  Private/Admin
+// @desc    Tạo mới một câu hỏi (Hỗ trợ định dạng hình ảnh)
 exports.createQuestion = async (req, res, next) => {
   try {
     const question = await Question.create(req.body);
-
-    res.status(201).json({
-      success: true,
-      data: question,
-    });
+    res.status(201).json({ success: true, data: question });
   } catch (error) {
     next(error);
   }
 };
 
-// @desc    Cập nhật một câu hỏi
-// @route   PUT /api/questions/:id
-// @access  Private/Admin
-exports.updateQuestion = async (req, res, next) => {
+// @desc    Xóa toàn bộ câu hỏi (Dùng khi reset hệ thống để Import lại từ CSV)
+exports.deleteAllQuestions = async (req, res, next) => {
   try {
-    let question = await Question.findById(req.params.id);
-
-    if (!question) {
-      return res.status(404).json({
-        success: false,
-        message: 'Không tìm thấy câu hỏi',
-      });
-    }
-
-    question = await Question.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    });
-
-    res.status(200).json({
-      success: true,
-      data: question,
-    });
+    await Question.deleteMany({});
+    res.status(200).json({ success: true, message: 'Đã xóa toàn bộ câu hỏi thành công' });
   } catch (error) {
     next(error);
   }
 };
 
-// @desc    Xóa một câu hỏi
-// @route   DELETE /api/questions/:id
-// @access  Private/Admin
-exports.deleteQuestion = async (req, res, next) => {
-  try {
-    const question = await Question.findById(req.params.id);
-
-    if (!question) {
-      return res.status(404).json({
-        success: false,
-        message: 'Không tìm thấy câu hỏi',
-      });
-    }
-
-    await question.deleteOne();
-
-    res.status(200).json({
-      success: true,
-      message: 'Xóa câu hỏi thành công',
-    });
-  } catch (error) {
-    next(error);
-  }
-};
-
-// @desc    Cập nhật NHIỀU question (Bulk Update) - Dùng cho việc đồng bộ/Import
-// @route   POST /api/questions/update-many
-// @access  Private/Admin
+// @desc    Cập nhật hàng loạt (Bulk Upsert từ CSV)
 exports.updateManyQuestions = async (req, res, next) => {
   try {
-    const updates = req.body; // Mảng các câu hỏi cần update
+    const updates = req.body;
 
     if (!Array.isArray(updates) || updates.length === 0) {
-      return res.status(400).json({
-        success: false,
-        message: 'Body phải là một mảng các question cần update',
-      });
+      return res.status(400).json({ success: false, message: 'Dữ liệu phải là mảng' });
     }
 
-    // Tạo các operations cho bulkWrite
-    const bulkOps = updates.map((item) => {
-      // Yêu cầu phải có id (id gốc từ CSV) hoặc _id
-      // Ở đây giả sử ta update dựa trên trường 'id' (custom ID) hoặc '_id'
-      const filter = item._id ? { _id: item._id } : { id: item.id };
-      
-      if (!filter._id && !filter.id) {
-         // Skip nếu không có định danh
-         return null; 
-      }
+    const bulkOps = updates.map((item) => ({
+      updateOne: {
+        filter: { question_id: item.question_id }, // Khớp theo ID của CSV
+        update: { $set: item },
+        upsert: true
+      },
+    }));
 
-      // Loại bỏ id khỏi data update để tránh lỗi immutable field (nếu có)
-      const updateData = { ...item };
-      delete updateData._id;
-      // delete updateData.id; // Tùy logic, thường id không đổi
-
-      return {
-        updateOne: {
-          filter: filter,
-          update: { $set: updateData },
-          upsert: true // Nếu chưa có thì tạo mới
-        },
-      };
-    }).filter(op => op !== null);
-
-    if (bulkOps.length > 0) {
-      const result = await Question.bulkWrite(bulkOps);
-      res.status(200).json({
-        success: true,
-        message: 'Cập nhật hàng loạt thành công',
-        result,
-      });
-    } else {
-      res.status(400).json({
-        success: false,
-        message: 'Không có dữ liệu hợp lệ để cập nhật',
-      });
-    }
+    const result = await Question.bulkWrite(bulkOps);
+    res.status(200).json({ success: true, result });
   } catch (error) {
     next(error);
   }
-  
 };
 
-// @desc    Kiểm tra thống kê số lượng câu hỏi theo độ khó
-// @route   GET /api/questions/stats
+// @desc    Thống kê câu hỏi theo độ khó IRT
 exports.getQuizStats = async (req, res) => {
   try {
     const stats = await Question.aggregate([
       {
         $group: {
-          _id: "$difficulty", // Nhóm theo độ khó
-          count: { $sum: 1 }  // Đếm số lượng
+          _id: "$difficulty_level",
+          count: { $sum: 1 },
+          avgIrtDifficulty: { $avg: "$irt_difficulty_b" }
         }
       }
     ]);
@@ -283,5 +210,21 @@ exports.getQuizStats = async (req, res) => {
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
+  }
+};
+
+// controllers/questionController.js
+exports.getRandomQuestions = async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit) || 10;
+    // Lấy ngẫu nhiên từ collection 'questions'
+    const questions = await Question.aggregate([{ $sample: { size: limit } }]);
+    
+    res.status(200).json({
+      success: true,
+      data: questions
+    });
+  } catch (error) {
+    res.status(500).json({ success: false, message: error.message });
   }
 };

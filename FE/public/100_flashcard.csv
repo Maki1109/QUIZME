@@ -1,0 +1,101 @@
+﻿ID,Front,Back
+1,Tập xác định của y = sin x,$\mathbb{R}$
+2,Tập giá trị của y = sin x,[-1;1]
+3,Tính chẵn lẻ của sin x,Hàm lẻ
+4,Chu kỳ của sin x,$2\pi$
+5,Khoảng đồng biến của sin x,"$(-\pi/2 + 2k\pi;  \pi/2 + 2k\pi), k \in \mathbb{Z}$"
+6,Khoảng nghịch biến của sin x,"$(\pi/2 + 2k\pi;  3\pi/2 + 2k\pi), k \in \mathbb{Z}$"
+7,Đồ thị sin x có tâm đối xứng tại,Gốc tọa độ O
+8,Tập xác định của y = cos x,$\mathbb{R}$
+9,Tập giá trị của y = cos x,[-1;1]
+10,Tính chẵn lẻ của cos x,Hàm chẵn
+11,Chu kỳ của cos x,$2\pi$
+12,Khoảng đồng biến của cos x,"$(-\pi + 2k\pi;  2k\pi), k \in \mathbb{Z}$"
+13,Khoảng nghịch biến của cos x,"$(2k\pi;  \pi + 2k\pi), k \in \mathbb{Z}$"
+14,Đồ thị cos x có trục đối xứng là,Trục Oy
+15,Tập xác định của y = tan x,$\mathbb{R} \setminus {\pi/2 + k\pi \mid k \in \mathbb{Z}}$
+16,Tập giá trị của y = tan x,$\mathbb{R}$
+17,Tính chẵn lẻ của tan x,Hàm lẻ
+18,Chu kỳ của tan x,$\pi$
+19,Khoảng đồng biến của tan x,"$(-\pi/2 + k\pi; \pi/2 + k\pi), k \in \mathbb{Z}$"
+20,Đồ thị tan x có tâm đối xứng tại,Gốc tọa độ O
+21,Tập xác định của y = cot x,$\mathbb{R} \setminus {k\pi \mid k \in \mathbb{Z}}$
+22,Tập giá trị của y = cot x,$\mathbb{R}$
+23,Tính chẵn lẻ của cot x,Hàm lẻ
+24,Chu kỳ của cot x,$\pi$
+25,Khoảng nghịch biến của cot x,"$(k\pi; (k+1)\pi), k \in \mathbb{Z}$"
+26,Đồ thị cot x có tâm đối xứng tại,Gốc tọa độ O
+27,Nghiệm của sin x = m khi |m| > 1,Vô nghiệm
+28,Nghiệm của sin x = m khi |m| ≤ 1,"$x = (-1)^k \alpha + k\pi, k \in \mathbb{Z}$ (với $sin \alpha = m, -\pi/2 ≤ \alpha ≤ \pi/2$)"
+29,Nghiệm của sin x = 0,"$x = k\pi, k \in \mathbb{Z}$"
+30,Nghiệm của sin x = 1,"$x = \pi/2 + 2k\pi, k \in \mathbb{Z}$"
+31,Nghiệm của sin x = -1,"$x = -\pi/2 + 2k\pi, k \in \mathbb{Z}$"
+32,Nghiệm của cos x = m khi |m| > 1,Vô nghiệm
+33,Nghiệm của cos x = m khi |m| ≤ 1,"$x = \pm \alpha + 2k\pi, k \in \mathbb{Z}$ (với $cos \alpha = m, 0 ≤ \alpha ≤ \pi$)"
+34,Nghiệm của cos x = 0,"$x = \pi/2 + k\pi, k \in \mathbb{Z}$"
+35,Nghiệm của cos x = 1,"$x = 2k\pi, k \in \mathbb{Z}$"
+36,Nghiệm của cos x = -1,"$x = \pi + 2k\pi, k \in \mathbb{Z}$"
+37,Nghiệm của tan x = m (mọi m),"$x = \alpha + k\pi, k \in \mathbb{Z}$ (với $tan \alpha = m, -\pi/2 < \alpha < \pi/2$)"
+38,Nghiệm của cot x = m (mọi m),"$x = \alpha + k\pi, k \in \mathbb{Z}$ (với $cot \alpha = m, 0 < \alpha < \pi$)"
+39,Định nghĩa dãy số,Hàm số xác định trên $\mathbb{N}^*$ (số nguyên dương)
+40,Dãy số tăng nghiêm ngặt,$u_n < u_{n+1} \forall n$
+41,Dãy số giảm nghiêm ngặt,$u_n > u_{n+1} \forall n$
+42,Định nghĩa cấp số cộng,Mỗi số hạng từ thứ 2 bằng số hạng trước cộng công sai d cố định
+43,Công sai cấp số cộng,d
+44,Tính chất cấp số cộng,Mỗi số hạng (từ thứ 2) là trung bình cộng 2 số hạng kề nó
+45,"3 số a, b, c lập thành cấp số cộng khi",2b = a + c
+46,Số hạng tổng quát cấp số cộng,$u_n = u_1 + (n-1)d$
+47,Tổng n hạng đầu cấp số cộng,$S_n = n/2 (u_1 + u_n) = n/2 [2u_1 + (n-1)d]$
+48,Định nghĩa cấp số nhân,Mỗi số hạng từ thứ 2 bằng số hạng trước nhân công bội q cố định
+49,Công bội cấp số nhân,q
+50,Tính chất cấp số nhân,Bình phương mỗi số hạng (từ thứ 2) bằng tích 2 số hạng kề nó
+51,"3 số a, b, c ≠ 0 lập thành cấp số nhân khi",$b^2 = a c$
+52,Số hạng tổng quát cấp số nhân,$u_n = u_1 q^{n-1}$
+53,Tổng n hạng đầu cấp số nhân khi q = 1,$S_n = n u_1$
+54,Tổng n hạng đầu cấp số nhân khi q ≠ 1,$S_n = u_1 (q^n - 1)/(q - 1)$
+55,Giới hạn dãy số $lim u_n = a$ khi $n → +∞$,$|u_n - a| → 0$
+56,Cấp số nhân lùi vô hạn (|q| < 1),Tổng $S = u_1 / (1 - q)$
+57,Quy tắc giới hạn dãy: $lim (u_n + v_n)$ =,$lim u_n + lim v_n$
+58,Quy tắc giới hạn dãy: $lim (u_n v_n)$ =,$lim u_n \cdot lim v_n$
+59,Quy tắc giới hạn dãy: $lim u_n / v_n$ =,$lim u_n / lim v_n (lim v_n ≠ 0)$
+60,Quy tắc giới hạn hàm: lim (f ± g) =,$lim f ± lim g$
+61,Quy tắc giới hạn hàm: lim (f g) =,$lim f \cdot lim g$
+62,Quy tắc giới hạn hàm: lim f/g =,$lim f / lim g (lim g ≠ 0)$
+63,Định nghĩa hàm liên tục tại $x_0$,$lim_{x→x_0} f(x) = f(x_0)$
+64,"Hàm đa thức, sin x, cos x liên tục trên",$\mathbb{R}$
+65,"Hàm tan x, cot x, phân thức hữu tỷ liên tục trên",Tập xác định
+66,Tính chất lũy thừa: $a^{x+y}$ =,$a^x a^y$
+67,Tính chất lũy thừa: $a^{x-y}$ =,$a^x / a^y$
+68,Tính chất lũy thừa: $(a b)^x$ =,$a^x b^x$
+69,Tính chất lũy thừa: $a^{x y}$ =,$(a^x)^y$
+70,Định nghĩa $log_a M$,"$\alpha$ sao cho $a^\alpha = M (a > 0, a ≠ 1, M > 0)$"
+71,$log_a 1$ =,0
+72,$log_a a$ =,1
+73,$log_a (M N)$ =,$log_a M + log_a N$
+74,$log_a (M/N)$ =,$log_a M - log_a N$
+75,$log_a M^\alpha$ =,$\alpha log_a M$
+76,Công thức đổi cơ số: $log_a M$ =,$log_b M / log_b a$
+77,$log_a b$ =,$1 / log_b a$
+78,Lôgarit thập phân log M = ,$log_{10} M$
+79,Số e ≈,"2,718281828..."
+80,Lôgarit tự nhiên,ln M = log_e M
+81,"Tập xác định y = $a^x$ (a > 0, a ≠ 1)",$\mathbb{R}$
+82,Tập giá trị y = $a^x$,(0;  +∞)
+83,y = $a^x$ đồng biến khi,a > 1
+84,y = $a^x$ nghịch biến khi,0 < a < 1
+85,Đồ thị y = $a^x$ đi qua các điểm,(0;1) và (1;a)
+86,Tập xác định y = $log_a x$,(0; +∞)
+87,Tập giá trị y = $log_a x$,$\mathbb{R}$
+88,y = $log_a x$ đồng biến khi,a > 1
+89,y = $log_a x$ nghịch biến khi,0 < a < 1
+90,Đồ thị y = $log_a x$ đi qua các điểm,(1;0) và (a;1)
+91,Phương trình mũ $a^{f(x)}$ = b (b > 0),$f(x) = log_a b$
+92,Phương trình mũ $a^{f(x)} = a^{g(x)}$,f(x) = g(x)
+93,Phương trình lôgarit $log_a f(x)$ = b,$f(x) = a^b$
+94,Phương trình lôgarit $log_a f(x) = log_a g(x)$,f(x) = g(x) và f(x) > 0
+95,Bất phương trình mũ $a^{f(x)} > a^{g(x)}$ (a > 1),f(x) > g(x)
+96,Bất phương trình mũ $a^{f(x)} > a^{g(x)}$ (0 < a < 1),f(x) < g(x)
+97,Bất phương trình lôgarit $log_a f(x)$ > b (a > 1),$f(x) > a^b$
+98,Bất phương trình lôgarit $log_a f(x)$ > b (0 < a < 1),$0 < f(x) < a^b$
+99,Dấu hiệu 1 hai đường thẳng song song,Đồng phẳng và không chung điểm
+100,Dấu hiệu 3 hai đường thẳng song song,Cùng song song với đường thẳng thứ ba

@@ -56,4 +56,38 @@ router.get('/daily-challenge', protect, async (req, res) => {
   }
 });
 
+// Lấy câu hỏi ngẫu nhiên (Dùng cho Sprint Mode)
+router.get('/random', protect, async (req, res) => {
+  try {
+    const limit = parseInt(req.query.limit) || 10; // Mặc định lấy 10 câu nếu không truyền
+    const questions = await Question.aggregate([
+      { $sample: { size: limit } }
+    ]);
+
+    res.status(200).json({
+      success: true,
+      data: questions
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
+// Thêm vào routes/questions.js
+router.get('/marathon', protect, async (req, res) => {
+  try {
+    // Lấy 22 câu hỏi ngẫu nhiên từ DB
+    const questions = await Question.aggregate([
+      { $sample: { size: 22 } }
+    ]);
+
+    res.status(200).json({
+      success: true,
+      data: questions
+    });
+  } catch (err) {
+    res.status(500).json({ success: false, message: err.message });
+  }
+});
+
 module.exports = router;

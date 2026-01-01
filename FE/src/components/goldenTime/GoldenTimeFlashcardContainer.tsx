@@ -1,17 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { GoldenTimeFlashcard } from './GoldenTimeFlashcard';
-import { motion } from 'motion/react';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
-import { Clock, CheckCircle } from 'lucide-react';
+import { Clock, CheckCircle, Loader2 } from 'lucide-react';
+import { motion } from 'motion/react';
+import Papa from 'papaparse';
 
-interface FlashcardData {
+// Interface cho dữ liệu Flashcard trong App
+export interface FlashcardData {
   id: number;
   topic: string;
   question: string;
   answer: string;
   example?: string;
   icon: string;
+}
+
+// Interface cho dòng dữ liệu trong file CSV (Khớp với header file CSV của bạn)
+interface CsvRow {
+  ID: string;
+  Front: string; // Tên cột trong CSV là Front
+  Back: string;  // Tên cột trong CSV là Back
 }
 
 interface GoldenTimeFlashcardContainerProps {
@@ -21,128 +30,84 @@ interface GoldenTimeFlashcardContainerProps {
 export const GoldenTimeFlashcardContainer: React.FC<GoldenTimeFlashcardContainerProps> = ({
   onClose
 }) => {
-  const [stage, setStage] = useState<'flashcard' | 'completed'>('flashcard');
+  const [stage, setStage] = useState<'loading' | 'flashcard' | 'completed'>('loading');
+  const [flashcards, setFlashcards] = useState<FlashcardData[]>([]);
 
-  // Mock flashcards data
-  const flashcards: FlashcardData[] = [
-    {
-      id: 1,
-      topic: 'Logarit',
-      question: 'Tính chất Logarit Tích là gì?',
-      answer: 'log(ab) = log(a) + log(b)',
-      example: 'log(2×3) = log(2) + log(3)',
-      icon: '🔢'
-    },
-    {
-      id: 2,
-      topic: 'Logarit',
-      question: 'Tính chất Logarit Thương là gì?',
-      answer: 'log(a/b) = log(a) - log(b)',
-      example: 'log(6/2) = log(6) - log(2)',
-      icon: '🔢'
-    },
-    {
-      id: 3,
-      topic: 'Logarit',
-      question: 'Tính chất Logarit Lũy thừa là gì?',
-      answer: 'log(aⁿ) = n × log(a)',
-      example: 'log(2³) = 3 × log(2)',
-      icon: '🔢'
-    },
-    {
-      id: 4,
-      topic: 'Logarit',
-      question: 'Điều kiện xác định log_a(x)?',
-      answer: 'a > 0, a ≠ 1, x > 0',
-      example: 'log₂(8) xác định vì 2 > 0, 2 ≠ 1, 8 > 0',
-      icon: '🔢'
-    }
-  ];
+  useEffect(() => {
+    const fetchAndParseCSV = async () => {
+      try {
+        // Đảm bảo file 100_flashcard.csv nằm trong thư mục public
+        const response = await fetch('/100_flashcard.csv');
+        if (!response.ok) throw new Error("Không tìm thấy file CSV");
+
+        const reader = response.body?.getReader();
+        const result = await reader?.read();
+        const decoder = new TextDecoder('utf-8');
+        const csv = decoder.decode(result?.value);
+
+        Papa.parse<CsvRow>(csv, {
+          header: true,
+          skipEmptyLines: true,
+          complete: (results) => {
+            const allCards = results.data;
+            
+            // 1. Trộn ngẫu nhiên (Fisher-Yates Shuffle)
+            const shuffled = [...allCards];
+            for (let i = shuffled.length - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [shuffled[i], shuffled[j]] = [shuffled[j], shuffled[i]];
+            }
+
+            // 2. Lấy 5 thẻ ngẫu nhiên và map dữ liệu đúng cột
+            const selectedCards: FlashcardData[] = shuffled.slice(0, 5).map((card, index) => ({
+              id: index + 1,
+              topic: 'Toán học', // Bạn có thể thêm cột Topic vào CSV nếu muốn động
+              question: card.Front || 'Lỗi dữ liệu câu hỏi', // Map từ cột Front
+              answer: card.Back || 'Lỗi dữ liệu đáp án',     // Map từ cột Back
+              example: '', // File CSV hiện tại chưa có cột Example
+              icon: '📐'
+            }));
+
+            setFlashcards(selectedCards);
+            setStage('flashcard');
+          },
+          error: (err) => {
+            console.error("Lỗi đọc CSV:", err);
+            setStage('flashcard'); 
+          }
+        });
+      } catch (error) {
+        console.error("Lỗi fetch file:", error);
+        setStage('flashcard');
+      }
+    };
+
+    fetchAndParseCSV();
+  }, []);
 
   const handleComplete = () => {
     setStage('completed');
   };
 
-  const handleBackToDashboard = () => {
-    onClose();
-  };
+  if (stage === 'loading') {
+    return (
+      <div className="min-h-screen bg-orange-50 flex items-center justify-center">
+        <Loader2 className="w-10 h-10 text-orange-500 animate-spin" />
+      </div>
+    );
+  }
 
   if (stage === 'completed') {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-amber-50 via-orange-50 to-rose-50 p-6 flex items-center justify-center">
-        <motion.div
-          initial={{ opacity: 0, scale: 0.9 }}
-          animate={{ opacity: 1, scale: 1 }}
-          transition={{ type: 'spring' }}
-          className="max-w-2xl w-full"
-        >
+      <div className="min-h-screen bg-gradient-to-br from-amber-50 to-rose-50 p-6 flex items-center justify-center">
+        <motion.div initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="max-w-2xl w-full">
           <Card className="border-4 border-green-300 shadow-2xl">
-            <CardContent className="p-8">
-              {/* Success Icon */}
-              <div className="text-center mb-6">
-                <motion.div
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  transition={{ type: 'spring', delay: 0.2 }}
-                  className="text-8xl mb-4"
-                >
-                  ✅
-                </motion.div>
-                <h1 className="text-3xl text-gray-900 mb-2">
-                  Hoàn thành ôn tập!
-                </h1>
-                <p className="text-gray-600">
-                  AI đã lên lịch ôn tập cho bạn
-                </p>
-              </div>
-
-              {/* Schedule Info */}
-              <Card className="bg-green-50 border-2 border-green-300 mb-6">
-                <CardContent className="p-6">
-                  <div className="flex items-start gap-3">
-                    <Clock className="w-6 h-6 text-green-600 mt-1 flex-shrink-0" />
-                    <div>
-                      <h3 className="text-gray-900 mb-2">
-                        📅 Lịch ôn tập tiếp theo
-                      </h3>
-                      <ul className="space-y-2 text-gray-700">
-                        <li>• Thẻ "Logarit Tích": <strong>1 ngày sau</strong> (đánh giá: Quên hẳn)</li>
-                        <li>• Thẻ "Logarit Thương": <strong>3 ngày sau</strong> (đánh giá: Nhớ mang máng)</li>
-                        <li>• Thẻ "Logarit Lũy thừa": <strong>10 ngày sau</strong> (đánh giá: Nhớ rõ)</li>
-                        <li>• Thẻ "Điều kiện log": <strong>10 ngày sau</strong> (đánh giá: Nhớ rõ)</li>
-                      </ul>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Dashboard Update */}
-              <Card className="bg-blue-50 border-2 border-blue-200 mb-6">
-                <CardContent className="p-4">
-                  <div className="flex items-center gap-3">
-                    <CheckCircle className="w-5 h-5 text-blue-600" />
-                    <p className="text-blue-800">
-                      Thẻ <strong>Logarit</strong> đã biến mất khỏi khu vực "Thời Điểm Vàng" cho đến ngày hẹn ôn lại
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-
-              {/* Motivational Message */}
-              <div className="text-center mb-6 p-4 bg-yellow-50 rounded-lg border-2 border-yellow-200">
-                <p className="text-yellow-800">
-                  💪 <strong>Tuyệt vời!</strong> Việc ôn tập đều đặn sẽ giúp bạn ghi nhớ lâu dài hơn!
-                </p>
-              </div>
-
-              {/* Back Button */}
-              <Button
-                size="lg"
-                onClick={handleBackToDashboard}
-                className="w-full bg-gradient-to-r from-green-500 to-teal-600 hover:from-green-600 hover:to-teal-700 text-white text-xl h-14"
-              >
-                <CheckCircle className="w-6 h-6 mr-2" />
-                Về Bảng điều khiển
+            <CardContent className="p-8 text-center">
+              <div className="text-8xl mb-4">✅</div>
+              <h1 className="text-3xl text-gray-900 mb-2">Hoàn thành!</h1>
+              <p className="text-gray-600 mb-6">Bạn đã ôn tập xong 5 flashcards.</p>
+              <Button size="lg" onClick={onClose} className="w-full bg-green-600 hover:bg-green-700 text-white text-xl h-14">
+                <CheckCircle className="w-6 h-6 mr-2" /> Về trang chủ
               </Button>
             </CardContent>
           </Card>

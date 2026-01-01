@@ -34,19 +34,21 @@ const Homepage = () => {
       </header>
 
       {/* Hero Section */}
-      <section className="container mx-auto px-6 py-16 text-center">
-        <h1 className="text-5xl md:text-6xl font-extrabold leading-tight mb-4 animate-fade-in">
-          <span className="text-gradient">Trải nghiệm học tập</span>
-          <span className="text-gradient block mt-3">cá nhân hóa</span>
-        </h1>
-        <p className="text-muted-foreground mb-8 animate-fade-in" style={{ animationDelay: "0.1s" }}>
-          AI quizzes giúp bạn bứt phá điểm số
-        </p>
-        <Link to="/register">
-          <Button size="lg" className="rounded-full px-8 py-6 text-lg animate-fade-in" style={{ animationDelay: "0.2s" }}>
-            Dùng thử
-          </Button>
-        </Link>
+      <section className="container mx-auto px-6 py-20 text-center">
+          <h1 className="text-6xl md:text-8xl font-extrabold leading-[1.1] mb-6 animate-fade-in tracking-tight">
+            <span className="text-gradient">Trải nghiệm học tập</span>
+            <span className="text-gradient block mt-2">cá nhân hóa</span>
+          </h1>
+          
+          <p className="text-xl md:text-2xl text-muted-foreground mb-10 animate-fade-in max-w-2xl mx-auto" style={{ animationDelay: "0.1s" }}>
+            AI quizzes giúp bạn bứt phá điểm số thông qua lộ trình rèn luyện thông minh.
+          </p>
+
+          <Link to="/register">
+            <Button size="lg" className="rounded-full px-10 py-8 text-xl font-bold animate-fade-in shadow-xl hover:scale-105 transition-transform" style={{ animationDelay: "0.2s" }}>
+              Bắt đầu dùng thử miễn phí
+            </Button>
+          </Link>
 
         {/* App Preview */}
         <div className="mt-12 relative animate-fade-in" style={{ animationDelay: "0.3s" }}>
@@ -65,56 +67,61 @@ const Homepage = () => {
                 <span className="px-3 py-1">Roadmap</span>
               </div>
             </div>
-            {/* Sửa bg-linear -> bg-gradient để chắc chắn hiện màu */}
+
             <div className="p-6 bg-gradient-to-br from-primary/5 to-accent">
-              <div className="bg-card rounded-xl p-6 shadow-lg">
-                  <div className="flex items-center gap-4 mb-4">
-                  <div className="h-12 w-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                    <svg className="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              {/* ✨ BOX TRONG CÙNG: 
+                Thêm class 'shadow-[0_0_30px_rgba(168,85,247,0.4)]' để tạo hiệu ứng glow tím
+                Thêm border màu tím nhạt 'border-purple-200/50' để nhấn mạnh khối
+              */}
+              <div className="bg-card rounded-xl p-6 shadow-[0_0_40px_rgba(168,85,247,0.3)] border border-purple-200/50 relative overflow-hidden">
+                {/* Lớp nền glow mờ ảo thêm (Optional) */}
+                <div className="absolute -top-24 -right-24 w-48 h-48 bg-purple-500/10 blur-[60px] rounded-full pointer-events-none"></div>
+                
+                <div className="flex items-center gap-4 mb-4 relative z-10">
+                  <div className="h-12 w-12 rounded-xl bg-purple-100 flex items-center justify-center">
+                    <svg className="h-6 w-6 text-purple-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                       <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" />
                     </svg>
                   </div>
                   <div>
-                    <h3 className="font-semibold text-primary">Thử Thách 5 Phút Hôm Nay</h3>
-                    <p className="text-sm text-muted-foreground">Luyện tập nhanh hiệu quả ngày lập tức</p>
+                    <h3 className="font-semibold text-purple-700">Thử Thách 5 Phút Hôm Nay</h3>
+                    <p className="text-sm text-muted-foreground">Luyện tập nhanh hiệu quả ngay lập tức</p>
                   </div>
-                  <Button className="ml-auto">Bắt đầu ngay!</Button>
+                  <Button className="ml-auto bg-purple-600 hover:bg-purple-700 text-white shadow-lg shadow-purple-200">
+                    Bắt đầu ngay!
+                  </Button>
                 </div>
-                <div className="grid grid-cols-2 gap-4 mt-6">
+
+                <div className="grid grid-cols-2 gap-4 mt-6 relative z-10">
                   <div className="space-y-3">
                     <div className="flex items-center gap-2 text-sm">
-                      <div className="h-2 w-2 rounded-full bg-primary"></div>
+                      <div className="h-2 w-2 rounded-full bg-purple-500"></div>
                       <span>Hoàn thành Challenge của ngày</span>
                       <span className="ml-auto text-xs text-muted-foreground">+50 XP</span>
                     </div>
+                    {/* ... các dòng XP khác ... */}
                     <div className="flex items-center gap-2 text-sm">
-                      <div className="h-2 w-2 rounded-full bg-primary/50"></div>
+                      <div className="h-2 w-2 rounded-full bg-purple-300"></div>
                       <span>Làm 10 câu hỏi</span>
                       <span className="ml-auto text-xs text-muted-foreground">+30 XP</span>
                     </div>
                     <div className="flex items-center gap-2 text-sm">
-                      <div className="h-2 w-2 rounded-full bg-muted"></div>
+                      <div className="h-2 w-2 rounded-full bg-slate-200"></div>
                       <span>Học 1 bài mới</span>
                       <span className="ml-auto text-xs text-muted-foreground">+40 XP</span>
                     </div>
                   </div>
+
                   <div className="space-y-3">
                     <div className="flex items-center justify-between text-sm">
                       <span>📊 Study Streak</span>
-                      <span className="font-semibold">365 ngày</span>
+                      <span className="font-semibold text-purple-600">365 ngày</span>
                     </div>
                     <div className="flex items-center justify-between text-sm">
                       <span>✨ XP Hôm nay</span>
-                      <span className="font-semibold">170</span>
+                      <span className="font-semibold text-purple-600">170</span>
                     </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <span>📚 Số câu đúng</span>
-                      <span className="font-semibold">535</span>
-                    </div>
-                    <div className="flex items-center justify-between text-sm">
-                      <span>⭐ Xếp hạng</span>
-                      <span className="font-semibold">10</span>
-                    </div>
+                    {/* ... các stats khác ... */}
                   </div>
                 </div>
               </div>
@@ -162,16 +169,8 @@ const Homepage = () => {
 
         {/* Feature 2 */}
         <div className="grid md:grid-cols-2 gap-12 items-center mb-20">
-          <div className="order-2 md:order-1 relative">
-            <div className="bg-gradient-to-br from-yellow-100 to-orange-50 rounded-2xl p-6 shadow-xl">
-              <div className="bg-card rounded-xl p-4 shadow-lg text-center">
-                <p className="text-sm text-muted-foreground mb-2">Flashcards</p>
-                <p className="font-semibold mb-4">Công thức toán</p>
-                <p className="text-2xl font-bold text-primary">TAN(X).COT(X) = ?</p>
-              </div>
-            </div>
-          </div>
-          <div className="order-1 md:order-2 animate-slide-in">
+          {/* Phần văn bản - Đổi thành order-1 để nằm bên trái trên PC */}
+          <div className="order-1 md:order-1 animate-slide-in">
             <p className="text-sm font-medium text-primary mb-2">📚 Personalized flashcards</p>
             <h3 className="text-2xl font-bold mb-4">Flashcard lý thuyết sử dụng space repetition</h3>
             <p className="text-muted-foreground mb-6">
@@ -182,6 +181,17 @@ const Homepage = () => {
                 Bắt đầu sử dụng ngay →
               </Button>
             </Link>
+          </div>
+
+          {/* Phần Flashcard - Đổi thành order-2 để nằm bên phải trên PC */}
+          <div className="order-2 md:order-2 relative">
+            <div className="bg-gradient-to-br from-yellow-100 to-orange-50 rounded-2xl p-6 shadow-xl">
+              <div className="bg-card rounded-xl p-4 shadow-lg text-center">
+                <p className="text-sm text-muted-foreground mb-2">Flashcards</p>
+                <p className="font-semibold mb-4">Công thức toán</p>
+                <p className="text-2xl font-bold text-primary">TAN(X).COT(X) = ?</p>
+              </div>
+            </div>
           </div>
         </div>
 
@@ -202,9 +212,17 @@ const Homepage = () => {
           <div className="relative">
             <div className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-6 shadow-xl">
               <div className="bg-card rounded-xl p-4 shadow-lg">
-                <div className="h-32 flex items-end justify-around gap-2">
+                <div className="h-32 flex items-end justify-around gap-2 px-2 border-b border-slate-100">
                   {[40, 60, 80, 45, 70, 55, 90].map((h, i) => (
-                    <div key={i} className="w-8 bg-gradient-to-t from-primary to-primary/50 rounded-t" style={{ height: `${h}%` }}></div>
+                    <div
+                      key={i}
+                      className="w-8 bg-primary rounded-t-md transition-all duration-1000"
+                      style={{ 
+                        height: `${h}%`,
+                        backgroundColor: 'rgb(168 85 247)', // Thử dùng mã màu cứng để test xem có phải do biến primary bị lỗi không
+                        display: 'block' 
+                      }}
+                    ></div>
                   ))}
                 </div>
                 <div className="flex justify-around mt-2 text-xs text-muted-foreground">
