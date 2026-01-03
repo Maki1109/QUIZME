@@ -228,3 +228,48 @@ exports.getRandomQuestions = async (req, res) => {
     res.status(500).json({ success: false, message: error.message });
   }
 };
+
+// @desc    Cập nhật câu hỏi
+// @route   PUT /api/questions/:id
+// @access  Private/Admin
+exports.updateQuestion = async (req, res, next) => {
+  try {
+    const question = await Question.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true
+    });
+
+    if (!question) {
+      return res.status(404).json({ success: false, message: 'Question not found' });
+    }
+
+    res.status(200).json({
+      success: true,
+      data: question
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Xóa câu hỏi
+// @route   DELETE /api/questions/:id
+// @access  Private/Admin
+exports.deleteQuestion = async (req, res, next) => {
+  try {
+    const question = await Question.findById(req.params.id);
+
+    if (!question) {
+      return res.status(404).json({ success: false, message: 'Question not found' });
+    }
+
+    await question.deleteOne();
+
+    res.status(200).json({
+      success: true,
+      data: {}
+    });
+  } catch (error) {
+    next(error);
+  }
+};
