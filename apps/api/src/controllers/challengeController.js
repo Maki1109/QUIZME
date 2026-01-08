@@ -43,6 +43,8 @@ exports.submitChallenge = async (req, res, next) => {
     const processedAnswers = [];
 
     // 1. Duyệt qua từng câu trả lời để chấm điểm
+    const topicStats = {}; // Theo dõi hiệu suất theo chủ đề
+
     for (const item of answers) {
       // Tìm câu hỏi gốc trong DB để lấy đáp án đúng
       const question = await Question.findById(item.questionId);
@@ -68,6 +70,17 @@ exports.submitChallenge = async (req, res, next) => {
         correctCount++;
       }
 
+      // --- TÍNH TOÁN CHO PHÂN TÍCH ---
+      const topic = question.topic || "General";
+      if (!topicStats[topic]) {
+        topicStats[topic] = { total: 0, correct: 0 };
+      }
+      topicStats[topic].total++;
+      if (isCorrect) {
+        topicStats[topic].correct++;
+      }
+      // -------------------------------
+
       // Debug từng câu (nếu cần thiết thì bật lên)
       // console.log(`Q: ${question._id} | DB: ${dbCorrectIndex} | User: ${userSelectIndex} | Correct: ${isCorrect}`);
 
@@ -81,6 +94,43 @@ exports.submitChallenge = async (req, res, next) => {
     }
 
     console.log(`👉 [SUBMIT] Kết quả chấm: Đúng ${correctCount}/${answers.length}`);
+
+    // --- TẠO BÁO CÁO PHÂN TÍCH (ANALYSIS) ---
+    const analysis = {
+      topicPerformance: [],
+      weakTopics: [],
+      strongTopics: [],
+      feedback: ""
+    };
+
+    for (const [topic, stats] of Object.entries(topicStats)) {
+      const accuracy = (stats.correct / stats.total) * 100;
+      analysis.topicPerformance.push({
+        topic,
+        total: stats.total,
+        correct: stats.correct,
+        accuracy: Math.round(accuracy)
+      });
+
+      if (accuracy < 50) {
+        analysis.weakTopics.push(topic);
+      } else if (accuracy >= 80) {
+        analysis.strongTopics.push(topic);
+      }
+    }
+
+    // Tạo feedback dựa trên tổng điểm
+    const overallAccuracy = (correctCount / answers.length) * 100;
+    if (overallAccuracy === 100) {
+      analysis.feedback = "Tuyệt vời! Bạn đã trả lời đúng tất cả các câu hỏi. Hãy thử thách bản thân với độ khó cao hơn!";
+    } else if (overallAccuracy >= 80) {
+      analysis.feedback = "Làm tốt lắm! Bạn nắm vững kiến thức rất tốt. Cố gắng phát huy nhé!";
+    } else if (overallAccuracy >= 50) {
+      analysis.feedback = "Kết quả khá tốt. Hãy ôn lại những phần chưa làm đúng để cải thiện hơn.";
+    } else {
+      analysis.feedback = "Đừng nản lòng! Hãy xem lại các kiến thức cơ bản và thử lại. Bạn sẽ làm tốt hơn lần sau!";
+    }
+    // ----------------------------------------
 
     // 2. Tính điểm và XP
     const score = correctCount * 10; // Ví dụ: 10 điểm / câu
@@ -108,6 +158,7 @@ exports.submitChallenge = async (req, res, next) => {
     res.status(200).json({
       success: true,
       data: attempt,
+      analysis: analysis, // <--- TRẢ VỀ PHẦN PHÂN TÍCH
       message: "Nộp bài thành công!"
     });
 
