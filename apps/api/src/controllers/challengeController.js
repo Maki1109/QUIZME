@@ -97,38 +97,41 @@ exports.submitChallenge = async (req, res, next) => {
 
     // --- TẠO BÁO CÁO PHÂN TÍCH (ANALYSIS) ---
     const analysis = {
-      topicPerformance: [],
-      weakTopics: [],
-      strongTopics: [],
+      graphData: [],   // Dữ liệu cho biểu đồ Radar
+      weakTopics: [],  // Danh sách chủ đề cần cải thiện
       feedback: ""
     };
 
     for (const [topic, stats] of Object.entries(topicStats)) {
       const accuracy = (stats.correct / stats.total) * 100;
-      analysis.topicPerformance.push({
-        topic,
-        total: stats.total,
-        correct: stats.correct,
-        accuracy: Math.round(accuracy)
+      
+      // 1. Format cho biểu đồ Radar (Giống analyticsController)
+      analysis.graphData.push({
+        subject: topic,
+        score: Math.round(accuracy),
+        fullMark: 100
       });
 
+      // 2. Xác định chủ đề yếu (< 50%)
       if (accuracy < 50) {
         analysis.weakTopics.push(topic);
-      } else if (accuracy >= 80) {
-        analysis.strongTopics.push(topic);
       }
     }
 
-    // Tạo feedback dựa trên tổng điểm
-    const overallAccuracy = (correctCount / answers.length) * 100;
-    if (overallAccuracy === 100) {
-      analysis.feedback = "Tuyệt vời! Bạn đã trả lời đúng tất cả các câu hỏi. Hãy thử thách bản thân với độ khó cao hơn!";
-    } else if (overallAccuracy >= 80) {
-      analysis.feedback = "Làm tốt lắm! Bạn nắm vững kiến thức rất tốt. Cố gắng phát huy nhé!";
-    } else if (overallAccuracy >= 50) {
-      analysis.feedback = "Kết quả khá tốt. Hãy ôn lại những phần chưa làm đúng để cải thiện hơn.";
+    // 3. Tạo Feedback cá nhân hóa
+    if (analysis.weakTopics.length > 0) {
+      const weakList = analysis.weakTopics.join(", ");
+      analysis.feedback = `Bạn cần ôn tập thêm về: ${weakList}. Hãy xem lại kiến thức các phần này nhé!`;
     } else {
-      analysis.feedback = "Đừng nản lòng! Hãy xem lại các kiến thức cơ bản và thử lại. Bạn sẽ làm tốt hơn lần sau!";
+      // Nếu không có chủ đề yếu nào (<50%), khen ngợi dựa trên điểm số
+      const overallAccuracy = (correctCount / answers.length) * 100;
+      if (overallAccuracy === 100) {
+        analysis.feedback = "Tuyệt vời! Bạn không có điểm yếu nào trong bài này. Hãy giữ vững phong độ!";
+      } else if (overallAccuracy >= 80) {
+        analysis.feedback = "Làm rất tốt! Bạn nắm vững hầu hết các kiến thức. Chỉ cần cẩn thận hơn một chút thôi.";
+      } else {
+        analysis.feedback = "Kết quả khá tốt. Hãy cố gắng luyện tập thêm để nâng cao điểm số nhé.";
+      }
     }
     // ----------------------------------------
 
