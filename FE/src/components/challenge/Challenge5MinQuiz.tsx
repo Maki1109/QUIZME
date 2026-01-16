@@ -24,6 +24,12 @@ interface Challenge5MinQuizProps {
   onComplete: (results: QuizResults) => void;
 }
 
+export interface AnalysisData {
+  graphData: { subject: string; score: number; fullMark: number }[];
+  weakTopics: string[];
+  feedback: string;
+}
+
 export interface QuizResults {
   correctCount: number;
   totalQuestions: number;
@@ -34,6 +40,7 @@ export interface QuizResults {
     timeSpent: number;
     selectedAnswer: string;
   }[];
+  analysis?: AnalysisData;
 }
 
 export function Challenge5MinQuiz({ onComplete }: Challenge5MinQuizProps) {
@@ -192,10 +199,12 @@ export function Challenge5MinQuiz({ onComplete }: Challenge5MinQuizProps) {
     const totalTimeSpent = Math.floor((Date.now() - quizStartTime) / 1000);
     const token = localStorage.getItem('quizme_token') || localStorage.getItem('token');
     const baseUrl = import.meta.env.VITE_API_URL;
+    
+    let serverAnalysis: AnalysisData | undefined;
 
     try {
       // Gửi request chốt bài thi (Server sẽ tính điểm tổng và cộng XP)
-      await fetch(`${baseUrl}/challenge-5min/complete`, {
+      const response = await fetch(`${baseUrl}/challenge-5min/complete`, {
         method: 'POST',
         headers: { 
           'Content-Type': 'application/json',
@@ -207,6 +216,11 @@ export function Challenge5MinQuiz({ onComplete }: Challenge5MinQuizProps) {
           totalTimeSpent: totalTimeSpent
         })
       });
+      
+      const data = await response.json();
+      if (data.success && data.analysis) {
+        serverAnalysis = data.analysis;
+      }
     } catch (err) {
       console.error("Lỗi khi lưu kết quả tổng:", err);
     }
@@ -216,6 +230,7 @@ export function Challenge5MinQuiz({ onComplete }: Challenge5MinQuizProps) {
       totalQuestions: questions.length,
       timeSpent: totalTimeSpent,
       answers,
+      analysis: serverAnalysis // Truyền analysis xuống Result
     });
   };
 
