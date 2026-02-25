@@ -1,9 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Alert, AlertDescription } from '../ui/alert';
-import { Trophy, Clock, Target, Zap, CheckCircle, XCircle, RotateCcw, Home } from 'lucide-react';
+import { Trophy, Clock, Target, Zap, CheckCircle, XCircle, RotateCcw, Home, Brain, Activity, BookOpen } from 'lucide-react';
 import { motion } from 'motion/react';
 import { QuizResults } from './Challenge5MinQuiz';
+import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
 
 interface Challenge5MinResultProps {
   results: QuizResults;
@@ -16,7 +17,7 @@ export function Challenge5MinResult({
   onRetry,
   onBackToDashboard,
 }: Challenge5MinResultProps) {
-  const { correctCount, totalQuestions, timeSpent, answers } = results;
+  const { correctCount, totalQuestions, timeSpent, answers, analysis } = results;
   
   const accuracy = Math.round((correctCount / totalQuestions) * 100);
   const avgTimePerQuestion = Math.round(timeSpent / totalQuestions);
@@ -152,6 +153,59 @@ export function Challenge5MinResult({
               </motion.div>
             )}
 
+            {/* AI Analysis Section */}
+            {analysis && (
+               <motion.div
+               initial={{ opacity: 0, y: 20 }}
+               animate={{ opacity: 1, y: 0 }}
+               transition={{ delay: 0.6 }}
+               className="space-y-6"
+             >
+                {/* 1. Radar Chart */}
+               {analysis.graphData.length > 0 && (
+                 <div className="bg-white border-2 border-teal-100 rounded-xl p-4 shadow-sm flex flex-col items-center">
+                    <h3 className="text-gray-700 font-bold mb-4 flex items-center gap-2">
+                       <Activity className="w-5 h-5 text-teal-500" />
+                       Biểu đồ năng lực
+                    </h3>
+                   <div className="w-full h-[250px] sm:h-[300px]">
+                      <ResponsiveContainer width="100%" height="100%">
+                        <RadarChart cx="50%" cy="50%" outerRadius="80%" data={analysis.graphData}>
+                          <PolarGrid stroke="#e5e7eb" />
+                          <PolarAngleAxis dataKey="subject" tick={{ fill: '#4b5563', fontSize: 12 }} />
+                          <PolarRadiusAxis angle={30} domain={[0, 100]} tick={false} axisLine={false} />
+                          <Radar
+                            name="Skill"
+                            dataKey="score"
+                            stroke="#0d9488"
+                            fill="#14b8a6"
+                            fillOpacity={0.5}
+                          />
+                        </RadarChart>
+                      </ResponsiveContainer>
+                   </div>
+                 </div>
+               )}
+
+               {/* 2. Weak Topics */}
+               {analysis.weakTopics.length > 0 && (
+                  <div className="bg-gradient-to-br from-orange-50 to-red-50 border-2 border-orange-200 rounded-xl p-4">
+                      <h3 className="text-orange-800 font-bold mb-2 flex items-center gap-2">
+                        <BookOpen className="w-5 h-5" />
+                        Cần ôn luyện thêm
+                      </h3>
+                      <div className="flex flex-wrap gap-2">
+                        {analysis.weakTopics.map((topic, idx) => (
+                            <span key={idx} className="bg-white text-orange-600 px-3 py-1 rounded-full text-xs font-bold border border-orange-100 shadow-sm">
+                              {topic}
+                            </span>
+                        ))}
+                      </div>
+                  </div>
+               )}
+             </motion.div>
+            )}
+
             {/* Detailed Breakdown */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -213,13 +267,20 @@ export function Challenge5MinResult({
                     <div>
                       <p>
                         <strong>Sparky nói:</strong>{' '}
-                        {accuracy === 100
-                          ? 'Hoàn hảo! Bạn là một chiến binh thực thụ! 🏆'
-                          : accuracy >= 80
-                          ? 'Xuất sắc! Tiếp tục phát huy nhé! ⭐'
-                          : accuracy >= 60
-                          ? 'Khá tốt! Luyện tập thêm để lên top nhé! 💪'
-                          : 'Đừng nản lòng! Hãy ôn lại những phần yếu và thử lại nhé! 📚'}
+                        {analysis?.feedback ? (
+                          <span className="italic">{analysis.feedback}</span>
+                        ) : (
+                          // Trả về logic cũ nếu k có analysis
+                          <>
+                           {accuracy === 100
+                            ? 'Hoàn hảo! Bạn là một chiến binh thực thụ! 🏆'
+                            : accuracy >= 80
+                            ? 'Xuất sắc! Tiếp tục phát huy nhé! ⭐'
+                            : accuracy >= 60
+                            ? 'Khá tốt! Luyện tập thêm để lên top nhé! 💪'
+                            : 'Đừng nản lòng! Hãy ôn lại những phần yếu và thử lại nhé! 📚'}
+                          </>
+                        )}
                       </p>
                       {correctCount < totalQuestions && (
                         <p className="text-sm text-teal-600 mt-2">
