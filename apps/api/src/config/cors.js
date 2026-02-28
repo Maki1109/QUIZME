@@ -8,7 +8,7 @@ const corsOptions = {
     'http://localhost:3000',
     'https://quizmeabc.vercel.app',
     'https://www.quizme.com.vn',
-    'https://quizme.com.vn'
+    'https://quizme.com.vn',
   ],
   credentials: true,
   optionsSuccessStatus: 200,

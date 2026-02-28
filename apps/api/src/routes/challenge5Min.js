@@ -7,7 +7,7 @@ const router = express.Router();
 const {
   startChallenge,
   completeChallenge,
-  submitAnswer 
+  submitAnswer
 } = require('../controllers/challenge5MinController');
 const { protect } = require('../middleware/auth');
 

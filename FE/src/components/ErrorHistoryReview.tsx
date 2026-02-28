@@ -4,26 +4,30 @@ import { Button } from './ui/button';
 import { AlertCircle, ArrowLeft, CheckCircle, XCircle, Loader2, BookOpen } from 'lucide-react';
 import { motion } from 'motion/react';
 
-// Interface cho dữ liệu thật từ API
+// --- 1. INTERFACE (Đồng bộ với Question trong Challenge5MinQuiz) ---
 interface QuestionDetail {
   _id: string;
-  question: string;
-  options: string[];
+  question: string;       // Nội dung câu hỏi
+  image_url?: string;     // Link ảnh (quan trọng)
+  options: string[];      // Danh sách đáp án [Op1, Op2, Op3, Op4]
   correct_answer?: string;
-  correctAnswer?: string;
+  correctAnswer?: string; // Fallback nếu DB dùng tên khác
   explanation?: string;
   topic: string;
+  question_type?: string;
 }
 
 interface WrongAnswer {
   id: string;
   question: string;
-  userAnswerIndex: number; // Index user chọn (0,1,2,3)
-  correctAnswerIndex: number; // Index đúng (0,1,2,3)
+  image_url?: string;     // Thêm trường này vào state local
+  userAnswerIndex: number;
+  correctAnswerIndex: number;
   options: string[];
   explanation: string;
   topic: string;
   date: string;
+  question_type?: string;
 }
 
 interface ErrorHistoryReviewProps {
@@ -34,7 +38,7 @@ export const ErrorHistoryReview: React.FC<ErrorHistoryReviewProps> = ({ onBack }
   const [errors, setErrors] = useState<WrongAnswer[]>([]);
   const [loading, setLoading] = useState(true);
 
-  // Hàm chuyển đổi đáp án A/B/C/D hoặc string số sang index (0,1,2,3)
+  // Hàm chuẩn hóa đáp án sang index (0,1,2,3)
   const normalizeAnswerToIndex = (ans: string | number | undefined): number => {
     if (ans === undefined || ans === null) return -1;
     if (typeof ans === 'number') return ans;
@@ -57,31 +61,29 @@ export const ErrorHistoryReview: React.FC<ErrorHistoryReviewProps> = ({ onBack }
         if (data.success && data.data) {
           const wrongQuestions: WrongAnswer[] = [];
 
-          // Duyệt qua từng bài thi
           data.data.forEach((attempt: any) => {
             const attemptDate = new Date(attempt.completedAt).toLocaleDateString('vi-VN');
 
-            // Duyệt qua từng câu trả lời trong bài thi
             attempt.answers.forEach((ans: any) => {
-              // 1. Kiểm tra nếu sai VÀ có dữ liệu câu hỏi (do đã populate ở backend)
+              // Kiểm tra câu sai và có dữ liệu câu hỏi
               if (!ans.isCorrect && ans.questionId && typeof ans.questionId === 'object') {
                 const qDetail = ans.questionId as QuestionDetail;
-
-                // 2. Lấy index đáp án đúng (ưu tiên correct_answer từ CSV)
-                const correctIndex = normalizeAnswerToIndex(qDetail.correct_answer || qDetail.correctAnswer);
                 
-                // 3. Lấy index user chọn
+                const correctIndex = normalizeAnswerToIndex(qDetail.correct_answer || qDetail.correctAnswer);
                 const userIndex = normalizeAnswerToIndex(ans.answer);
 
                 wrongQuestions.push({
                   id: ans._id || Math.random().toString(),
-                  question: qDetail.question,
-                  options: qDetail.options,
+                  question: qDetail.question || "Nội dung câu hỏi không tồn tại",
+                  // --- LẤY ẢNH TỪ DATA ---
+                  image_url: qDetail.image_url, 
+                  options: qDetail.options || [], 
                   userAnswerIndex: userIndex,
                   correctAnswerIndex: correctIndex,
-                  explanation: qDetail.explanation || "Chưa có giải thích chi tiết cho câu này.",
+                  explanation: qDetail.explanation || "Chưa có giải thích chi tiết.",
                   topic: qDetail.topic || "Tổng hợp",
-                  date: attemptDate
+                  date: attemptDate,
+                  question_type: qDetail.question_type
                 });
               }
             });
@@ -90,7 +92,7 @@ export const ErrorHistoryReview: React.FC<ErrorHistoryReviewProps> = ({ onBack }
           setErrors(wrongQuestions);
         }
       } catch (error) {
-        console.error("Lỗi tải lịch sử sai:", error);
+        console.error("Lỗi tải lịch sử:", error);
       } finally {
         setLoading(false);
       }
@@ -101,19 +103,16 @@ export const ErrorHistoryReview: React.FC<ErrorHistoryReviewProps> = ({ onBack }
 
   if (loading) {
     return (
-      // ✅ Background đỏ nhạt khi loading
       <div className="flex flex-col items-center justify-center h-screen bg-red-50">
         <Loader2 className="w-12 h-12 text-rose-500 animate-spin mb-4" />
-        <p className="text-rose-700 font-medium">Đang phân tích các lỗi sai của bạn...</p>
+        <p className="text-rose-700 font-medium">Đang tải lại các câu làm sai...</p>
       </div>
     );
   }
 
   return (
-    // ✅ Background đỏ nhạt toàn màn hình
     <div className="min-h-screen bg-red-50 p-4 md:p-8">
-      
-      <div className="max-w-4xl mx-auto">
+      <div className="max-w-3xl mx-auto">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
           <Button variant="ghost" onClick={onBack} className="hover:bg-red-100 text-rose-700">
@@ -124,28 +123,19 @@ export const ErrorHistoryReview: React.FC<ErrorHistoryReviewProps> = ({ onBack }
               <AlertCircle className="w-8 h-8 text-rose-600" />
               Kho Lỗi Sai
             </h1>
-            <p className="text-rose-700 mt-1">Xem lại để không mắc sai lầm lần nữa!</p>
+            <p className="text-rose-700 mt-1">Ôn tập lại những kiến thức đã hổng</p>
           </div>
         </div>
 
         {errors.length === 0 ? (
-          // Empty State
-          <div className="text-center py-20 bg-white/80 backdrop-blur-sm rounded-3xl shadow-sm border-2 border-rose-100">
-            <div className="w-24 h-24 bg-rose-100 rounded-full flex items-center justify-center mx-auto mb-6">
-              <span className="text-6xl">🌟</span>
-            </div>
-            <h2 className="text-2xl font-bold text-gray-800 mb-2">Tuyệt vời!</h2>
-            <p className="text-gray-600 mb-8 max-w-md mx-auto">
-              Hệ thống chưa ghi nhận câu sai nào gần đây. Hãy tiếp tục làm bài tập để thử thách bản thân nhé.
-            </p>
-            <Button onClick={onBack} size="lg" className="bg-gradient-to-r from-rose-500 to-pink-500 hover:from-rose-600 hover:to-pink-600 text-white shadow-lg shadow-rose-200">
-              Quay lại luyện tập
-            </Button>
+          <div className="text-center py-20 bg-white rounded-3xl shadow-sm border border-rose-100">
+            <h2 className="text-2xl font-bold text-gray-800">Tuyệt vời!</h2>
+            <p className="text-gray-600 mt-2">Gần đây bạn không làm sai câu nào cả.</p>
+            <Button onClick={onBack} className="mt-6 bg-rose-500 hover:bg-rose-600 text-white">Quay lại</Button>
           </div>
         ) : (
-          // List Error Items
-          <div className="space-y-6">
-            <div className="flex justify-between items-center text-rose-800 font-medium mb-2 px-2">
+          <div className="space-y-8">
+            <div className="flex justify-between items-center text-rose-800 font-medium px-2">
               <span>Tìm thấy {errors.length} câu cần ôn tập</span>
             </div>
             
@@ -156,73 +146,91 @@ export const ErrorHistoryReview: React.FC<ErrorHistoryReviewProps> = ({ onBack }
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: index * 0.1 }}
               >
-                <Card className="border-0 border-l-4 border-l-rose-500 shadow-md hover:shadow-lg transition-all bg-white overflow-hidden">
-                  <CardHeader className="bg-gradient-to-r from-rose-50 to-white pb-3">
-                    <div className="flex justify-between items-start">
-                      <div className="flex gap-2 mb-2">
-                        <span className="px-2.5 py-1 bg-white border border-rose-200 rounded-md text-xs font-bold text-rose-600 uppercase tracking-wide">
+                <Card className="border-0 shadow-lg hover:shadow-xl transition-all bg-white overflow-hidden rounded-2xl ring-1 ring-rose-100">
+                  {/* Header Card */}
+                  <CardHeader className="bg-gradient-to-r from-rose-50 to-white pb-4 border-b border-rose-50">
+                    <div className="flex justify-between items-start mb-3">
+                      <div className="flex gap-2">
+                        <span className="px-3 py-1 bg-white border border-rose-200 rounded-full text-xs font-bold text-rose-600 uppercase tracking-wide">
                           {err.topic}
                         </span>
-                        <span className="px-2.5 py-1 bg-gray-100 rounded-md text-xs text-gray-500 font-medium flex items-center gap-1">
-                          📅 {err.date}
+                        <span className="px-3 py-1 bg-gray-100 rounded-full text-xs text-gray-500 font-medium">
+                          {err.date}
                         </span>
                       </div>
                     </div>
-                    <CardTitle className="text-lg md:text-xl text-gray-800 leading-relaxed font-bold">
+                    
+                    {/* NỘI DUNG CÂU HỎI */}
+                    <CardTitle className="text-lg md:text-xl text-gray-800 font-bold leading-relaxed">
                       <span className="text-rose-500 mr-2">#{index + 1}.</span>
                       {err.question}
                     </CardTitle>
+
+                    {/* --- HIỂN THỊ ẢNH (Style giống trang Challenge) --- */}
+                    {err.image_url && (
+                      <div className="mt-4 rounded-xl overflow-hidden border-2 border-gray-50 bg-gray-50 flex items-center justify-center p-2 shadow-inner">
+                        <img 
+                          src={err.image_url} 
+                          alt="Question Illustration" 
+                          className="w-full h-auto max-w-full max-h-[300px] object-contain block"
+                          onError={(e) => {
+                            (e.target as HTMLImageElement).style.display = 'none';
+                          }}
+                        />
+                      </div>
+                    )}
                   </CardHeader>
                   
-                  <CardContent className="pt-6 space-y-5">
-                    {/* Options Grid */}
+                  <CardContent className="pt-6 space-y-6">
+                    {/* --- HIỂN THỊ ĐÁP ÁN --- */}
                     <div className="grid grid-cols-1 gap-3">
-                      {err.options.map((opt, i) => {
-                        const isSelected = i === err.userAnswerIndex;
-                        const isCorrect = i === err.correctAnswerIndex;
-                        
-                        let containerStyle = "border-gray-100 bg-gray-50 hover:bg-gray-100";
-                        let icon = null;
-                        let textStyle = "text-gray-700";
+                      {err.options && err.options.length > 0 ? (
+                        err.options.map((opt, i) => {
+                          const isSelected = i === err.userAnswerIndex;
+                          const isCorrect = i === err.correctAnswerIndex;
+                          
+                          // Style logic: Đúng (Xanh), Sai (Đỏ), Còn lại (Xám)
+                          let styleClass = "border-gray-100 bg-white text-gray-600";
+                          let icon = null;
 
-                        if (isSelected && !isCorrect) {
-                          containerStyle = "border-rose-200 bg-rose-50";
-                          textStyle = "text-rose-700 font-medium";
-                          icon = <XCircle className="w-5 h-5 text-rose-500" />;
-                        } else if (isCorrect) {
-                          containerStyle = "border-emerald-200 bg-emerald-50";
-                          textStyle = "text-emerald-700 font-bold";
-                          icon = <CheckCircle className="w-5 h-5 text-emerald-500" />;
-                        } else if (isSelected && isCorrect) {
-                           // Trường hợp hiếm (nếu logic lọc sai sót), vẫn hiển thị đúng
-                           containerStyle = "border-emerald-200 bg-emerald-50";
-                           icon = <CheckCircle className="w-5 h-5 text-emerald-500" />;
-                        }
+                          if (isCorrect) {
+                            styleClass = "border-emerald-500 bg-emerald-50 text-emerald-800 font-bold ring-1 ring-emerald-500 shadow-sm";
+                            icon = <CheckCircle className="w-5 h-5 text-emerald-600" />;
+                          } else if (isSelected && !isCorrect) {
+                            styleClass = "border-rose-500 bg-rose-50 text-rose-800 font-medium ring-1 ring-rose-500 shadow-sm";
+                            icon = <XCircle className="w-5 h-5 text-rose-600" />;
+                          }
 
-                        return (
-                          <div key={i} className={`p-3.5 rounded-xl border-2 flex items-center justify-between transition-colors ${containerStyle}`}>
-                            <div className="flex items-center gap-3">
-                              <span className={`w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold border ${
-                                isCorrect ? 'bg-emerald-200 border-emerald-300 text-emerald-800' :
-                                isSelected ? 'bg-rose-200 border-rose-300 text-rose-800' :
-                                'bg-white border-gray-300 text-gray-500'
-                              }`}>
-                                {String.fromCharCode(65 + i)}
-                              </span>
-                              <span className={textStyle}>{opt}</span>
+                          return (
+                            <div key={i} className={`p-4 rounded-xl border-2 flex items-center justify-between transition-all ${styleClass}`}>
+                              <div className="flex items-center gap-3 w-full">
+                                <span className={`w-8 h-8 flex-shrink-0 rounded-full flex items-center justify-center text-sm font-bold border ${
+                                  isCorrect ? 'bg-emerald-200 border-emerald-300 text-emerald-800' :
+                                  isSelected ? 'bg-rose-200 border-rose-300 text-rose-800' :
+                                  'bg-gray-50 border-gray-200 text-gray-400'
+                                }`}>
+                                  {String.fromCharCode(65 + i)}
+                                </span>
+                                <span className="text-sm md:text-base">{opt}</span>
+                              </div>
+                              {icon}
                             </div>
-                            {icon}
-                          </div>
-                        );
-                      })}
+                          );
+                        })
+                      ) : (
+                        // Fallback nếu không có options (ví dụ câu tự luận hoặc lỗi data)
+                        <div className="text-center p-4 bg-gray-50 rounded-xl border border-dashed border-gray-300">
+                           <p className="text-gray-500 italic text-sm">Câu hỏi này không có các lựa chọn trắc nghiệm.</p>
+                        </div>
+                      )}
                     </div>
 
-                    {/* Explanation Box */}
-                    <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-4 flex gap-3">
-                      <BookOpen className="w-5 h-5 text-indigo-600 flex-shrink-0 mt-0.5" />
+                    {/* --- GIẢI THÍCH --- */}
+                    <div className="bg-indigo-50 border border-indigo-100 rounded-xl p-5 flex gap-4 items-start">
+                      <BookOpen className="w-6 h-6 text-indigo-600 flex-shrink-0 mt-0.5" />
                       <div>
-                        <p className="text-xs font-bold text-indigo-500 uppercase mb-1">Giải thích chi tiết</p>
-                        <p className="text-sm text-indigo-900 leading-relaxed">
+                        <p className="text-xs font-bold text-indigo-500 uppercase mb-2 tracking-wider">Giải thích chi tiết</p>
+                        <p className="text-sm md:text-base text-indigo-900 leading-relaxed">
                           {err.explanation}
                         </p>
                       </div>
