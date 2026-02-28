@@ -1,15 +1,4 @@
-# 🎯 QuizMe - Nền tảng Học tập và Thi trắc nghiệm Toán học
-
-## 📋 Mục lục
-
-- [Giới thiệu](#giới-thiệu)
-- [Cấu trúc Project](#cấu-trúc-project)
-- [Quick Start](#quick-start)
-- [Hướng dẫn chi tiết](#hướng-dẫn-chi-tiết)
-- [API Documentation](#api-documentation)
-- [Tài liệu](#tài-liệu)
-
----
+Quizme guide
 
 ## 🎯 Giới thiệu
 

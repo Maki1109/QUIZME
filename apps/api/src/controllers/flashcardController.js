@@ -1,7 +1,95 @@
 const FlashcardProgress = require('../models/FlashcardProgress');
 const Formula = require('../models/Formula');
+const Flashcard = require('../models/Flashcard');
 const User = require('../models/User');
 const XPHistory = require('../models/XPHistory');
+
+// @desc    Create a custom flashcard
+// @route   POST /api/flashcards
+// @access  Private
+exports.createFlashcard = async (req, res, next) => {
+  try {
+    const flashcard = await Flashcard.create({
+      ...req.body,
+      user: req.user.id,
+    });
+
+    // Initialize progress
+    await FlashcardProgress.create({
+      user: req.user.id,
+      customFlashcard: flashcard._id,
+      nextReviewAt: new Date(),
+    });
+
+    res.status(201).json({ success: true, data: flashcard });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Get all custom flashcards
+// @route   GET /api/flashcards
+// @access  Private
+exports.getFlashcards = async (req, res, next) => {
+  try {
+    const flashcards = await Flashcard.find({ user: req.user.id }).sort({ createdAt: -1 });
+    res.status(200).json({ success: true, count: flashcards.length, data: flashcards });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Update custom flashcard
+// @route   PUT /api/flashcards/:id
+// @access  Private
+exports.updateFlashcard = async (req, res, next) => {
+  try {
+    let flashcard = await Flashcard.findById(req.params.id);
+
+    if (!flashcard) {
+      return res.status(404).json({ success: false, message: 'Flashcard not found' });
+    }
+
+    if (flashcard.user.toString() !== req.user.id) {
+      return res.status(401).json({ success: false, message: 'Not authorized' });
+    }
+
+    flashcard = await Flashcard.findByIdAndUpdate(req.params.id, req.body, {
+      new: true,
+      runValidators: true,
+    });
+
+    res.status(200).json({ success: true, data: flashcard });
+  } catch (error) {
+    next(error);
+  }
+};
+
+// @desc    Delete custom flashcard
+// @route   DELETE /api/flashcards/:id
+// @access  Private
+exports.deleteFlashcard = async (req, res, next) => {
+  try {
+    const flashcard = await Flashcard.findById(req.params.id);
+
+    if (!flashcard) {
+      return res.status(404).json({ success: false, message: 'Flashcard not found' });
+    }
+
+    if (flashcard.user.toString() !== req.user.id) {
+      return res.status(401).json({ success: false, message: 'Not authorized' });
+    }
+
+    await flashcard.deleteOne();
+    
+    // Also delete associated progress
+    await FlashcardProgress.deleteOne({ customFlashcard: req.params.id, user: req.user.id });
+
+    res.status(200).json({ success: true, data: {} });
+  } catch (error) {
+    next(error);
+  }
+};
 
 // GET /api/flashcards/me/due
 exports.getDueFlashcards = async (req, res, next) => {
@@ -15,6 +103,7 @@ exports.getDueFlashcards = async (req, res, next) => {
       nextReviewAt: { $lte: tomorrow },
     })
       .populate('formula')
+      .populate('customFlashcard')
       .sort({ nextReviewAt: 1 });
 
     const data = dueFlashcards.map((fp) => {
@@ -25,15 +114,32 @@ exports.getDueFlashcards = async (req, res, next) => {
       else if (hoursUntilDue < 6) dueStatus = 'due-soon';
       else dueStatus = 'due-today';
 
-      return {
-        id: fp._id,
-        formula: {
+      let cardData = {};
+      if (fp.formula) {
+        cardData = {
+          type: 'formula',
           id: fp.formula._id,
           name: fp.formula.title,
+          front: fp.formula.title, // For consistency
+          back: fp.formula.formula, // For consistency
           latex: fp.formula.formula,
           description: fp.formula.description,
           topic: fp.formula.topic,
-        },
+        };
+      } else if (fp.customFlashcard) {
+        cardData = {
+          type: 'custom',
+          id: fp.customFlashcard._id,
+          front: fp.customFlashcard.front,
+          back: fp.customFlashcard.back,
+          hint: fp.customFlashcard.hint,
+          note: fp.customFlashcard.note,
+        };
+      }
+
+      return {
+        id: fp._id, // Progress ID
+        ...cardData,
         lastReviewedAt: fp.lastReviewedAt,
         nextReviewAt: fp.nextReviewAt,
         easeFactor: fp.easeFactor,
@@ -58,7 +164,7 @@ exports.reviewFlashcard = async (req, res, next) => {
       { _id: req.params.id, user: req.user.id },
       { lastReviewedAt: new Date() },
       { new: true }
-    ).populate('formula');
+    ).populate('formula').populate('customFlashcard');
 
     if (!progress) {
       return res.status(404).json({
@@ -67,17 +173,34 @@ exports.reviewFlashcard = async (req, res, next) => {
       });
     }
 
+    let cardData = {};
+      if (progress.formula) {
+        cardData = {
+          type: 'formula',
+          id: progress.formula._id,
+          name: progress.formula.title,
+          front: progress.formula.title,
+          back: progress.formula.formula,
+          latex: progress.formula.formula,
+          description: progress.formula.description,
+          topic: progress.formula.topic,
+        };
+      } else if (progress.customFlashcard) {
+        cardData = {
+          type: 'custom',
+          id: progress.customFlashcard._id,
+          front: progress.customFlashcard.front,
+          back: progress.customFlashcard.back,
+          hint: progress.customFlashcard.hint,
+          note: progress.customFlashcard.note,
+        };
+      }
+
     res.status(200).json({
       success: true,
       data: {
         id: progress._id,
-        formula: {
-          id: progress.formula._id,
-          name: progress.formula.title,
-          latex: progress.formula.formula,
-          description: progress.formula.description,
-          topic: progress.formula.topic,
-        },
+        ...cardData,
         lastReviewedAt: progress.lastReviewedAt,
         nextReviewAt: progress.nextReviewAt,
         easeFactor: progress.easeFactor,
@@ -99,7 +222,7 @@ exports.rateFlashcard = async (req, res, next) => {
     let progress = await FlashcardProgress.findOne({
       _id: req.params.id,
       user: req.user.id,
-    }).populate('formula');
+    }).populate('formula').populate('customFlashcard');
 
     if (!progress) {
       return res.status(404).json({
@@ -151,18 +274,35 @@ exports.rateFlashcard = async (req, res, next) => {
       description: 'Ôn tập flashcard',
     });
 
+     let cardData = {};
+      if (progress.formula) {
+        cardData = {
+          type: 'formula',
+          id: progress.formula._id,
+          name: progress.formula.title,
+          front: progress.formula.title,
+          back: progress.formula.formula,
+          latex: progress.formula.formula,
+          description: progress.formula.description,
+          topic: progress.formula.topic,
+        };
+      } else if (progress.customFlashcard) {
+        cardData = {
+          type: 'custom',
+          id: progress.customFlashcard._id,
+          front: progress.customFlashcard.front,
+          back: progress.customFlashcard.back,
+          hint: progress.customFlashcard.hint,
+          note: progress.customFlashcard.note,
+        };
+      }
+
     res.status(200).json({
       success: true,
       data: {
         flashcard: {
           id: progress._id,
-          formula: {
-            id: progress.formula._id,
-            name: progress.formula.title,
-            latex: progress.formula.formula,
-            description: progress.formula.description,
-            topic: progress.formula.topic,
-          },
+          ...cardData,
           lastReviewedAt: progress.lastReviewedAt,
           nextReviewAt: progress.nextReviewAt,
           easeFactor: progress.easeFactor,
@@ -223,7 +363,7 @@ exports.getFormulasAndInitFlashcards = async (req, res, next) => {
       );
     }
 
-    const progress = await FlashcardProgress.find({ user: req.user.id }).populate(
+    const progress = await FlashcardProgress.find({ user: req.user.id, formula: { $exists: true } }).populate(
       'formula'
     );
 
