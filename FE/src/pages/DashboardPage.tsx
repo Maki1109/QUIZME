@@ -206,11 +206,6 @@ export function DashboardPage() {
         </Tabs>
       </div>
 
-      {/* Floating Mascot */}
-      <div className="fixed bottom-8 right-8 z-40 animate-float">
-        <Mascot position="floating" size="large" emotion="happy" />
-      </div>
-
       {/* Overlays/Modals */}
       {showAITeacherPractice && (
         <div className="fixed inset-0 z-50">

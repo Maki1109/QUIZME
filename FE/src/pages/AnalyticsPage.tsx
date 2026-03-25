@@ -107,10 +107,6 @@ export function AnalyticsPage() {
         <AnalyticsDashboard />
       </main>
 
-      {/* Floating Mascot */}
-      <div className="fixed bottom-8 right-8 z-40 animate-float">
-        <Mascot position="floating" size="large" emotion="thinking" />
-      </div>
     </div>
   );
 }

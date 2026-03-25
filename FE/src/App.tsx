@@ -14,6 +14,7 @@ import { ProfilePageRoute } from './pages/ProfilePageRoute';
 import { LeaderboardPage } from './pages/LeaderboardPage';
 import { TestLibraryPage } from './pages/TestLibraryPage';
 import { ProtectedRoute } from './components/routing/ProtectedRoute';
+import { MascotChatbotButton } from './components/MascotChatbot';
 
 // --- IMPORT 2 COMPONENT MỚI ---
 import { ErrorHistoryReview } from './components/ErrorHistoryReview';
@@ -206,6 +207,7 @@ function App() {
           <Route path="*" element={<Navigate to="/Homepage" replace />} />
         </Routes>
         <Toaster position="top-right" richColors />
+        <MascotChatbotButton />
       </BrowserRouter>
     </AuthProvider>
   );

@@ -77,6 +77,7 @@ app.use('/api/roadmap', require('./routes/learningPaths')); // Alias for learnin
 app.use('/api/profile', require('./routes/profile'));
 app.use('/api/notifications', require('./routes/notifications'));
 app.use('/api/settings', require('./routes/settings'));
+app.use('/api/mascot-chat', require('./routes/mascotChat'));
 
 app.get('/', (req, res) => {
   res.status(200).json({
