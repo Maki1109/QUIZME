@@ -1,0 +1,235 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8" />
+<title>QuizMe — sticker sheet (source)</title>
+<!--
+  Source artwork for the die-cut stickers used on the landing page.
+  Every sticker is hand-drawn SVG; the white "kiss-cut" border is added by the #diecut filter.
+  The landing page uses transparent WebP exports of these (FE/src/assets/stickers/*.webp).
+  To change a sticker: edit it here, open this file in a browser to check it, then re-export each
+  <figure data-name="…"> as a transparent image at 2× (any headless-browser screenshot of the element
+  with a transparent background works).
+-->
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=IBM+Plex+Mono:wght@500;600;700&family=Playfair+Display:ital,wght@1,700;1,800&family=Sedgwick+Ave&display=swap" rel="stylesheet" />
+<style>
+  :root { --ink: #1B1512; --coral: #FF5E3A; --yellow: #FFC93C; --mint: #37D29A; --blue: #3B5BFF; --pink: #FF8AC6; --purple: #7C5CFF; --cream: #FFF4DC; }
+  html, body { margin: 0; background: #123A2B; }
+  body { display: flex; flex-wrap: wrap; gap: 24px; padding: 32px; align-items: center; }
+  figure { margin: 0; line-height: 0; }
+  svg { display: block; overflow: visible; }
+  .block { font-family: "Bricolage Grotesque", sans-serif; font-weight: 800; font-stretch: 75%; }
+  .mono { font-family: "IBM Plex Mono", monospace; font-weight: 600; }
+  .hand { font-family: "Sedgwick Ave", cursive; }
+  .serif { font-family: "Playfair Display", serif; font-style: italic; font-weight: 700; }
+  .o { stroke: var(--ink); stroke-width: 5; stroke-linejoin: round; stroke-linecap: round; }
+</style>
+</head>
+<body>
+
+<!-- Shared filter: grows the artwork's silhouette into a smooth off-white border. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="diecut" x="-12%" y="-12%" width="124%" height="124%" color-interpolation-filters="sRGB">
+      <feGaussianBlur in="SourceAlpha" stdDeviation="4.6" result="blur" />
+      <feComponentTransfer in="blur" result="mask"><feFuncA type="linear" slope="50" intercept="-3" /></feComponentTransfer>
+      <feFlood flood-color="#FFFBF0" result="white" />
+      <feComposite in="white" in2="mask" operator="in" result="border" />
+      <feMerge><feMergeNode in="border" /><feMergeNode in="SourceGraphic" /></feMerge>
+    </filter>
+  </defs>
+</svg>
+
+<!-- 1. Name tag -->
+<figure data-name="hello">
+  <svg width="320" height="240" viewBox="0 0 320 240"><g filter="url(#diecut)"><g transform="rotate(-6 160 120)">
+    <rect class="o" x="30" y="30" width="260" height="180" rx="24" fill="var(--coral)" />
+    <text class="block" x="160" y="89" text-anchor="middle" font-size="58" fill="var(--cream)">XIN CHÀO</text>
+    <text class="mono" x="160" y="112" text-anchor="middle" font-size="15" fill="var(--cream)">mình là</text>
+    <rect class="o" x="48" y="124" width="224" height="68" rx="12" fill="var(--cream)" stroke-width="4" />
+    <text class="hand" x="160" y="177" text-anchor="middle" font-size="50" fill="var(--ink)">QuizMe</text>
+  </g></g></svg>
+</figure>
+
+<!-- 2. Star mascot -->
+<figure data-name="mascot">
+  <svg width="300" height="300" viewBox="0 0 300 300"><g filter="url(#diecut)">
+    <path class="o" stroke-width="6" fill="#FFA62B" d="M150 22 C175 87 213 125 278 150 C213 175 175 213 150 278 C125 213 87 175 22 150 C87 125 125 87 150 22Z" />
+    <path d="M150 44 C165 88 190 118 232 140" fill="none" stroke="#FFD27A" stroke-width="9" stroke-linecap="round" opacity=".9" />
+    <ellipse cx="128" cy="146" rx="7.5" ry="10.5" fill="var(--ink)" /><circle cx="130.5" cy="142" r="2.6" fill="#fff" />
+    <ellipse cx="172" cy="146" rx="7.5" ry="10.5" fill="var(--ink)" /><circle cx="174.5" cy="142" r="2.6" fill="#fff" />
+    <path d="M133 168 Q150 186 167 168" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round" />
+    <circle cx="110" cy="165" r="9" fill="var(--pink)" opacity=".85" /><circle cx="190" cy="165" r="9" fill="var(--pink)" opacity=".85" />
+    <g transform="rotate(-5 150 246)">
+      <path class="o" fill="var(--coral)" d="M50 226 H250 L238 246 L250 266 H50 L62 246Z" />
+      <text class="block" x="150" y="255" text-anchor="middle" font-size="25" fill="var(--cream)" letter-spacing="1">HỌC ÍT · NHỚ LÂU</text>
+    </g>
+  </g></svg>
+</figure>
+
+<!-- 3. Score burst -->
+<figure data-name="burst">
+  <svg width="260" height="260" viewBox="0 0 260 260"><g filter="url(#diecut)"><g transform="rotate(8 130 130)">
+    <polygon class="o" data-burst="130,130,104,84,16" fill="var(--yellow)" />
+    <text class="block" x="130" y="150" text-anchor="middle" font-size="92" fill="var(--ink)">9+</text>
+    <text class="mono" x="130" y="176" text-anchor="middle" font-size="15" letter-spacing="3" fill="var(--ink)">ĐIỂM</text>
+  </g></g></svg>
+</figure>
+
+<!-- 4. Exam-room ticket -->
+<figure data-name="ticket">
+  <svg width="350" height="200" viewBox="0 0 350 200"><g filter="url(#diecut)"><g transform="rotate(-4 175 100)">
+    <path class="o" fill="var(--mint)" d="M40 34 H227 A11 11 0 0 0 249 34 H310 Q322 34 322 46 V154 Q322 166 310 166 H249 A11 11 0 0 0 227 166 H40 Q28 166 28 154 V46 Q28 34 40 34Z" />
+    <line x1="238" y1="50" x2="238" y2="150" stroke="var(--ink)" stroke-width="3" stroke-dasharray="2 8" stroke-linecap="round" />
+    <text class="block" x="44" y="99" font-size="45" fill="var(--ink)">PHÒNG THI</text>
+    <text class="mono" x="44" y="123" font-size="13" letter-spacing="1.5" fill="var(--ink)">SPRINT · 15 PHÚT</text>
+    <path fill="var(--yellow)" stroke="var(--ink)" stroke-width="3" stroke-linejoin="round" d="M212 107 C213.500 114 217 117.500 224 119 C217 120.500 213.500 124 212 131 C210.500 124 207 120.500 200 119 C207 117.500 210.500 114 212 107Z" />
+    <text class="mono" x="44" y="148" font-size="11" letter-spacing="1.5" fill="var(--ink)" opacity=".75">QUIZME · LUYỆN ĐỀ THPT</text>
+    <text class="mono" transform="rotate(90 262 100)" x="262" y="104" text-anchor="middle" font-size="12" letter-spacing="2" fill="var(--ink)">MỘT LƯỢT</text>
+    <text class="block" transform="rotate(90 292 100)" x="292" y="108" text-anchor="middle" font-size="24" fill="var(--ink)">No. 012</text>
+  </g></g></svg>
+</figure>
+
+<!-- 5. Socratic speech bubble -->
+<figure data-name="bubble">
+  <svg width="280" height="236" viewBox="0 0 280 236"><g filter="url(#diecut)">
+    <path class="o" fill="var(--blue)" d="M140 28 C208 28 252 62 252 106 C252 150 208 184 140 184 C128 184 116 183 105 181 L60 210 L74 168 C44 154 28 132 28 106 C28 62 72 28 140 28Z" />
+    <text class="hand" transform="rotate(-5 140 110)" x="140" y="128" text-anchor="middle" font-size="58" fill="#fff" stroke="var(--ink)" stroke-width="3.5" paint-order="stroke" stroke-linejoin="round">Vì sao?</text>
+  </g></svg>
+</figure>
+
+<!-- 6. Golden-time seal -->
+<figure data-name="seal">
+  <svg width="280" height="280" viewBox="0 0 280 280"><g filter="url(#diecut)"><g transform="rotate(-10 140 140)">
+    <path class="o" data-scallop="140,140,112,20,7" fill="var(--yellow)" />
+    <circle cx="140" cy="140" r="70" fill="var(--cream)" stroke="var(--ink)" stroke-width="4" />
+    <defs><path id="seal-arc" d="M140 140 m-88 0 a88 88 0 1 1 176 0 a88 88 0 1 1 -176 0" /></defs>
+    <text class="mono" font-size="13.5" font-weight="700" fill="var(--ink)" letter-spacing="2.4"><textPath href="#seal-arc" textLength="540">THỜI ĐIỂM VÀNG · ÔN ĐÚNG LÚC · NHỚ ĐÚNG LÂU ·</textPath></text>
+    <circle cx="140" cy="132" r="33" fill="#fff" stroke="var(--ink)" stroke-width="4.5" />
+    <path d="M140 112 V132 L154 142" fill="none" stroke="var(--ink)" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />
+    <circle cx="140" cy="132" r="3.5" fill="var(--coral)" />
+    <text class="mono" x="140" y="191" text-anchor="middle" font-size="12" letter-spacing="2" fill="var(--ink)">EST. 1885</text>
+  </g></g></svg>
+</figure>
+
+<!-- 7. Streak flame -->
+<figure data-name="flame">
+  <svg width="230" height="290" viewBox="0 0 230 290"><g filter="url(#diecut)">
+    <path class="o" fill="var(--coral)" d="M115 24 C133 62 182 88 182 154 C182 208 152 242 115 242 C78 242 48 208 48 154 C48 124 62 106 74 92 C78 114 88 122 97 122 C91 86 101 50 115 24Z" />
+    <path fill="var(--yellow)" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round" d="M115 124 C127 144 148 158 148 190 C148 216 133 230 115 230 C97 230 82 216 82 190 C82 172 92 162 98 152 C102 164 108 168 112 168 C108 152 110 138 115 124Z" />
+    <ellipse cx="104" cy="194" rx="4.5" ry="6.5" fill="var(--ink)" /><ellipse cx="126" cy="194" rx="4.5" ry="6.5" fill="var(--ink)" />
+    <path d="M106 208 Q115 216 124 208" fill="none" stroke="var(--ink)" stroke-width="3.5" stroke-linecap="round" />
+    <g transform="rotate(-6 115 258)">
+      <rect class="o" stroke-width="4" x="50" y="240" width="130" height="36" rx="6" fill="var(--ink)" />
+      <text class="mono" x="115" y="265" text-anchor="middle" font-size="19" font-weight="700" letter-spacing="3" fill="var(--cream)">12 NGÀY</text>
+    </g>
+  </g></svg>
+</figure>
+
+<!-- 8. Error notebook -->
+<figure data-name="notebook">
+  <svg width="270" height="300" viewBox="0 0 270 300"><g filter="url(#diecut)"><g transform="rotate(6 135 150)">
+    <rect class="o" x="50" y="32" width="178" height="232" rx="14" fill="#A78BFF" />
+    <path d="M50 46 Q50 32 64 32 H82 V264 H64 Q50 264 50 250Z" fill="var(--purple)" stroke="var(--ink)" stroke-width="5" stroke-linejoin="round" />
+    <g fill="var(--cream)" stroke="var(--ink)" stroke-width="3.5">
+      <rect x="38" y="58" width="32" height="12" rx="6" /><rect x="38" y="96" width="32" height="12" rx="6" /><rect x="38" y="134" width="32" height="12" rx="6" />
+      <rect x="38" y="172" width="32" height="12" rx="6" /><rect x="38" y="210" width="32" height="12" rx="6" />
+    </g>
+    <rect x="98" y="56" width="114" height="66" rx="7" fill="var(--cream)" stroke="var(--ink)" stroke-width="4" />
+    <text class="block" x="155" y="86" text-anchor="middle" font-size="26" fill="var(--ink)">SỔ LỖI</text>
+    <text class="block" x="155" y="112" text-anchor="middle" font-size="26" fill="var(--coral)">SAI</text>
+    <g fill="none" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M104 160 L134 190 M134 160 L104 190" stroke="var(--ink)" stroke-width="17" /><path d="M104 160 L134 190 M134 160 L104 190" stroke="var(--coral)" stroke-width="9" />
+      <path d="M150 175 H168 M162 168 L169 175 L162 182" stroke="var(--ink)" stroke-width="4" />
+      <path d="M180 178 L191 190 L212 160" stroke="var(--ink)" stroke-width="17" /><path d="M180 178 L191 190 L212 160" stroke="var(--mint)" stroke-width="9" />
+    </g>
+    <text class="mono" x="155" y="236" text-anchor="middle" font-size="12" letter-spacing="1.5" fill="var(--ink)">20 LỖI / TUẦN</text>
+  </g></g></svg>
+</figure>
+
+<!-- 9. Pencil -->
+<figure data-name="pencil">
+  <svg width="430" height="130" viewBox="0 0 430 130"><g filter="url(#diecut)"><g transform="rotate(-7 215 65)">
+    <path class="o" fill="var(--pink)" d="M64 46 H44 Q30 46 30 60 V70 Q30 84 44 84 H64Z" />
+    <rect class="o" x="64" y="46" width="32" height="38" fill="#C9CED6" />
+    <path d="M74 46 V84 M85 46 V84" stroke="var(--ink)" stroke-width="3" />
+    <rect class="o" x="96" y="46" width="232" height="38" fill="var(--yellow)" />
+    <path d="M96 59 H328 M96 72 H328" stroke="var(--ink)" stroke-width="2.5" opacity=".55" />
+    <path class="o" fill="#F4D4A4" d="M328 46 L392 65 L328 84Z" />
+    <path fill="var(--ink)" stroke="var(--ink)" stroke-width="4" stroke-linejoin="round" d="M372 59 L392 65 L372 71Z" />
+    <text class="mono" x="212" y="70" text-anchor="middle" font-size="13" letter-spacing="3" fill="var(--ink)">QUIZME · 2B</text>
+  </g></g></svg>
+</figure>
+
+<!-- 10. Formula flashcard -->
+<figure data-name="card">
+  <svg width="330" height="230" viewBox="0 0 330 230"><g filter="url(#diecut)"><g transform="rotate(4 165 115)">
+    <rect class="o" x="32" y="44" width="266" height="152" rx="10" fill="var(--cream)" />
+    <path d="M34 78 H296" stroke="var(--coral)" stroke-width="2.5" />
+    <path d="M34 108 H296 M34 138 H296 M34 168 H296" stroke="#9EC5F4" stroke-width="2" />
+    <text class="mono" x="48" y="68" font-size="11" letter-spacing="1.5" fill="var(--ink)">CÔNG THỨC SỐ 07</text>
+    <text class="serif" x="165" y="138" text-anchor="middle" font-size="29" fill="var(--ink)">sin²x + cos²x = 1</text>
+    <rect x="196" y="28" width="80" height="30" fill="var(--pink)" stroke="var(--ink)" stroke-width="3" opacity=".92" transform="rotate(-5 236 43)" />
+  </g></g></svg>
+</figure>
+
+<!-- 11. Five-minute bolt -->
+<figure data-name="bolt">
+  <svg width="200" height="270" viewBox="0 0 200 270"><g filter="url(#diecut)">
+    <polygon class="o" stroke-width="6" fill="var(--purple)" points="96,20 152,20 110,106 156,106 64,248 92,142 46,142" />
+    <path d="M104 34 L78 104" stroke="#B9A6FF" stroke-width="8" stroke-linecap="round" />
+    <circle class="o" cx="142" cy="204" r="34" fill="var(--yellow)" />
+    <text class="block" x="142" y="219" text-anchor="middle" font-size="42" fill="var(--ink)">5′</text>
+  </g></svg>
+</figure>
+
+<!-- 12. True / False capsule -->
+<figure data-name="pill">
+  <svg width="330" height="160" viewBox="0 0 330 160"><g filter="url(#diecut)"><g transform="rotate(-5 165 80)">
+    <rect x="32" y="44" width="266" height="72" rx="36" fill="var(--mint)" />
+    <path d="M165 44 H262 A36 36 0 0 1 262 116 H165Z" fill="var(--pink)" />
+    <rect class="o" x="32" y="44" width="266" height="72" rx="36" fill="none" />
+    <line x1="165" y1="44" x2="165" y2="116" stroke="var(--ink)" stroke-width="4" />
+    <text class="block" x="100" y="93" text-anchor="middle" font-size="38" fill="var(--ink)">ĐÚNG</text>
+    <text class="block" x="228" y="93" text-anchor="middle" font-size="38" fill="var(--ink)">SAI</text>
+  </g></g></svg>
+</figure>
+
+<!-- 13. QR code (really points to https://quizme.com.vn) -->
+<figure data-name="qr">
+  <svg width="260" height="300" viewBox="0 0 260 300"><g filter="url(#diecut)"><g transform="rotate(5 130 150)">
+    <rect class="o" x="34" y="32" width="192" height="236" rx="18" fill="var(--cream)" />
+    <g transform="translate(55 53) scale(6)"><path fill="var(--ink)" d="M0 0h7v1h-7zM8 0h3v1h-3zM14 0h3v1h-3zM18 0h7v1h-7zM0 1h1v1h-1zM6 1h1v1h-1zM9 1h1v1h-1zM13 1h1v1h-1zM16 1h1v1h-1zM18 1h1v1h-1zM24 1h1v1h-1zM0 2h1v1h-1zM2 2h3v1h-3zM6 2h1v1h-1zM9 2h1v1h-1zM11 2h1v1h-1zM14 2h1v1h-1zM18 2h1v1h-1zM20 2h3v1h-3zM24 2h1v1h-1zM0 3h1v1h-1zM2 3h3v1h-3zM6 3h1v1h-1zM8 3h2v1h-2zM12 3h2v1h-2zM16 3h1v1h-1zM18 3h1v1h-1zM20 3h3v1h-3zM24 3h1v1h-1zM0 4h1v1h-1zM2 4h3v1h-3zM6 4h1v1h-1zM8 4h1v1h-1zM10 4h3v1h-3zM14 4h3v1h-3zM18 4h1v1h-1zM20 4h3v1h-3zM24 4h1v1h-1zM0 5h1v1h-1zM6 5h1v1h-1zM8 5h1v1h-1zM16 5h1v1h-1zM18 5h1v1h-1zM24 5h1v1h-1zM0 6h7v1h-7zM8 6h1v1h-1zM10 6h1v1h-1zM12 6h1v1h-1zM14 6h1v1h-1zM16 6h1v1h-1zM18 6h7v1h-7zM8 7h2v1h-2zM11 7h2v1h-2zM16 7h1v1h-1zM0 8h1v1h-1zM4 8h1v1h-1zM6 8h3v1h-3zM12 8h1v1h-1zM17 8h5v1h-5zM24 8h1v1h-1zM0 9h1v1h-1zM2 9h4v1h-4zM8 9h1v1h-1zM12 9h2v1h-2zM15 9h3v1h-3zM20 9h2v1h-2zM23 9h1v1h-1zM0 10h2v1h-2zM4 10h1v1h-1zM6 10h1v1h-1zM8 10h2v1h-2zM13 10h4v1h-4zM19 10h1v1h-1zM21 10h2v1h-2zM0 11h1v1h-1zM4 11h1v1h-1zM7 11h2v1h-2zM10 11h1v1h-1zM22 11h2v1h-2zM3 12h1v1h-1zM5 12h2v1h-2zM12 12h1v1h-1zM15 12h1v1h-1zM17 12h2v1h-2zM21 12h4v1h-4zM0 13h4v1h-4zM9 13h2v1h-2zM14 13h2v1h-2zM20 13h1v1h-1zM23 13h1v1h-1zM2 14h3v1h-3zM6 14h3v1h-3zM10 14h1v1h-1zM13 14h3v1h-3zM17 14h6v1h-6zM4 15h2v1h-2zM9 15h1v1h-1zM12 15h1v1h-1zM15 15h1v1h-1zM19 15h2v1h-2zM22 15h2v1h-2zM0 16h2v1h-2zM5 16h7v1h-7zM13 16h2v1h-2zM16 16h7v1h-7zM8 17h3v1h-3zM12 17h1v1h-1zM14 17h1v1h-1zM16 17h1v1h-1zM20 17h1v1h-1zM0 18h7v1h-7zM8 18h1v1h-1zM11 18h4v1h-4zM16 18h1v1h-1zM18 18h1v1h-1zM20 18h1v1h-1zM0 19h1v1h-1zM6 19h1v1h-1zM9 19h1v1h-1zM11 19h1v1h-1zM13 19h1v1h-1zM16 19h1v1h-1zM20 19h3v1h-3zM0 20h1v1h-1zM2 20h3v1h-3zM6 20h1v1h-1zM8 20h1v1h-1zM12 20h2v1h-2zM16 20h9v1h-9zM0 21h1v1h-1zM2 21h3v1h-3zM6 21h1v1h-1zM9 21h2v1h-2zM13 21h3v1h-3zM17 21h3v1h-3zM22 21h3v1h-3zM0 22h1v1h-1zM2 22h3v1h-3zM6 22h1v1h-1zM9 22h1v1h-1zM18 22h1v1h-1zM21 22h1v1h-1zM23 22h1v1h-1zM0 23h1v1h-1zM6 23h1v1h-1zM9 23h2v1h-2zM12 23h1v1h-1zM14 23h2v1h-2zM17 23h7v1h-7zM0 24h7v1h-7zM8 24h1v1h-1zM11 24h1v1h-1zM13 24h3v1h-3zM22 24h3v1h-3z" /></g>
+    <text class="mono" x="130" y="238" text-anchor="middle" font-size="14" font-weight="700" letter-spacing="2" fill="var(--ink)">QUÉT XEM GIẢI</text>
+    <text class="mono" x="130" y="255" text-anchor="middle" font-size="10" letter-spacing="1.5" fill="var(--ink)" opacity=".7">QUIZME.COM.VN</text>
+  </g></g></svg>
+</figure>
+
+<script>
+  // Star-burst: data-burst="cx,cy,outerR,innerR,spikes"
+  document.querySelectorAll('[data-burst]').forEach((el) => {
+    const [cx, cy, ro, ri, n] = el.dataset.burst.split(',').map(Number);
+    const pts = [];
+    for (let i = 0; i < n * 2; i += 1) {
+      const r = i % 2 ? ri : ro;
+      const a = (Math.PI * i) / n - Math.PI / 2;
+      pts.push(`${(cx + r * Math.cos(a)).toFixed(1)},${(cy + r * Math.sin(a)).toFixed(1)}`);
+    }
+    el.setAttribute('points', pts.join(' '));
+  });
+  // Scalloped circle: data-scallop="cx,cy,r,bumps,depth"
+  document.querySelectorAll('[data-scallop]').forEach((el) => {
+    const [cx, cy, r, bumps, depth] = el.dataset.scallop.split(',').map(Number);
+    let d = '';
+    for (let i = 0; i <= 360; i += 1) {
+      const t = (i / 360) * Math.PI * 2;
+      const rr = r - depth / 2 + (depth / 2) * Math.cos(bumps * t);
+      d += `${i ? 'L' : 'M'}${(cx + rr * Math.cos(t)).toFixed(2)} ${(cy + rr * Math.sin(t)).toFixed(2)}`;
+    }
+    el.setAttribute('d', `${d}Z`);
+  });
+</script>
+</body>
+</html>

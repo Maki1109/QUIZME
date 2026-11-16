@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="107 -60 1200 1200">
+  <defs>
+    <linearGradient id="s" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#fff" stop-opacity="0.28"/>
+      <stop offset="0.45" stop-color="#fff" stop-opacity="0.06"/>
+      <stop offset="1" stop-color="#fff" stop-opacity="0"/>
+    </linearGradient>
+  </defs>
+  <rect x="107" y="-60" width="1200" height="1200" rx="282" fill="#4A261E"/>
+  <rect x="119" y="-48" width="1176" height="1176" rx="270" fill="none" stroke="url(#s)" stroke-width="24"/>
+  <path fill="#FBF3E0" d="M548 262H813A236 236 0 0 1 1049 498V588H884V498A71 71 0 0 0 813 427H605A71 71 0 0 0 534 498V706A71 71 0 0 0 605 777H1052V942H605A237 237 0 0 1 368 705V500C368 476 371 455 377 436C455 424 520 380 563 296Z"/>
+  <path fill="#FF9DBF" d="M884 632H1049V677A45 45 0 0 1 1004 722H929A45 45 0 0 1 884 677Z"/>
+  <path fill="#E6C27F" d="M1084 777L1194 847Q1216 859.5 1194 872L1084 942Z"/>
+  <g fill="#7CC6F4">
+    <path d="M309 353L424 332L500 243L534 296C486 372 418 402 344 407Z"/>
+    <path d="M338 178L556 137L412 308L212 355L364.5 261.4A22 22 0 1 0 353 242.6L200 336.6Z"/>
+  </g>
+</svg>

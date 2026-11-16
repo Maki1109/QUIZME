@@ -1,84 +1,119 @@
 @custom-variant dark (&:is(.dark *));
 
+/* =========================================================
+   QuizMe Design System — "Bakery"
+   Cream paper, chocolate ink, a set of pastel fills (pink,
+   butter, lime, lavender, sky, peach) and an orange accent.
+   Display: Bricolage Grotesque, condensed (wdth 75) and heavy.
+   Body: Manrope. Both ship Vietnamese subsets.
+   Motion follows Apple's fluid-interface rules: instant press
+   feedback, springs for anything touchable, and reduced-motion /
+   reduced-transparency / more-contrast fallbacks.
+   ========================================================= */
+
 :root {
   --font-size: 16px;
-  --background: #ffffff;
-  --foreground: oklch(0.145 0 0);
-  --card: #ffffff;
-  --card-foreground: oklch(0.145 0 0);
-  --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.145 0 0);
-  --primary: #030213;
-  --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.95 0.0058 264.53);
-  --secondary-foreground: #030213;
-  --muted: #ececf0;
-  --muted-foreground: #717182;
-  --accent: #e9ebef;
-  --accent-foreground: #030213;
-  --destructive: #d4183d;
-  --destructive-foreground: #ffffff;
-  --border: rgba(0, 0, 0, 0.1);
-  --input: transparent;
-  --input-background: #f3f3f5;
-  --switch-background: #cbced4;
-  --font-weight-medium: 500;
-  --font-weight-normal: 400;
-  --ring: oklch(0.708 0 0);
-  --chart-1: oklch(0.646 0.222 41.116);
-  --chart-2: oklch(0.6 0.118 184.704);
-  --chart-3: oklch(0.398 0.07 227.392);
-  --chart-4: oklch(0.828 0.189 84.429);
-  --chart-5: oklch(0.769 0.188 70.08);
-  --radius: 0.625rem;
-  --sidebar: oklch(0.985 0 0);
-  --sidebar-foreground: oklch(0.145 0 0);
-  --sidebar-primary: #030213;
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.97 0 0);
-  --sidebar-accent-foreground: oklch(0.205 0 0);
-  --sidebar-border: oklch(0.922 0 0);
-  --sidebar-ring: oklch(0.708 0 0);
+
+  --font-display: "Bricolage Grotesque", "Arial Narrow", system-ui, sans-serif;
+  --font-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-label: var(--font-display);
+
+  /* Paper & ink */
+  --paper: #F9F1DD;
+  --paper-2: #F3E7C9;
+  --paper-3: #EADBB6;
+  --surface: #FFFDF7;
+  --ink: #552D24;
+  --ink-2: #6E473D;
+  --ink-3: #86655A;
+  --line: #E9DAB9;
+  --line-strong: #D5C6A3;
+
+  /* Accent */
+  --brand: #F6700F;
+  --brand-ink: #B04B07;
+  --brand-soft: #FFCFA6;
+  --brand-tint: #FFF1E2;
+
+  /* Pastel fills — always carry chocolate text (≥ 5.8:1) */
+  --pink: #FF95C3;
+  --butter: #F9E47C;
+  --lime: #D6DE67;
+  --lavender: #C9CAF8;
+  --sky: #B9DBFD;
+  --peach: #F2B985;
+
+  /* shadcn semantic tokens */
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: var(--paper-2);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-2);
+  --muted-foreground: var(--ink-3);
+  --accent: var(--paper-2);
+  --accent-foreground: var(--ink);
+  --destructive: #D93A2B;
+  --destructive-foreground: #FFFFFF;
+  --border: var(--line);
+  --input: var(--line);
+  --ring: var(--brand);
+  --radius: 1rem;
+
+  --quiz-blue: #3477C2;
+  --quiz-blue-border: #B9DBFD;
+  --quiz-blue-button: #2A62A3;
+  --quiz-yellow: #E2BC2A;
+  --quiz-yellow-border: #F9E47C;
+  --quiz-yellow-button: #957413;
+  --quiz-red: #D93A2B;
+  --quiz-red-border: #F7C3BC;
+  --quiz-red-button: #B52E21;
+  --answer-correct: #5E681D;
+  --answer-wrong: #D93A2B;
+  --answer-selected: var(--ink);
+
+  --shadow-soft: 0 1px 2px rgba(85, 45, 36, 0.05), 0 10px 28px -14px rgba(85, 45, 36, 0.18);
+  --shadow-lift: 0 2px 4px rgba(85, 45, 36, 0.05), 0 28px 56px -24px rgba(85, 45, 36, 0.30);
+
+  /* Spring-like easing for CSS-only transitions (critically damped feel) */
+  --ease-fluid: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-fluid-in: cubic-bezier(0.64, 0, 0.78, 0);
 }
 
 .dark {
-  --background: oklch(0.145 0 0);
-  --foreground: oklch(0.985 0 0);
-  --card: oklch(0.145 0 0);
-  --card-foreground: oklch(0.985 0 0);
-  --popover: oklch(0.145 0 0);
-  --popover-foreground: oklch(0.985 0 0);
-  --primary: oklch(0.985 0 0);
-  --primary-foreground: oklch(0.205 0 0);
-  --secondary: oklch(0.269 0 0);
-  --secondary-foreground: oklch(0.985 0 0);
-  --muted: oklch(0.269 0 0);
-  --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
-  --accent-foreground: oklch(0.985 0 0);
-  --destructive: oklch(0.396 0.141 25.723);
-  --destructive-foreground: oklch(0.637 0.237 25.331);
-  --border: oklch(0.269 0 0);
-  --input: oklch(0.269 0 0);
-  --ring: oklch(0.439 0 0);
-  --font-weight-medium: 500;
-  --font-weight-normal: 400;
-  --chart-1: oklch(0.488 0.243 264.376);
-  --chart-2: oklch(0.696 0.17 162.48);
-  --chart-3: oklch(0.769 0.188 70.08);
-  --chart-4: oklch(0.627 0.265 303.9);
-  --chart-5: oklch(0.645 0.246 16.439);
-  --sidebar: oklch(0.205 0 0);
-  --sidebar-foreground: oklch(0.985 0 0);
-  --sidebar-primary: oklch(0.488 0.243 264.376);
-  --sidebar-primary-foreground: oklch(0.985 0 0);
-  --sidebar-accent: oklch(0.269 0 0);
-  --sidebar-accent-foreground: oklch(0.985 0 0);
-  --sidebar-border: oklch(0.269 0 0);
-  --sidebar-ring: oklch(0.439 0 0);
+  --paper: #241612;
+  --paper-2: #2E1D18;
+  --paper-3: #3A2721;
+  --surface: #2E1D18;
+  --ink: #F9F1DD;
+  --ink-2: #E5D3C2;
+  --ink-3: #C9A99A;
+  --line: #4A332B;
+  --line-strong: #634A40;
+  --brand-tint: #3A2014;
+
+  --card: var(--surface);
+  --popover: var(--surface);
+  --muted-foreground: var(--ink-3);
+  --primary-foreground: #241612;
+  --destructive: #F0705F;
 }
 
 @theme inline {
+  --font-sans: var(--font-body);
+  --font-serif: var(--font-display);
+  --font-display: var(--font-display);
+  --font-label: var(--font-label);
+  --font-hand: "Sedgwick Ave", "Segoe Print", "Bradley Hand", cursive;
+  --font-poster: "Playfair Display", "Times New Roman", serif;
+  --font-mono: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -97,144 +132,897 @@
   --color-destructive-foreground: var(--destructive-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
-  --color-input-background: var(--input-background);
-  --color-switch-background: var(--switch-background);
   --color-ring: var(--ring);
-  --color-chart-1: var(--chart-1);
-  --color-chart-2: var(--chart-2);
-  --color-chart-3: var(--chart-3);
-  --color-chart-4: var(--chart-4);
-  --color-chart-5: var(--chart-5);
-  --radius-sm: calc(var(--radius) - 4px);
-  --radius-md: calc(var(--radius) - 2px);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
+  --color-paper-3: var(--paper-3);
+  --color-surface: var(--surface);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-ink-3: var(--ink-3);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-brand: var(--brand);
+  --color-brand-ink: var(--brand-ink);
+  --color-brand-soft: var(--brand-soft);
+  --color-brand-tint: var(--brand-tint);
+  --color-pink: var(--pink);
+  --color-butter: var(--butter);
+  --color-lime: var(--lime);
+  --color-lavender: var(--lavender);
+  --color-sky: var(--sky);
+  --color-peach: var(--peach);
+  --color-quiz-blue: var(--quiz-blue);
+  --color-quiz-blue-border: var(--quiz-blue-border);
+  --color-quiz-blue-button: var(--quiz-blue-button);
+  --color-quiz-yellow: var(--quiz-yellow);
+  --color-quiz-yellow-border: var(--quiz-yellow-border);
+  --color-quiz-yellow-button: var(--quiz-yellow-button);
+  --color-quiz-red: var(--quiz-red);
+  --color-quiz-red-border: var(--quiz-red-border);
+  --color-quiz-red-button: var(--quiz-red-button);
+  --color-answer-correct: var(--answer-correct);
+  --color-answer-wrong: var(--answer-wrong);
+  --color-answer-selected: var(--answer-selected);
+  --radius-sm: calc(var(--radius) - 6px);
+  --radius-md: calc(var(--radius) - 4px);
   --radius-lg: var(--radius);
   --radius-xl: calc(var(--radius) + 4px);
-  --color-sidebar: var(--sidebar);
-  --color-sidebar-foreground: var(--sidebar-foreground);
-  --color-sidebar-primary: var(--sidebar-primary);
-  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
-  --color-sidebar-accent: var(--sidebar-accent);
-  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
-  --color-sidebar-border: var(--sidebar-border);
-  --color-sidebar-ring: var(--sidebar-ring);
 }
+
+/* =========================================================
+   Palette remap (transitional)
+   Legacy screens hardcode Tailwind hues (purple-600, cyan-400…).
+   Instead of rewriting thousands of class names, the hue scales
+   are redefined so every screen inherits the bakery palette:
+     purple / violet / indigo → 50–300 lavender, 400–500 orange,
+                                600+ chocolate (buttons, text)
+     orange / amber           → orange
+     pink / fuchsia / rose*   → berry pink        (*rose stays red)
+     gray / slate / zinc / neutral / stone → cream-to-cocoa neutrals
+     green / emerald / teal / lime → matcha (success)
+     blue / cyan / sky        → sky
+     red / rose               → signal red (error)
+     yellow                   → butter (coins, stars)
+   Unlayered on purpose so it wins over Tailwind's theme layer.
+   New code should use the semantic tokens (paper, ink, brand,
+   line, pastel names) rather than these hue names.
+   ========================================================= */
+
+/* Legacy gradients render flat in their first stop colour. */
+[class*="bg-gradient-to-"],
+[class*="bg-linear-to-"] {
+  background-image: none !important;
+  background-color: var(--tw-gradient-from);
+}
+
+:root {
+  --cocoa-50: #FBF5EA; --cocoa-100: #F5EAD6; --cocoa-200: #E9D6BC; --cocoa-300: #D2B69B;
+  --cocoa-400: #A9836F; --cocoa-500: #84604F; --cocoa-600: #552D24; --cocoa-700: #47251D;
+  --cocoa-800: #391D17; --cocoa-900: #2B1611; --cocoa-950: #1E0F0B;
+
+  --warm-50: #FDF8EC; --warm-100: #F9F1DD; --warm-200: #EFE3C6; --warm-300: #E1D2B0;
+  --warm-400: #BFAE8E; --warm-500: #87705F; --warm-600: #7A6155; --warm-700: #634A40;
+  --warm-800: #4E3730; --warm-900: #3A2721; --warm-950: #2B1A15;
+
+  --ember-50: #FFF4EA; --ember-100: #FFE6CF; --ember-200: #FFCFA6; --ember-300: #FCAE6E;
+  --ember-400: #F98D3D; --ember-500: #F6700F; --ember-600: #D95E06; --ember-700: #B04B07;
+  --ember-800: #8A3B0A; --ember-900: #6B2F0C; --ember-950: #3D1805;
+
+  --lav-50: #F6F6FE; --lav-100: #ECECFD; --lav-200: #DCDDFB; --lav-300: #C9CAF8;
+
+  --berry-50: #FFF2F8; --berry-100: #FFE3EF; --berry-200: #FFC8E0; --berry-300: #FFAED2;
+  --berry-400: #FF95C3; --berry-500: #F06BA6; --berry-600: #C2407D; --berry-700: #A3336A;
+  --berry-800: #842A57; --berry-900: #662244; --berry-950: #3E1127;
+
+  --matcha-50: #F9FAE6; --matcha-100: #F1F4C8; --matcha-200: #E6EB9E; --matcha-300: #D6DE67;
+  --matcha-400: #BFC94A; --matcha-500: #8E9A28; --matcha-600: #6E7A1E; --matcha-700: #5E681D;
+  --matcha-800: #4A521B; --matcha-900: #3D4419; --matcha-950: #20250A;
+
+  --skyx-50: #F2F8FF; --skyx-100: #E3F0FE; --skyx-200: #CFE5FD; --skyx-300: #B9DBFD;
+  --skyx-400: #8EC2F7; --skyx-500: #5FA3EC; --skyx-600: #3477C2; --skyx-700: #2A62A3;
+  --skyx-800: #244F83; --skyx-900: #1F4166; --skyx-950: #142840;
+
+  --signal-50: #FEF2F0; --signal-100: #FCE2DE; --signal-200: #F7C3BC; --signal-300: #F09A8E;
+  --signal-400: #E86A5B; --signal-500: #D93A2B; --signal-600: #B52E21; --signal-700: #92251B;
+  --signal-800: #741F18; --signal-900: #5A1A14; --signal-950: #330C08;
+
+  --butter-50: #FEFBEA; --butter-100: #FDF5CC; --butter-200: #FBEDA3; --butter-300: #F9E47C;
+  --butter-400: #F2D34F; --butter-500: #E2BC2A; --butter-600: #BE9718; --butter-700: #957413;
+  --butter-800: #735912; --butter-900: #5A4612; --butter-950: #332707;
+}
+
+:root {
+  --color-purple-50: var(--lav-50); --color-purple-100: var(--lav-100); --color-purple-200: var(--lav-200); --color-purple-300: var(--lav-300); --color-purple-400: var(--ember-400); --color-purple-500: var(--ember-500); --color-purple-600: var(--cocoa-600); --color-purple-700: var(--cocoa-700); --color-purple-800: var(--cocoa-800); --color-purple-900: var(--cocoa-900); --color-purple-950: var(--cocoa-950);
+  --color-violet-50: var(--lav-50); --color-violet-100: var(--lav-100); --color-violet-200: var(--lav-200); --color-violet-300: var(--lav-300); --color-violet-400: var(--ember-400); --color-violet-500: var(--ember-500); --color-violet-600: var(--cocoa-600); --color-violet-700: var(--cocoa-700); --color-violet-800: var(--cocoa-800); --color-violet-900: var(--cocoa-900); --color-violet-950: var(--cocoa-950);
+  --color-indigo-50: var(--lav-50); --color-indigo-100: var(--lav-100); --color-indigo-200: var(--lav-200); --color-indigo-300: var(--lav-300); --color-indigo-400: var(--ember-400); --color-indigo-500: var(--ember-500); --color-indigo-600: var(--cocoa-600); --color-indigo-700: var(--cocoa-700); --color-indigo-800: var(--cocoa-800); --color-indigo-900: var(--cocoa-900); --color-indigo-950: var(--cocoa-950);
+
+  --color-gray-50: var(--warm-50); --color-gray-100: var(--warm-100); --color-gray-200: var(--warm-200); --color-gray-300: var(--warm-300); --color-gray-400: var(--warm-400); --color-gray-500: var(--warm-500); --color-gray-600: var(--warm-600); --color-gray-700: var(--warm-700); --color-gray-800: var(--warm-800); --color-gray-900: var(--warm-900); --color-gray-950: var(--warm-950);
+  --color-slate-50: var(--warm-50); --color-slate-100: var(--warm-100); --color-slate-200: var(--warm-200); --color-slate-300: var(--warm-300); --color-slate-400: var(--warm-400); --color-slate-500: var(--warm-500); --color-slate-600: var(--warm-600); --color-slate-700: var(--warm-700); --color-slate-800: var(--warm-800); --color-slate-900: var(--warm-900); --color-slate-950: var(--warm-950);
+  --color-zinc-50: var(--warm-50); --color-zinc-100: var(--warm-100); --color-zinc-200: var(--warm-200); --color-zinc-300: var(--warm-300); --color-zinc-400: var(--warm-400); --color-zinc-500: var(--warm-500); --color-zinc-600: var(--warm-600); --color-zinc-700: var(--warm-700); --color-zinc-800: var(--warm-800); --color-zinc-900: var(--warm-900); --color-zinc-950: var(--warm-950);
+  --color-neutral-50: var(--warm-50); --color-neutral-100: var(--warm-100); --color-neutral-200: var(--warm-200); --color-neutral-300: var(--warm-300); --color-neutral-400: var(--warm-400); --color-neutral-500: var(--warm-500); --color-neutral-600: var(--warm-600); --color-neutral-700: var(--warm-700); --color-neutral-800: var(--warm-800); --color-neutral-900: var(--warm-900); --color-neutral-950: var(--warm-950);
+  --color-stone-50: var(--warm-50); --color-stone-100: var(--warm-100); --color-stone-200: var(--warm-200); --color-stone-300: var(--warm-300); --color-stone-400: var(--warm-400); --color-stone-500: var(--warm-500); --color-stone-600: var(--warm-600); --color-stone-700: var(--warm-700); --color-stone-800: var(--warm-800); --color-stone-900: var(--warm-900); --color-stone-950: var(--warm-950);
+
+  --color-orange-50: var(--ember-50); --color-orange-100: var(--ember-100); --color-orange-200: var(--ember-200); --color-orange-300: var(--ember-300); --color-orange-400: var(--ember-400); --color-orange-500: var(--ember-500); --color-orange-600: var(--ember-600); --color-orange-700: var(--ember-700); --color-orange-800: var(--ember-800); --color-orange-900: var(--ember-900); --color-orange-950: var(--ember-950);
+  --color-amber-50: var(--ember-50); --color-amber-100: var(--ember-100); --color-amber-200: var(--ember-200); --color-amber-300: var(--ember-300); --color-amber-400: var(--ember-400); --color-amber-500: var(--ember-500); --color-amber-600: var(--ember-600); --color-amber-700: var(--ember-700); --color-amber-800: var(--ember-800); --color-amber-900: var(--ember-900); --color-amber-950: var(--ember-950);
+  --color-pink-50: var(--berry-50); --color-pink-100: var(--berry-100); --color-pink-200: var(--berry-200); --color-pink-300: var(--berry-300); --color-pink-400: var(--berry-400); --color-pink-500: var(--berry-500); --color-pink-600: var(--berry-600); --color-pink-700: var(--berry-700); --color-pink-800: var(--berry-800); --color-pink-900: var(--berry-900); --color-pink-950: var(--berry-950);
+  --color-fuchsia-50: var(--berry-50); --color-fuchsia-100: var(--berry-100); --color-fuchsia-200: var(--berry-200); --color-fuchsia-300: var(--berry-300); --color-fuchsia-400: var(--berry-400); --color-fuchsia-500: var(--berry-500); --color-fuchsia-600: var(--berry-600); --color-fuchsia-700: var(--berry-700); --color-fuchsia-800: var(--berry-800); --color-fuchsia-900: var(--berry-900); --color-fuchsia-950: var(--berry-950);
+
+  --color-green-50: var(--matcha-50); --color-green-100: var(--matcha-100); --color-green-200: var(--matcha-200); --color-green-300: var(--matcha-300); --color-green-400: var(--matcha-400); --color-green-500: var(--matcha-500); --color-green-600: var(--matcha-600); --color-green-700: var(--matcha-700); --color-green-800: var(--matcha-800); --color-green-900: var(--matcha-900); --color-green-950: var(--matcha-950);
+  --color-emerald-50: var(--matcha-50); --color-emerald-100: var(--matcha-100); --color-emerald-200: var(--matcha-200); --color-emerald-300: var(--matcha-300); --color-emerald-400: var(--matcha-400); --color-emerald-500: var(--matcha-500); --color-emerald-600: var(--matcha-600); --color-emerald-700: var(--matcha-700); --color-emerald-800: var(--matcha-800); --color-emerald-900: var(--matcha-900); --color-emerald-950: var(--matcha-950);
+  --color-teal-50: var(--matcha-50); --color-teal-100: var(--matcha-100); --color-teal-200: var(--matcha-200); --color-teal-300: var(--matcha-300); --color-teal-400: var(--matcha-400); --color-teal-500: var(--matcha-500); --color-teal-600: var(--matcha-600); --color-teal-700: var(--matcha-700); --color-teal-800: var(--matcha-800); --color-teal-900: var(--matcha-900); --color-teal-950: var(--matcha-950);
+  --color-lime-50: var(--matcha-50); --color-lime-100: var(--matcha-100); --color-lime-200: var(--matcha-200); --color-lime-300: var(--matcha-300); --color-lime-400: var(--matcha-400); --color-lime-500: var(--matcha-500); --color-lime-600: var(--matcha-600); --color-lime-700: var(--matcha-700); --color-lime-800: var(--matcha-800); --color-lime-900: var(--matcha-900); --color-lime-950: var(--matcha-950);
+
+  --color-blue-50: var(--skyx-50); --color-blue-100: var(--skyx-100); --color-blue-200: var(--skyx-200); --color-blue-300: var(--skyx-300); --color-blue-400: var(--skyx-400); --color-blue-500: var(--skyx-500); --color-blue-600: var(--skyx-600); --color-blue-700: var(--skyx-700); --color-blue-800: var(--skyx-800); --color-blue-900: var(--skyx-900); --color-blue-950: var(--skyx-950);
+  --color-cyan-50: var(--skyx-50); --color-cyan-100: var(--skyx-100); --color-cyan-200: var(--skyx-200); --color-cyan-300: var(--skyx-300); --color-cyan-400: var(--skyx-400); --color-cyan-500: var(--skyx-500); --color-cyan-600: var(--skyx-600); --color-cyan-700: var(--skyx-700); --color-cyan-800: var(--skyx-800); --color-cyan-900: var(--skyx-900); --color-cyan-950: var(--skyx-950);
+  --color-sky-50: var(--skyx-50); --color-sky-100: var(--skyx-100); --color-sky-200: var(--skyx-200); --color-sky-300: var(--skyx-300); --color-sky-400: var(--skyx-400); --color-sky-500: var(--skyx-500); --color-sky-600: var(--skyx-600); --color-sky-700: var(--skyx-700); --color-sky-800: var(--skyx-800); --color-sky-900: var(--skyx-900); --color-sky-950: var(--skyx-950);
+
+  --color-red-50: var(--signal-50); --color-red-100: var(--signal-100); --color-red-200: var(--signal-200); --color-red-300: var(--signal-300); --color-red-400: var(--signal-400); --color-red-500: var(--signal-500); --color-red-600: var(--signal-600); --color-red-700: var(--signal-700); --color-red-800: var(--signal-800); --color-red-900: var(--signal-900); --color-red-950: var(--signal-950);
+  --color-rose-50: var(--signal-50); --color-rose-100: var(--signal-100); --color-rose-200: var(--signal-200); --color-rose-300: var(--signal-300); --color-rose-400: var(--signal-400); --color-rose-500: var(--signal-500); --color-rose-600: var(--signal-600); --color-rose-700: var(--signal-700); --color-rose-800: var(--signal-800); --color-rose-900: var(--signal-900); --color-rose-950: var(--signal-950);
+
+  --color-yellow-50: var(--butter-50); --color-yellow-100: var(--butter-100); --color-yellow-200: var(--butter-200); --color-yellow-300: var(--butter-300); --color-yellow-400: var(--butter-400); --color-yellow-500: var(--butter-500); --color-yellow-600: var(--butter-600); --color-yellow-700: var(--butter-700); --color-yellow-800: var(--butter-800); --color-yellow-900: var(--butter-900); --color-yellow-950: var(--butter-950);
+}
+
+/* ========================================================= */
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
 
+  html {
+    font-size: var(--font-size);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    -webkit-tap-highlight-color: transparent;
+  }
+
   body {
     @apply bg-background text-foreground;
+    font-family: var(--font-body);
+    line-height: 1.55;
+  }
+
+  ::selection {
+    background: var(--butter);
+    color: var(--ink);
+  }
+
+  /* Instant tap response: no 300ms double-tap-zoom wait on touch. */
+  a, button, [role="button"], label, summary, input, select, textarea {
+    touch-action: manipulation;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html { scroll-behavior: smooth; }
   }
 }
 
-/**
- * Base typography. This is not applied to elements which have an ancestor with a Tailwind text class.
- */
 @layer base {
   :where(:not(:has([class*=" text-"]), :not(:has([class^="text-"])))) {
-    h1 {
-      font-size: var(--text-2xl);
-      font-weight: var(--font-weight-medium);
-      line-height: 1.5;
-    }
-
-    h2 {
-      font-size: var(--text-xl);
-      font-weight: var(--font-weight-medium);
-      line-height: 1.5;
-    }
-
-    h3 {
-      font-size: var(--text-lg);
-      font-weight: var(--font-weight-medium);
-      line-height: 1.5;
-    }
-
-    h4 {
-      font-size: var(--text-base);
-      font-weight: var(--font-weight-medium);
-      line-height: 1.5;
-    }
-
-    p {
-      font-size: var(--text-base);
-      font-weight: var(--font-weight-normal);
-      line-height: 1.5;
-    }
-
-    label {
-      font-size: var(--text-base);
-      font-weight: var(--font-weight-medium);
-      line-height: 1.5;
-    }
-
-    button {
-      font-size: var(--text-base);
-      font-weight: var(--font-weight-medium);
-      line-height: 1.5;
-    }
-
-    input {
-      font-size: var(--text-base);
-      font-weight: var(--font-weight-normal);
-      line-height: 1.5;
-    }
+    h1 { font-size: var(--text-2xl); font-weight: 700; line-height: 1.1; }
+    h2 { font-size: var(--text-xl); font-weight: 700; line-height: 1.15; }
+    h3 { font-size: var(--text-lg); font-weight: 700; line-height: 1.25; }
+    h4 { font-size: var(--text-base); font-weight: 700; line-height: 1.5; }
+    p { font-size: var(--text-base); font-weight: 400; line-height: 1.6; }
+    label { font-size: var(--text-base); font-weight: 600; line-height: 1.5; }
+    button { font-size: var(--text-base); font-weight: 600; line-height: 1.5; }
+    input { font-size: var(--text-base); font-weight: 400; line-height: 1.5; }
   }
 }
 
-html {
-  font-size: var(--font-size);
-}
-
-/* Custom animations */
-@keyframes wave {
-  0% { transform: rotate(0deg); }
-  10% { transform: rotate(14deg); }
-  20% { transform: rotate(-8deg); }
-  30% { transform: rotate(14deg); }
-  40% { transform: rotate(-4deg); }
-  50% { transform: rotate(10deg); }
-  60% { transform: rotate(0deg); }
-  100% { transform: rotate(0deg); }
-}
-
-.animate-wave {
-  animation: wave 2s ease-in-out infinite;
-  display: inline-block;
-  transform-origin: 70% 70%;
-}
-
-/* Floating mascot animation */
-@keyframes float {
-  0%, 100% { 
-    transform: translateY(0px) translateX(0px);
-  }
-  25% { 
-    transform: translateY(-20px) translateX(10px);
-  }
-  50% { 
-    transform: translateY(-10px) translateX(-5px);
-  }
-  75% { 
-    transform: translateY(-25px) translateX(5px);
+/* Headings everywhere get the display face, semi-condensed.
+   Tracking is size-specific: big type tightens, small type stays open.
+   In the base layer so .display and utilities can override it. */
+@layer base {
+  h1, h2, h3 {
+    font-family: var(--font-display);
+    font-stretch: 85%;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    font-optical-sizing: auto;
   }
 }
 
-@keyframes gentle-bounce {
-  0%, 100% { 
-    transform: scale(1) rotate(0deg);
-  }
-  50% { 
-    transform: scale(1.05) rotate(5deg);
+/* =========================================================
+   Primitives
+   ========================================================= */
+
+@layer components {
+/* Small condensed uppercase label — "VIỆC HÔM NAY" */
+.eyebrow {
+  font-family: var(--font-display);
+  font-stretch: 80%;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--ink-3);
+}
+
+/* Huge condensed display headline. Leading stays ≥ 0.95 so stacked
+   Vietnamese diacritics (Ể, Ố, Ặ) never collide with the line above. */
+.display {
+  font-family: var(--font-display);
+  font-stretch: 75%;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: -0.012em;
+  line-height: 0.98;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+/* Emphasis inside headings: colour, not italics (the display face has
+   no italic, and faux-italic looks broken). brand-ink, not brand:
+   bright orange on cream is only 2.6:1, below even the large-text bar. */
+.display em,
+h1 em, h2 em, h3 em {
+  font-style: normal;
+  color: var(--brand-ink);
+}
+
+.serif-italic {
+  font-family: var(--font-body);
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* Card */
+.paper-card {
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 1.5rem;
+  box-shadow: var(--shadow-soft);
+}
+
+.paper-card-hover {
+  transition: transform 0.45s var(--ease-fluid), box-shadow 0.45s var(--ease-fluid), border-color 0.3s ease;
+}
+
+@media (hover: hover) {
+  .paper-card-hover:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-lift);
+    border-color: var(--line-strong);
   }
 }
 
-.animate-float {
-  animation: float 6s ease-in-out infinite;
+.paper-card-hover:active {
+  transform: scale(0.985);
+  transition-duration: 0.1s;
 }
 
-.animate-gentle-bounce {
-  animation: gentle-bounce 3s ease-in-out infinite;
+/* Pill tag */
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: 0.375rem 0.875rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: var(--card);
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--ink-2);
+  white-space: nowrap;
 }
+
+/* Buttons — feedback lives on the press and is instant (100ms). */
+.btn-ink,
+.btn-ghost,
+.btn-lime,
+.btn-cream,
+.btn-pop {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  height: 3rem;
+  padding: 0 1.5rem;
+  border-radius: 999px;
+  font-family: var(--font-display);
+  font-stretch: 80%;
+  font-size: 1.0625rem;
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  user-select: none;
+  transition: background-color 0.25s ease, color 0.25s ease, border-color 0.25s ease, transform 0.35s var(--ease-fluid);
+}
+
+.btn-ink:active,
+.btn-ghost:active,
+.btn-lime:active,
+.btn-cream:active,
+.btn-pop:active {
+  transform: scale(0.97);
+  transition: transform 0.1s ease-out;
+}
+
+.btn-ink { background: var(--ink); color: var(--paper); }
+.btn-ink:hover { background: var(--cocoa-800); }
+.dark .btn-ink:hover { background: #fff; }
+
+.btn-lime { background: var(--lime); color: var(--ink); }
+.btn-lime:hover { background: var(--matcha-400); }
+
+/* Signal-yellow call to action for dark surfaces. */
+.btn-pop { background: #FFC93C; color: #1B1512; }
+.btn-pop:hover { background: #FFD968; }
+
+.btn-cream { background: var(--surface); color: var(--ink); }
+.btn-cream:hover { background: #fff; }
+
+.btn-ghost {
+  border: 1.5px solid var(--ink);
+  color: var(--ink);
+  background: transparent;
+}
+.btn-ghost:hover { background: var(--ink); color: var(--paper); }
+
+.btn-ink:focus-visible,
+.btn-ghost:focus-visible,
+.btn-lime:focus-visible,
+.btn-cream:focus-visible,
+.btn-pop:focus-visible {
+  outline: 2.5px solid var(--brand);
+  outline-offset: 3px;
+}
+
+.btn-ink:disabled,
+.btn-ghost:disabled,
+.btn-lime:disabled { cursor: not-allowed; }
+
+/* Scalloped "sticker" label — circles tile the edge, an inset
+   rectangle fills the middle. */
+.sticker {
+  --r: 5px;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.375rem;
+  padding: calc(var(--r) * 2 + 2px) calc(var(--r) * 2 + 10px);
+  background: var(--sky);
+  color: var(--ink);
+  font-family: var(--font-display);
+  font-stretch: 78%;
+  font-weight: 800;
+  font-size: 1rem;
+  line-height: 1;
+  letter-spacing: 0.01em;
+  text-transform: uppercase;
+  -webkit-mask:
+    radial-gradient(var(--r), #000 98%, #0000) 0 0 / calc(2 * var(--r)) calc(2 * var(--r)) round,
+    linear-gradient(#000 0 0) var(--r) var(--r) / calc(100% - 2 * var(--r)) calc(100% - 2 * var(--r)) no-repeat;
+  mask:
+    radial-gradient(var(--r), #000 98%, #0000) 0 0 / calc(2 * var(--r)) calc(2 * var(--r)) round,
+    linear-gradient(#000 0 0) var(--r) var(--r) / calc(100% - 2 * var(--r)) calc(100% - 2 * var(--r)) no-repeat;
+}
+
+/* Pulsing status dot */
+.live-dot {
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--brand);
+}
+
+.live-dot::after {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 999px;
+  background: var(--brand);
+  opacity: 0.35;
+  animation: live-ping 2s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+
+@keyframes live-ping {
+  75%, 100% { transform: scale(2.2); opacity: 0; }
+}
+
+.rule {
+  border-top: 1px solid var(--line);
+}
+
+/* Translucent floating chrome. Content scrolls underneath; a soft
+   edge shadow replaces a hard 1px divider. */
+.glass {
+  background: color-mix(in srgb, var(--paper) 72%, transparent);
+  -webkit-backdrop-filter: blur(20px) saturate(170%);
+  backdrop-filter: blur(20px) saturate(170%);
+}
+}
+
+/* Diagonal ribbon marquee ("FRESH JOY ✦ FRESH JOY") */
+.ribbon {
+  overflow: hidden;
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-stretch: 75%;
+  font-weight: 800;
+  text-transform: uppercase;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 38s linear infinite;
+}
+
+.marquee-reverse {
+  animation-direction: reverse;
+}
+
+@keyframes marquee {
+  to { transform: translateX(-50%); }
+}
+
+/* Slow-spinning circular text badge */
+.spin-slow {
+  animation: spin-slow 22s linear infinite;
+}
+
+@keyframes spin-slow {
+  to { transform: rotate(360deg); }
+}
+
+/* Scroll reveal */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(24px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.rise {
+  animation: rise 0.9s var(--ease-fluid) both;
+}
+
+.reveal {
+  opacity: 0;
+  transform: translateY(28px);
+  transition: opacity 0.8s var(--ease-fluid), transform 0.9s var(--ease-fluid);
+}
+
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+/* Reduced motion: keep feedback, drop travel. */
+@media (prefers-reduced-motion: reduce) {
+  .rise, .marquee, .spin-slow, .live-dot::after { animation: none; }
+  .reveal { transform: none; transition: opacity 0.2s ease; }
+  .paper-card-hover, .paper-card-hover:hover { transform: none; }
+}
+
+/* Reduced transparency: solid chrome, no blur. */
+@media (prefers-reduced-transparency: reduce) {
+  .glass {
+    background: var(--paper);
+    -webkit-backdrop-filter: none;
+    backdrop-filter: none;
+  }
+}
+
+/* More contrast: defined borders, darker secondary text. */
+@media (prefers-contrast: more) {
+  :root {
+    --ink-2: #4A271F;
+    --ink-3: #5E3C32;
+    --line: #A9836F;
+    --line-strong: #84604F;
+  }
+  .glass { background: var(--paper); border-bottom: 1px solid var(--ink); }
+}
+
+/* Legacy keyframes still referenced by in-app screens */
+@keyframes fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  animation: fade-in 0.6s ease-out forwards;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--paper); }
+::-webkit-scrollbar-thumb { background: var(--line-strong); border-radius: 999px; border: 3px solid var(--paper); }
+::-webkit-scrollbar-thumb:hover { background: var(--ink-3); }
+
+/* =========================================================
+   "Cine" — the landing page at night
+   A scope class (not a global dark mode): the marketing page is a
+   dark room with a green classroom board, the app itself stays on
+   cream paper so the product screenshots shown here stay true.
+   Type cast: Bricolage Grotesque (condensed caps) for the shout,
+   Playfair Display Italic for the one word that matters,
+   IBM Plex Mono for labels, Sedgwick Ave for marker notes.
+   ========================================================= */
+
+.cine {
+  --paper: #0D1411;
+  --paper-2: #1D2823;
+  --paper-3: #2A3831;
+  --surface: #151D19;
+  --ink: #F4EFE0;
+  --ink-2: #C5CABD;
+  --ink-3: #98A196;
+  --line: rgba(244, 239, 224, 0.13);
+  --line-strong: rgba(244, 239, 224, 0.26);
+  --brand-ink: #FFA867;
+  --brand-tint: #2B1D10;
+
+  --board: #123A2B;
+  --board-line: rgba(233, 245, 236, 0.075);
+  --pop: #FFC93C;
+  --em: var(--pop);
+
+  --background: var(--paper);
+  --foreground: var(--ink);
+  --card: var(--surface);
+  --card-foreground: var(--ink);
+  --popover: var(--surface);
+  --popover-foreground: var(--ink);
+  --primary: var(--ink);
+  --primary-foreground: var(--paper);
+  --secondary: var(--paper-2);
+  --secondary-foreground: var(--ink);
+  --muted: var(--paper-2);
+  --muted-foreground: var(--ink-3);
+  --accent: var(--paper-2);
+  --accent-foreground: var(--ink);
+  --border: var(--line);
+  --input: var(--line);
+
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.35), 0 12px 30px -14px rgba(0, 0, 0, 0.7);
+  --shadow-lift: 0 2px 4px rgba(0, 0, 0, 0.35), 0 30px 60px -24px rgba(0, 0, 0, 0.85);
+
+  position: relative;
+  background: var(--paper);
+  color: var(--ink);
+}
+
+/* Anything filled with a pastel is a lit surface: it gets the daytime ink back. */
+.cine :is(.on-light, .sticker, .ribbon, .btn-lime, .bg-pink, .bg-lime, .bg-butter, .bg-lavender, .bg-sky, .bg-peach) {
+  --paper: #F9F1DD;
+  --paper-2: #F3E7C9;
+  --paper-3: #EADBB6;
+  --surface: #FFFDF7;
+  --ink: #552D24;
+  --ink-2: #6E473D;
+  --ink-3: #86655A;
+  --line: #E9DAB9;
+  --line-strong: #D5C6A3;
+  --brand-ink: #B04B07;
+  --brand-tint: #FFF1E2;
+  --em: #B04B07;
+  --card: var(--surface);
+  --border: var(--line);
+  --foreground: var(--ink);
+  --muted-foreground: var(--ink-3);
+  --shadow-soft: 0 1px 2px rgba(0, 0, 0, 0.2), 0 10px 28px -14px rgba(0, 0, 0, 0.5);
+}
+
+html:has(.cine) { color-scheme: dark; background: #0D1411; }
+body:has(.cine) { background: #0D1411; }
+html:has(.cine)::-webkit-scrollbar-track { background: #0D1411; }
+html:has(.cine)::-webkit-scrollbar-thumb { background: #33423A; border-color: #0D1411; }
+
+/* Film grain over the whole page: static, so it costs one texture. */
+.cine::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 45;
+  pointer-events: none;
+  opacity: 0.07;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='240'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 1 0 0 0 0 1 0 0 0 0 1 0 0 0 .55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@layer components {
+.cine :is(.on-light, .sticker, .ribbon, .btn-lime, .bg-pink, .bg-lime, .bg-butter, .bg-lavender, .bg-sky, .bg-peach) {
+  color: var(--ink);
+}
+
+/* The emphasised word switches voice: lowercase serif italic among condensed caps. */
+.cine .display em,
+.cine h1 em, .cine h2 em, .cine h3 em {
+  font-family: var(--font-poster);
+  font-style: italic;
+  font-weight: 800;
+  font-stretch: 100%;
+  text-transform: none;
+  letter-spacing: -0.035em;
+  font-size: 1.04em;
+  color: var(--em);
+}
+
+.cine .eyebrow {
+  font-family: var(--font-mono);
+  font-stretch: 100%;
+  font-size: 0.72rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+}
+
+.cine .btn-ink:hover { background: #fff; }
+.cine .btn-cream { background: var(--ink); color: var(--paper); }
+.cine .btn-cream:hover { background: #fff; }
+.cine .on-light .btn-cream { background: var(--surface); color: var(--ink); }
+
+/* Classroom board: green slate, a fine grid and a heavier line every fifth cell. */
+.board {
+  --grid: 44px;
+  background-color: var(--board, #123A2B);
+  background-image:
+    radial-gradient(90% 70% at 22% 18%, rgba(255, 255, 255, 0.075), transparent 62%),
+    linear-gradient(var(--board-line, rgba(233, 245, 236, 0.075)) 1px, transparent 1px),
+    linear-gradient(90deg, var(--board-line, rgba(233, 245, 236, 0.075)) 1px, transparent 1px),
+    linear-gradient(rgba(233, 245, 236, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(233, 245, 236, 0.035) 1px, transparent 1px);
+  background-size:
+    100% 100%,
+    calc(var(--grid) * 5) calc(var(--grid) * 5),
+    calc(var(--grid) * 5) calc(var(--grid) * 5),
+    var(--grid) var(--grid),
+    var(--grid) var(--grid);
+  box-shadow: inset 0 0 160px rgba(0, 0, 0, 0.38);
+}
+
+/* Embossed label-maker strip. */
+.label-tape {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.34rem 0.6rem 0.3rem;
+  border-radius: 3px;
+  background: var(--tape, #17130F);
+  color: var(--tape-ink, #F6F1E4);
+  font-family: var(--font-mono);
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.2;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.55), 0 -1px 0 rgba(255, 255, 255, 0.22);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), inset 0 -1px 0 rgba(0, 0, 0, 0.5), 0 3px 8px rgba(0, 0, 0, 0.35);
+}
+
+/* Small tracked mono caption (crop-mark notes, ruler numbers). */
+.mono-note {
+  font-family: var(--font-mono);
+  font-size: 0.68rem;
+  font-weight: 500;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+/* Die-cut stickers. Position comes from custom properties so one element can
+   sit in different spots on phone (--m*) and desktop (--d*). */
+.stk {
+  position: absolute;
+  left: var(--mx);
+  top: var(--my);
+  width: var(--mw);
+  height: auto;
+  max-width: none;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
+  -webkit-touch-callout: none;
+  will-change: transform;
+  filter: drop-shadow(0 1.5px 0 rgba(0, 0, 0, 0.3)) drop-shadow(0 7px 9px rgba(0, 0, 0, 0.3));
+  transition: filter 0.25s ease, opacity 0.3s ease;
+}
+/* Lifting a sticker off the board moves its shadow away from it. */
+.stk.is-held {
+  cursor: grabbing;
+  filter: drop-shadow(0 2px 0 rgba(0, 0, 0, 0.18)) drop-shadow(0 26px 20px rgba(0, 0, 0, 0.42));
+}
+@media (min-width: 1024px) {
+  .stk { left: var(--dx); top: var(--dy); width: var(--dw); }
+}
+/* On touch screens a vertical swipe that starts on a sticker still scrolls the page. */
+@media (pointer: coarse) {
+  .stk { touch-action: pan-y; }
+}
+
+/* Static sticker on the sheet: it peels up a little under the pointer. */
+.stk-peel {
+  filter: drop-shadow(0 1px 0 rgba(60, 40, 20, 0.25)) drop-shadow(0 5px 6px rgba(60, 40, 20, 0.22));
+  transition: transform 0.5s var(--ease-fluid), filter 0.3s ease;
+}
+@media (hover: hover) {
+  .sheet-cell:hover .stk-peel {
+    transform: translateY(-6px) rotate(-4deg) scale(1.06);
+    filter: drop-shadow(0 2px 0 rgba(60, 40, 20, 0.18)) drop-shadow(0 18px 14px rgba(60, 40, 20, 0.3));
+  }
+}
+.sheet-cell:active .stk-peel {
+  transform: scale(0.96);
+  transition-duration: 0.1s;
+}
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sheet-cell:hover .stk-peel, .sheet-cell:active .stk-peel { transform: none; }
+}
+
+/* ---------- Landing backdrop pieces (see components/landing/backdrop.tsx) ---------- */
+
+.grid-fade {
+  background-image:
+    linear-gradient(rgba(233, 245, 236, 0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(233, 245, 236, 0.06) 1px, transparent 1px);
+  background-size: 44px 44px;
+  -webkit-mask-image: radial-gradient(closest-side, #000 30%, transparent);
+  mask-image: radial-gradient(closest-side, #000 30%, transparent);
+}
+
+.washi {
+  opacity: 0.8;
+  clip-path: polygon(0 0, 100% 0, 96% 25%, 100% 50%, 96% 75%, 100% 100%, 0 100%, 4% 75%, 0 50%, 4% 25%);
+}
+
+.postit {
+  width: 11.5rem;
+  padding: 1.35rem 1.1rem 1.2rem;
+  border-radius: 2px 2px 14px 2px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12), 0 18px 28px -14px rgba(0, 0, 0, 0.6);
+}
+
+.marquee-slow { animation-duration: 90s; }
+
+/* Section-edge swell: slides by one period (half of the double-width SVG), so it loops seamlessly.
+   Slow on purpose (one swell passes a point about every half minute), the back layer drifts the other way. */
+.wave-roll { animation: wave-roll 32s linear infinite; will-change: transform; }
+.wave-roll-back { animation-duration: 47s; animation-direction: reverse; }
+@keyframes wave-roll {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+@media (prefers-reduced-motion: reduce) {
+  .wave-roll { animation: none; }
+}
+
+/* Paper pieces drift against the scroll, a few dozen px at most. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .drift {
+      animation: drift linear both;
+      animation-timeline: view();
+      animation-range: cover;
+    }
+  }
+}
+/* Auth illustration (components/auth/AuthIllustration.tsx): pieces settle onto the desk one by one,
+   the ✗ and then the ✓ are drawn, the mascot blinks every few seconds. */
+@media (prefers-reduced-motion: no-preference) {
+  .ill-pop {
+    transform-box: fill-box;
+    transform-origin: 50% 100%;
+    animation: ill-pop 0.7s var(--ease-fluid) both;
+    animation-delay: var(--d, 0ms);
+  }
+  .ill-draw {
+    stroke-dasharray: 1;
+    animation: ill-draw 0.5s var(--ease-fluid) both;
+    animation-delay: var(--d, 0ms);
+  }
+  .ill-blink {
+    transform-box: fill-box;
+    transform-origin: 50% 50%;
+    animation: ill-blink 5.2s 2s infinite;
+  }
+}
+@keyframes ill-pop {
+  from { opacity: 0; transform: translateY(14px) scale(0.94); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes ill-draw {
+  from { stroke-dashoffset: 1; }
+  to { stroke-dashoffset: 0; }
+}
+@keyframes ill-blink {
+  0%, 94%, 100% { transform: scaleY(1); }
+  97% { transform: scaleY(0.1); }
+}
+
+/* Kinetic headlines (components/landing/kinetic.tsx) */
+.k-word { display: inline-block; white-space: nowrap; }
+.k-ch { display: inline-block; transform-origin: 50% 80%; }
+/* The emphasised words get underlined in chalk while the heading is hovered — one stroke per word,
+   so it also works when the emphasis wraps onto a second line. */
+.kinetic em .k-word { position: relative; }
+.kinetic em .k-word::after {
+  content: "";
+  position: absolute;
+  left: -2%;
+  right: -2%;
+  bottom: -0.04em;
+  height: 0.17em;
+  background: currentColor;
+  -webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 16' preserveAspectRatio='none'%3E%3Cpath d='M3 10C30 3 60 15 92 8S152 3 197 9' fill='none' stroke='%23000' stroke-width='4.5' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 0 0 / 100% 100%;
+  mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 16' preserveAspectRatio='none'%3E%3Cpath d='M3 10C30 3 60 15 92 8S152 3 197 9' fill='none' stroke='%23000' stroke-width='4.5' stroke-linecap='round'/%3E%3C/svg%3E") no-repeat 0 0 / 100% 100%;
+  clip-path: inset(0 100% 0 0);
+  transition: clip-path 0.3s var(--ease-fluid-in);
+  pointer-events: none;
+}
+:is(h1, h2):hover > .kinetic em .k-word::after {
+  clip-path: inset(0 0 0 0);
+  transition: clip-path 0.6s var(--ease-fluid);
+}
+:is(h1, h2):hover > .kinetic em .k-word ~ .k-word::after { transition-delay: 0.12s; }
+:is(h1, h2):hover > .kinetic em .k-word ~ .k-word ~ .k-word::after { transition-delay: 0.24s; }
+
+/* A screen lands on the desk as it scrolls in: it starts tipped back in 3D and settles flat. */
+@supports (animation-timeline: view()) {
+  @media (prefers-reduced-motion: no-preference) {
+    .tilt-in {
+      animation: tilt-in linear both;
+      animation-timeline: view();
+      animation-range: entry 0% cover 42%;
+    }
+  }
+}
+@keyframes tilt-in {
+  from { transform: perspective(1100px) rotateX(24deg) translateY(36px) scale(0.93); opacity: 0.35; }
+  to { transform: none; opacity: 1; }
+}
+
+@keyframes drift {
+  from { transform: translate3d(0, var(--drift, 40px), 0); }
+  to { transform: translate3d(0, calc(var(--drift, 40px) * -1), 0); }
+}
+
+@media (prefers-contrast: more) {
+  .cine { --ink-2: #E6E9DF; --ink-3: #C9CFC4; --line: rgba(244, 239, 224, 0.4); --line-strong: rgba(244, 239, 224, 0.6); }
+  .cine::after { display: none; }
+}
+
+/* Forgetting-curve chart labels: SVG text scales with the chart, so small screens need larger units. */
+.fc-label { font: 700 11px var(--font-body); fill: var(--ink-3); }
+.fc-tag { font: 800 10.5px var(--font-body); fill: var(--ink); }
+@media (max-width: 640px) {
+  .fc-label { font-size: 15px; }
+  .fc-tag { font-size: 15px; }
+}
+
+/* ---------- Logo ----------
+   The mark brings its own dark tile, so the cream pencil-Q and the orange nib keep the
+   same contrast on every page (night landing, pink auth panel, cream app, dark mode).
+   Pencil body in light cream; nib in a deeper cream (bare pencil wood); pink eraser;
+   light sea-blue cap, the only cool colour on the tile. */
+:root {
+  --logo-tile: #4A261E;
+  --logo-q: #FBF3E0;
+  --logo-nib: #E6C27F;
+  --logo-eraser: #FF9DBF;
+  --logo-cap: #7CC6F4;
+}
+/* On the night landing a brown tile turns muddy against green; go near-black, let the sheen draw the edge. */
+.cine { --logo-tile: #1C1612; }
+
+.logo-mark {
+  filter: drop-shadow(0 1px 1.5px rgba(40, 18, 10, 0.25));
+  transition: transform 0.2s var(--ease-fluid);
+}
+.logo-nib {
+  transition: transform 0.5s var(--ease-fluid);
+}
+/* Hover: the nib slides a little further out along its axis, like a pencil pushed ready to write. */
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  a:hover .logo-nib { transform: translateX(40px); }
+}
+/* Press: instant feedback on pointer-down. */
+a:active .logo-mark { transform: scale(0.94); transition-duration: 0.08s; }

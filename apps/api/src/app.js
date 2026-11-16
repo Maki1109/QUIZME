@@ -1,121 +1,74 @@
 /**
- * Main Express Application
- * File khởi tạo Express app và kết nối các routes, middleware
+ * QuizMe API — Express application.
+ *
+ * Exported for Vercel (serverless) and tests; listens on PORT when run directly (`npm start`).
  */
 
 const express = require('express');
-const dotenv = require('dotenv');
-const cors = require('cors');
 const helmet = require('helmet');
+const cors = require('cors');
 const morgan = require('morgan');
-const connectDB = require('./config/database');
-const errorHandler = require('./middleware/errorHandler');
-const corsOptions = require('./config/cors');
-const path = require('path');
-const cloudinary = require('cloudinary').v2;
+const env = require('./core/env');
+const db = require('./core/db');
+const { corsOptions, sanitizeRequest, limits } = require('./core/security');
+const { notFoundHandler, errorHandler } = require('./core/errors');
 
-cloudinary.config({ 
-  cloud_name: process.env.CLOUDINARY_NAME, 
-  api_key: process.env.CLOUDINARY_API_KEY, 
-  api_secret: process.env.CLOUDINARY_API_SECRET 
-});
+const learning = require('./api/learning');
+const engagement = require('./api/engagement');
 
-// Load env vars
-dotenv.config();
-
-// Connect to database
-connectDB();
-
-// Initialize Express app
 const app = express();
 
-// Security middleware
-app.use(helmet());
+app.disable('x-powered-by');
+app.set('trust proxy', env.trustProxy); // correct client IPs (rate limits) behind Vercel's proxy
+app.set('etag', false); // API responses are per-user; never let a shared cache reuse them
+app.set('query parser', 'simple'); // no nested objects from query strings
 
-// CORS
+app.use(helmet({ crossOriginResourcePolicy: { policy: 'same-site' } }));
 app.use(cors(corsOptions));
-
-// Body parser
-app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
-
-// Logging
-if (process.env.NODE_ENV === 'development') {
-  app.use(morgan('dev'));
-}
-
-// Routes
-app.use('/api/auth', require('./routes/auth'));
-app.use('/api/users', require('./routes/users'));
-app.use('/api/xp', require('./routes/xp'));
-app.use('/api/subjects', require('./routes/subjects'));
-app.use('/api/exams', require('./routes/exams'));
-app.use('/api/questions', require('./routes/questions'));
-app.use('/api/exam-attempts', require('./routes/examAttempts'));
-app.use('/api/topics', require('./routes/topics'));
-app.use('/api/formulas', require('./routes/formulas'));
-app.use('/api/competencies', require('./routes/competencies'));
-app.use('/api/tips', require('./routes/tips'));
-app.use('/api/missions', require('./routes/missions'));
-app.use('/api/achievements', require('./routes/achievements'));
-app.use('/api/leaderboard', require('./routes/leaderboard'));
-app.use('/api/config', require('./routes/config'));
-app.use('/api/challenges', require('./routes/challenges'));
-app.use('/api/flashcards', require('./routes/flashcards'));
-app.use('/api/learning-paths', require('./routes/learningPaths'));
-app.use('/api/analytics', require('./routes/analytics'));
-
-// New routes
-app.use('/api/onboarding', require('./routes/onboarding'));
-app.use('/api/dashboard', require('./routes/dashboard'));
-app.use('/api/streak', require('./routes/streak'));
-app.use('/api/exam-room', require('./routes/examRoom'));
-app.use('/api/challenge-5min', require('./routes/challenge5Min'));
-app.use('/api/golden-time', require('./routes/goldenTime'));
-app.use('/api/tests', require('./routes/testLibrary'));
-app.use('/api/roadmap', require('./routes/learningPaths')); // Alias for learning-paths
-app.use('/api/profile', require('./routes/profile'));
-app.use('/api/notifications', require('./routes/notifications'));
-app.use('/api/settings', require('./routes/settings'));
-app.use('/api/mascot-chat', require('./routes/mascotChat'));
-
-app.get('/', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'QuizMe Backend API is running 🚀',
-    docs: '/api',
-    health: '/api/health',
-  });
+app.use(express.json({ limit: '100kb' }));
+app.use(express.urlencoded({ extended: false, limit: '20kb' }));
+app.use(sanitizeRequest);
+app.use((req, res, next) => {
+  res.set('Cache-Control', 'no-store');
+  next();
 });
+if (!env.isProduction && !env.isTest) app.use(morgan('dev'));
 
-// Health check endpoint
-app.get('/api/health', (req, res) => {
-  res.status(200).json({
-    success: true,
-    message: 'Server is running',
-    timestamp: new Date().toISOString(),
-  });
-});
+app.get('/', (req, res) => res.json({ success: true, message: 'QuizMe API', health: '/api/health' }));
+app.get('/api/health', (req, res) => res.json({ success: true, time: new Date().toISOString() }));
 
-// 404 handler
-app.use((req, res) => {
-  res.status(404).json({
-    success: false,
-    message: 'Route not found',
-  });
-});
+app.use('/api', limits.global, db.requireDb);
+app.use('/api/auth', require('./api/auth'));
+app.use('/api/users', require('./api/users'));
+app.use('/api/onboarding', learning.onboarding);
+app.use('/api/dashboard', learning.dashboard);
+app.use('/api/practice', require('./api/practice'));
+app.use('/api/library', learning.library);
+app.use('/api/notebook', learning.notebook);
+app.use('/api/flashcards', learning.flashcards);
+app.use('/api/analytics', learning.analytics);
+app.use('/api/roadmap', learning.roadmap);
+app.use('/api/missions', engagement.missions);
+app.use('/api/achievements', engagement.achievements);
+app.use('/api/leaderboard', engagement.leaderboard);
+app.use('/api/shop', engagement.shop);
+app.use('/api/tutor', engagement.tutor);
+app.use('/api/support', engagement.support);
+app.use('/api/payments', require('./api/payments'));
+app.use('/api/admin', require('./api/admin'));
 
-// Error handler middleware (must be last)
+app.use(notFoundHandler);
 app.use(errorHandler);
 
-// Start server
-const PORT = process.env.PORT || 5000;
-
-if (process.env.NODE_ENV !== 'production') {
-  app.listen(PORT, () => {
-    console.log(`✅ Server running at http://localhost:${PORT}`);
-  });
+if (require.main === module) {
+  db.connect()
+    .then(() => {
+      app.listen(env.port, () => console.log(`[api] listening on http://localhost:${env.port}`));
+    })
+    .catch((err) => {
+      console.error('[api] could not start:', err.message);
+      process.exit(1);
+    });
 }
 
 module.exports = app;
-
