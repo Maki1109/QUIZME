@@ -1,216 +1,118 @@
-import { BrowserRouter, Routes, Route, Navigate, useNavigate } from 'react-router-dom';
-import { AuthProvider } from './contexts/AuthContext';
+import { ComponentType, lazy, ReactNode, Suspense, useEffect, useRef } from 'react';
+import { BrowserRouter, Navigate, Route, Routes, useLocation, useNavigate } from 'react-router-dom';
+import { toast } from 'sonner';
 import { Toaster } from './components/ui/sonner';
-import { LoginPageRoute, RegisterPageRoute, ForgotPasswordPageRoute } from './pages/AuthPages';
-import { GoalSelectionPage, SubjectSelectionPage, PlacementTestPage } from './pages/OnboardingPages';
-import { DashboardPage } from './pages/DashboardPage';
-import { ExamRoomPage } from './pages/ExamRoomPage';
-import Homepage from "./pages/Homepage";
-import { Challenge5MinPage } from './pages/Challenge5MinPage';
-import { GoldenTimePage } from './pages/GoldenTimePage';
-import { RoadmapPage } from './pages/RoadmapPage';
-import { AnalyticsPage } from './pages/AnalyticsPage';
-import { ProfilePageRoute } from './pages/ProfilePageRoute';
-import { LeaderboardPage } from './pages/LeaderboardPage';
-import { TestLibraryPage } from './pages/TestLibraryPage';
-import { ProtectedRoute } from './components/routing/ProtectedRoute';
-import { MascotChatbotButton } from './components/MascotChatbot';
+import Homepage from './pages/Homepage';
+import { AuthProvider, useAuth } from './lib/auth';
+import { api, errorMessage } from './lib/api';
+import type { Session } from './lib/types';
+import { TutorProvider } from './app/Tutor';
+import { Loading } from './app/ui';
+// Pages are split into separate chunks so the landing page stays light.
+const page = <M extends Record<string, unknown>>(load: () => Promise<M>, name: keyof M) =>
+  lazy(() => load().then((m) => ({ default: m[name] as ComponentType })));
+const LoginPage = page(() => import('./app/pages/Auth'), 'LoginPage');
+const RegisterPage = page(() => import('./app/pages/Auth'), 'RegisterPage');
+const ForgotPasswordPage = page(() => import('./app/pages/Auth'), 'ForgotPasswordPage');
+const ResetPasswordPage = page(() => import('./app/pages/Auth'), 'ResetPasswordPage');
+const OnboardingPage = page(() => import('./app/pages/Onboarding'), 'OnboardingPage');
+const DashboardPage = page(() => import('./app/pages/Dashboard'), 'DashboardPage');
+const PracticePage = page(() => import('./app/pages/Practice'), 'PracticePage');
+const SessionPage = page(() => import('./app/pages/Session'), 'SessionPage');
+const LibraryPage = page(() => import('./app/pages/Library'), 'LibraryPage');
+const NotebookPage = page(() => import('./app/pages/Notebook'), 'NotebookPage');
+const NotebookPrintPage = page(() => import('./app/pages/Notebook'), 'NotebookPrintPage');
+const SolutionPage = page(() => import('./app/pages/Notebook'), 'SolutionPage');
+const GoldenTimePage = page(() => import('./app/pages/GoldenTime'), 'GoldenTimePage');
+const AnalyticsPage = page(() => import('./app/pages/Insights'), 'AnalyticsPage');
+const RoadmapPage = page(() => import('./app/pages/Insights'), 'RoadmapPage');
+const AchievementsPage = page(() => import('./app/pages/Engagement'), 'AchievementsPage');
+const LeaderboardPage = page(() => import('./app/pages/Engagement'), 'LeaderboardPage');
+const ProfilePage = page(() => import('./app/pages/Engagement'), 'ProfilePage');
+const ShopPage = page(() => import('./app/pages/Engagement'), 'ShopPage');
+const SupportPage = page(() => import('./app/pages/Engagement'), 'SupportPage');
+const UpgradePage = page(() => import('./app/pages/Engagement'), 'UpgradePage');
+const UpgradeResultPage = page(() => import('./app/pages/Engagement'), 'UpgradeResultPage');
+const AdminPage = page(() => import('./app/pages/Admin'), 'AdminPage');
 
-// --- IMPORT 2 COMPONENT MỚI ---
-import { ErrorHistoryReview } from './components/ErrorHistoryReview';
-import { GoldenTimeFlashcardContainer } from './components/goldenTime/GoldenTimeFlashcardContainer';
+/** Requires a signed-in user (waits for the stored session to be restored first). */
+function Private({ children, onboarding = true }: { children: ReactNode; onboarding?: boolean }) {
+  const { user, restoring } = useAuth();
+  const location = useLocation();
+  if (restoring) return <Loading label="Đang khôi phục phiên đăng nhập…" />;
+  if (!user) return <Navigate to="/login" replace state={{ from: location.pathname + location.search }} />;
+  if (onboarding && !user.onboardingCompleted) return <Navigate to="/onboarding" replace />;
+  return <>{children}</>;
+}
 
-// --- WRAPPER COMPONENTS (Để xử lý nút Back) ---
-// Giúp chuyển đổi prop onBack/onClose thành hành động điều hướng của Router
-const ErrorReviewWrapper = () => {
+/** /challenge-5min: start (or resume) today's challenge and open it. */
+function DailyChallenge() {
   const navigate = useNavigate();
-  return <ErrorHistoryReview onBack={() => navigate('/dashboard')} />;
-};
+  const started = useRef(false);
+  useEffect(() => {
+    if (started.current) return;
+    started.current = true;
+    api
+      .post<{ session: Session }>('/practice/sessions', { kind: 'daily' })
+      .then((r) => navigate(`/session/${r.session.id}`, { replace: true }))
+      .catch((err) => {
+        toast.error(errorMessage(err));
+        navigate('/dashboard', { replace: true });
+      });
+  }, [navigate]);
+  return <Loading label="Đang chuẩn bị thử thách hôm nay…" />;
+}
 
-const FlashcardWrapper = () => {
-  const navigate = useNavigate();
-  return <GoldenTimeFlashcardContainer onClose={() => navigate('/dashboard')} />;
-};
+const p = (el: ReactNode, onboarding = true) => <Private onboarding={onboarding}>{el}</Private>;
 
-function App() {
+export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Homepage />} />
+        <TutorProvider>
+          <Suspense fallback={<Loading />}>
+          <Routes>
+            <Route path="/" element={<Homepage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
+            <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+            <Route path="/reset-password" element={<ResetPasswordPage />} />
 
-          {/* Public Routes - Redirect to dashboard if already logged in */}
-          <Route path="/login" element={<LoginPageRoute />} />
-          <Route path="/register" element={<RegisterPageRoute />} />
-          <Route path="/forgot-password" element={<ForgotPasswordPageRoute />} />
+            <Route path="/onboarding" element={p(<OnboardingPage />, false)} />
+            <Route path="/dashboard" element={p(<DashboardPage />)} />
+            <Route path="/practice" element={p(<PracticePage />)} />
+            <Route path="/session/:id" element={p(<SessionPage />, false)} />
+            <Route path="/challenge-5min" element={p(<DailyChallenge />)} />
+            <Route path="/library" element={p(<LibraryPage />)} />
+            <Route path="/error-notebook" element={p(<NotebookPage />)} />
+            <Route path="/error-notebook/print" element={p(<NotebookPrintPage />)} />
+            <Route path="/solution/:id" element={p(<SolutionPage />)} />
+            <Route path="/golden-time" element={p(<GoldenTimePage />)} />
+            <Route path="/roadmap" element={p(<RoadmapPage />)} />
+            <Route path="/analytics" element={p(<AnalyticsPage />)} />
+            <Route path="/leaderboard" element={p(<LeaderboardPage />)} />
+            <Route path="/achievements" element={p(<AchievementsPage />)} />
+            <Route path="/shop" element={p(<ShopPage />)} />
+            <Route path="/profile" element={p(<ProfilePage />)} />
+            <Route path="/upgrade" element={p(<UpgradePage />)} />
+            <Route path="/upgrade/result" element={p(<UpgradeResultPage />, false)} />
+            <Route path="/support" element={p(<SupportPage />)} />
+            <Route path="/admin" element={p(<AdminPage />, false)} />
 
-          {/* Onboarding Routes - Require authentication */}
-          <Route
-            path="/goal-selection"
-            element={
-              <ProtectedRoute>
-                <GoalSelectionPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/subject-selection"
-            element={
-              <ProtectedRoute>
-                <SubjectSelectionPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/placement-test"
-            element={
-              <ProtectedRoute>
-                <PlacementTestPage />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Main App Routes - Require authentication and onboarding */}
-          <Route
-            path="/dashboard"
-            element={
-              <ProtectedRoute requireOnboarding={true}>
-                <DashboardPage />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* --- ✅ NEW ROUTES: ERROR REVIEW & FLASHCARDS --- */}
-          <Route
-            path="/error-review"
-            element={
-              <ProtectedRoute requireOnboarding={true}>
-                <ErrorReviewWrapper />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/flashcards"
-            element={
-              <ProtectedRoute requireOnboarding={true}>
-                <FlashcardWrapper />
-              </ProtectedRoute>
-            }
-          />
-          {/* ------------------------------------------------ */}
-
-          {/* Exam Room Routes */}
-          <Route
-            path="/exam-room"
-            element={
-              <ProtectedRoute requireOnboarding={true}>
-                <ExamRoomPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/exam-room/sprint"
-            element={
-              <ProtectedRoute requireOnboarding={true}>
-                <ExamRoomPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/exam-room/marathon"
-            element={
-              <ProtectedRoute requireOnboarding={true}>
-                <ExamRoomPage />
-              </ProtectedRoute>
-            }
-          />
-          <Route
-            path="/exam-room/ranking"
-            element={
-              <ProtectedRoute requireOnboarding={true}>
-                <ExamRoomPage />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Challenge 5 Min Route */}
-          <Route
-            path="/challenge-5min"
-            element={
-              <ProtectedRoute requireOnboarding={true}>
-                <Challenge5MinPage />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Golden Time Route */}
-          <Route
-            path="/golden-time"
-            element={
-              <ProtectedRoute requireOnboarding={true}>
-                <GoldenTimePage />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Learning Roadmap Route */}
-          <Route
-            path="/roadmap"
-            element={
-              <ProtectedRoute requireOnboarding={true}>
-                <RoadmapPage />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Analytics Route */}
-          <Route
-            path="/analytics"
-            element={
-              <ProtectedRoute requireOnboarding={true}>
-                <AnalyticsPage />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Profile Route */}
-          <Route
-            path="/profile"
-            element={
-              <ProtectedRoute requireOnboarding={true}>
-                <ProfilePageRoute />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Leaderboard Route */}
-          <Route
-            path="/leaderboard"
-            element={
-              <ProtectedRoute requireOnboarding={true}>
-                <LeaderboardPage />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Test Library Route */}
-          <Route
-            path="/test-library"
-            element={
-              <ProtectedRoute requireOnboarding={true}>
-                <TestLibraryPage />
-              </ProtectedRoute>
-            }
-          />
-
-          {/* Catch all - redirect to login */}
-          <Route path="*" element={<Navigate to="/Homepage" replace />} />
-        </Routes>
+            {/* Paths used by earlier versions of the app. */}
+            <Route path="/exam-room/*" element={<Navigate to="/practice" replace />} />
+            <Route path="/test-library" element={<Navigate to="/practice" replace />} />
+            <Route path="/error-review" element={<Navigate to="/error-notebook" replace />} />
+            <Route path="/flashcards" element={<Navigate to="/golden-time" replace />} />
+            <Route path="/goal-selection" element={<Navigate to="/onboarding" replace />} />
+            <Route path="/subject-selection" element={<Navigate to="/onboarding" replace />} />
+            <Route path="/placement-test" element={<Navigate to="/onboarding" replace />} />
+            <Route path="*" element={<Navigate to="/" replace />} />
+          </Routes>
+          </Suspense>
+        </TutorProvider>
         <Toaster position="top-right" richColors />
-        <MascotChatbotButton />
       </BrowserRouter>
     </AuthProvider>
   );
 }
-
-export default App;

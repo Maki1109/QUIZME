@@ -1,0 +1,6 @@
+// Strict type-check for the app code (npm run typecheck). Legacy components are not included.
+{
+  "extends": "./tsconfig.app.json",
+  "compilerOptions": { "strict": true, "noImplicitAny": true, "noUnusedLocals": true, "strictNullChecks": true },
+  "include": ["src/App.tsx", "src/components/landing/ProductTour.tsx", "src/components/landing/TryQuestion.tsx", "src/components/landing/ForgettingCurve.tsx", "src/components/landing/showcase-kit.tsx", "src/components/landing/StickerField.tsx", "src/components/landing/stickers.ts", "src/components/landing/print-kit.tsx", "src/components/landing/backdrop.tsx", "src/components/landing/motion3d.tsx", "src/components/landing/kinetic.tsx", "src/components/landing/TourStage.tsx", "src/components/landing/ProductTour.tsx", "src/components/landing/HeroSection.tsx", "src/components/landing/FeaturesSection.tsx", "src/components/landing/CTASection.tsx", "src/pages/Homepage.tsx", "src/app", "src/lib", "src/vite-env.d.ts", "src/env.d.ts"]
+}

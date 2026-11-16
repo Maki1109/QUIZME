@@ -1,0 +1,602 @@
+[
+ {
+  "key": "toan12-001",
+  "front": "Tập xác định của y = sin x",
+  "back": "$\\mathbb{R}$",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-002",
+  "front": "Tập giá trị của y = sin x",
+  "back": "[-1;1]",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-003",
+  "front": "Tính chẵn lẻ của sin x",
+  "back": "Hàm lẻ",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-004",
+  "front": "Chu kỳ của sin x",
+  "back": "$2\\pi$",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-005",
+  "front": "Khoảng đồng biến của sin x",
+  "back": "$(-\\pi/2 + 2k\\pi;  \\pi/2 + 2k\\pi), k \\in \\mathbb{Z}$",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-006",
+  "front": "Khoảng nghịch biến của sin x",
+  "back": "$(\\pi/2 + 2k\\pi;  3\\pi/2 + 2k\\pi), k \\in \\mathbb{Z}$",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-007",
+  "front": "Đồ thị sin x có tâm đối xứng tại",
+  "back": "Gốc tọa độ O",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-008",
+  "front": "Tập xác định của y = cos x",
+  "back": "$\\mathbb{R}$",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-009",
+  "front": "Tập giá trị của y = cos x",
+  "back": "[-1;1]",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-010",
+  "front": "Tính chẵn lẻ của cos x",
+  "back": "Hàm chẵn",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-011",
+  "front": "Chu kỳ của cos x",
+  "back": "$2\\pi$",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-012",
+  "front": "Khoảng đồng biến của cos x",
+  "back": "$(-\\pi + 2k\\pi;  2k\\pi), k \\in \\mathbb{Z}$",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-013",
+  "front": "Khoảng nghịch biến của cos x",
+  "back": "$(2k\\pi;  \\pi + 2k\\pi), k \\in \\mathbb{Z}$",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-014",
+  "front": "Đồ thị cos x có trục đối xứng là",
+  "back": "Trục Oy",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-015",
+  "front": "Tập xác định của y = tan x",
+  "back": "$\\mathbb{R} \\setminus {\\pi/2 + k\\pi \\mid k \\in \\mathbb{Z}}$",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-016",
+  "front": "Tập giá trị của y = tan x",
+  "back": "$\\mathbb{R}$",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-017",
+  "front": "Tính chẵn lẻ của tan x",
+  "back": "Hàm lẻ",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-018",
+  "front": "Chu kỳ của tan x",
+  "back": "$\\pi$",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-019",
+  "front": "Khoảng đồng biến của tan x",
+  "back": "$(-\\pi/2 + k\\pi; \\pi/2 + k\\pi), k \\in \\mathbb{Z}$",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-020",
+  "front": "Đồ thị tan x có tâm đối xứng tại",
+  "back": "Gốc tọa độ O",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-021",
+  "front": "Tập xác định của y = cot x",
+  "back": "$\\mathbb{R} \\setminus {k\\pi \\mid k \\in \\mathbb{Z}}$",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-022",
+  "front": "Tập giá trị của y = cot x",
+  "back": "$\\mathbb{R}$",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-023",
+  "front": "Tính chẵn lẻ của cot x",
+  "back": "Hàm lẻ",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-024",
+  "front": "Chu kỳ của cot x",
+  "back": "$\\pi$",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-025",
+  "front": "Khoảng nghịch biến của cot x",
+  "back": "$(k\\pi; (k+1)\\pi), k \\in \\mathbb{Z}$",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-026",
+  "front": "Đồ thị cot x có tâm đối xứng tại",
+  "back": "Gốc tọa độ O",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-027",
+  "front": "Nghiệm của sin x = m khi |m| > 1",
+  "back": "Vô nghiệm",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-028",
+  "front": "Nghiệm của sin x = m khi |m| ≤ 1",
+  "back": "$x = (-1)^k \\alpha + k\\pi, k \\in \\mathbb{Z}$ (với $sin \\alpha = m, -\\pi/2 ≤ \\alpha ≤ \\pi/2$)",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-029",
+  "front": "Nghiệm của sin x = 0",
+  "back": "$x = k\\pi, k \\in \\mathbb{Z}$",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-030",
+  "front": "Nghiệm của sin x = 1",
+  "back": "$x = \\pi/2 + 2k\\pi, k \\in \\mathbb{Z}$",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-031",
+  "front": "Nghiệm của sin x = -1",
+  "back": "$x = -\\pi/2 + 2k\\pi, k \\in \\mathbb{Z}$",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-032",
+  "front": "Nghiệm của cos x = m khi |m| > 1",
+  "back": "Vô nghiệm",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-033",
+  "front": "Nghiệm của cos x = m khi |m| ≤ 1",
+  "back": "$x = \\pm \\alpha + 2k\\pi, k \\in \\mathbb{Z}$ (với $cos \\alpha = m, 0 ≤ \\alpha ≤ \\pi$)",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-034",
+  "front": "Nghiệm của cos x = 0",
+  "back": "$x = \\pi/2 + k\\pi, k \\in \\mathbb{Z}$",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-035",
+  "front": "Nghiệm của cos x = 1",
+  "back": "$x = 2k\\pi, k \\in \\mathbb{Z}$",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-036",
+  "front": "Nghiệm của cos x = -1",
+  "back": "$x = \\pi + 2k\\pi, k \\in \\mathbb{Z}$",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-037",
+  "front": "Nghiệm của tan x = m (mọi m)",
+  "back": "$x = \\alpha + k\\pi, k \\in \\mathbb{Z}$ (với $tan \\alpha = m, -\\pi/2 < \\alpha < \\pi/2$)",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-038",
+  "front": "Nghiệm của cot x = m (mọi m)",
+  "back": "$x = \\alpha + k\\pi, k \\in \\mathbb{Z}$ (với $cot \\alpha = m, 0 < \\alpha < \\pi$)",
+  "topic": "LG"
+ },
+ {
+  "key": "toan12-039",
+  "front": "Định nghĩa dãy số",
+  "back": "Hàm số xác định trên $\\mathbb{N}^*$ (số nguyên dương)",
+  "topic": "CSCCSN"
+ },
+ {
+  "key": "toan12-040",
+  "front": "Dãy số tăng nghiêm ngặt",
+  "back": "$u_n < u_{n+1} \\forall n$",
+  "topic": "CSCCSN"
+ },
+ {
+  "key": "toan12-041",
+  "front": "Dãy số giảm nghiêm ngặt",
+  "back": "$u_n > u_{n+1} \\forall n$",
+  "topic": "CSCCSN"
+ },
+ {
+  "key": "toan12-042",
+  "front": "Định nghĩa cấp số cộng",
+  "back": "Mỗi số hạng từ thứ 2 bằng số hạng trước cộng công sai d cố định",
+  "topic": "CSCCSN"
+ },
+ {
+  "key": "toan12-043",
+  "front": "Công sai cấp số cộng",
+  "back": "d",
+  "topic": "CSCCSN"
+ },
+ {
+  "key": "toan12-044",
+  "front": "Tính chất cấp số cộng",
+  "back": "Mỗi số hạng (từ thứ 2) là trung bình cộng 2 số hạng kề nó",
+  "topic": "CSCCSN"
+ },
+ {
+  "key": "toan12-045",
+  "front": "3 số a, b, c lập thành cấp số cộng khi",
+  "back": "2b = a + c",
+  "topic": "CSCCSN"
+ },
+ {
+  "key": "toan12-046",
+  "front": "Số hạng tổng quát cấp số cộng",
+  "back": "$u_n = u_1 + (n-1)d$",
+  "topic": "CSCCSN"
+ },
+ {
+  "key": "toan12-047",
+  "front": "Tổng n hạng đầu cấp số cộng",
+  "back": "$S_n = n/2 (u_1 + u_n) = n/2 [2u_1 + (n-1)d]$",
+  "topic": "CSCCSN"
+ },
+ {
+  "key": "toan12-048",
+  "front": "Định nghĩa cấp số nhân",
+  "back": "Mỗi số hạng từ thứ 2 bằng số hạng trước nhân công bội q cố định",
+  "topic": "CSCCSN"
+ },
+ {
+  "key": "toan12-049",
+  "front": "Công bội cấp số nhân",
+  "back": "q",
+  "topic": "CSCCSN"
+ },
+ {
+  "key": "toan12-050",
+  "front": "Tính chất cấp số nhân",
+  "back": "Bình phương mỗi số hạng (từ thứ 2) bằng tích 2 số hạng kề nó",
+  "topic": "CSCCSN"
+ },
+ {
+  "key": "toan12-051",
+  "front": "3 số a, b, c ≠ 0 lập thành cấp số nhân khi",
+  "back": "$b^2 = a c$",
+  "topic": "CSCCSN"
+ },
+ {
+  "key": "toan12-052",
+  "front": "Số hạng tổng quát cấp số nhân",
+  "back": "$u_n = u_1 q^{n-1}$",
+  "topic": "CSCCSN"
+ },
+ {
+  "key": "toan12-053",
+  "front": "Tổng n hạng đầu cấp số nhân khi q = 1",
+  "back": "$S_n = n u_1$",
+  "topic": "CSCCSN"
+ },
+ {
+  "key": "toan12-054",
+  "front": "Tổng n hạng đầu cấp số nhân khi q ≠ 1",
+  "back": "$S_n = u_1 (q^n - 1)/(q - 1)$",
+  "topic": "CSCCSN"
+ },
+ {
+  "key": "toan12-055",
+  "front": "Giới hạn dãy số $lim u_n = a$ khi $n → +∞$",
+  "back": "$|u_n - a| → 0$",
+  "topic": "HS"
+ },
+ {
+  "key": "toan12-056",
+  "front": "Cấp số nhân lùi vô hạn (|q| < 1)",
+  "back": "Tổng $S = u_1 / (1 - q)$",
+  "topic": "HS"
+ },
+ {
+  "key": "toan12-057",
+  "front": "Quy tắc giới hạn dãy: $lim (u_n + v_n)$ =",
+  "back": "$lim u_n + lim v_n$",
+  "topic": "HS"
+ },
+ {
+  "key": "toan12-058",
+  "front": "Quy tắc giới hạn dãy: $lim (u_n v_n)$ =",
+  "back": "$lim u_n \\cdot lim v_n$",
+  "topic": "HS"
+ },
+ {
+  "key": "toan12-059",
+  "front": "Quy tắc giới hạn dãy: $lim u_n / v_n$ =",
+  "back": "$lim u_n / lim v_n (lim v_n ≠ 0)$",
+  "topic": "HS"
+ },
+ {
+  "key": "toan12-060",
+  "front": "Quy tắc giới hạn hàm: lim (f ± g) =",
+  "back": "$lim f ± lim g$",
+  "topic": "HS"
+ },
+ {
+  "key": "toan12-061",
+  "front": "Quy tắc giới hạn hàm: lim (f g) =",
+  "back": "$lim f \\cdot lim g$",
+  "topic": "HS"
+ },
+ {
+  "key": "toan12-062",
+  "front": "Quy tắc giới hạn hàm: lim f/g =",
+  "back": "$lim f / lim g (lim g ≠ 0)$",
+  "topic": "HS"
+ },
+ {
+  "key": "toan12-063",
+  "front": "Định nghĩa hàm liên tục tại $x_0$",
+  "back": "$lim_{x→x_0} f(x) = f(x_0)$",
+  "topic": "HS"
+ },
+ {
+  "key": "toan12-064",
+  "front": "Hàm đa thức, sin x, cos x liên tục trên",
+  "back": "$\\mathbb{R}$",
+  "topic": "HS"
+ },
+ {
+  "key": "toan12-065",
+  "front": "Hàm tan x, cot x, phân thức hữu tỷ liên tục trên",
+  "back": "Tập xác định",
+  "topic": "HS"
+ },
+ {
+  "key": "toan12-066",
+  "front": "Tính chất lũy thừa: $a^{x+y}$ =",
+  "back": "$a^x a^y$",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-067",
+  "front": "Tính chất lũy thừa: $a^{x-y}$ =",
+  "back": "$a^x / a^y$",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-068",
+  "front": "Tính chất lũy thừa: $(a b)^x$ =",
+  "back": "$a^x b^x$",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-069",
+  "front": "Tính chất lũy thừa: $a^{x y}$ =",
+  "back": "$(a^x)^y$",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-070",
+  "front": "Định nghĩa $log_a M$",
+  "back": "$\\alpha$ sao cho $a^\\alpha = M (a > 0, a ≠ 1, M > 0)$",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-071",
+  "front": "$log_a 1$ =",
+  "back": "0",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-072",
+  "front": "$log_a a$ =",
+  "back": "1",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-073",
+  "front": "$log_a (M N)$ =",
+  "back": "$log_a M + log_a N$",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-074",
+  "front": "$log_a (M/N)$ =",
+  "back": "$log_a M - log_a N$",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-075",
+  "front": "$log_a M^\\alpha$ =",
+  "back": "$\\alpha log_a M$",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-076",
+  "front": "Công thức đổi cơ số: $log_a M$ =",
+  "back": "$log_b M / log_b a$",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-077",
+  "front": "$log_a b$ =",
+  "back": "$1 / log_b a$",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-078",
+  "front": "Lôgarit thập phân log M =",
+  "back": "$log_{10} M$",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-079",
+  "front": "Số e ≈",
+  "back": "2,718281828...",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-080",
+  "front": "Lôgarit tự nhiên",
+  "back": "ln M = log_e M",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-081",
+  "front": "Tập xác định y = $a^x$ (a > 0, a ≠ 1)",
+  "back": "$\\mathbb{R}$",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-082",
+  "front": "Tập giá trị y = $a^x$",
+  "back": "(0;  +∞)",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-083",
+  "front": "y = $a^x$ đồng biến khi",
+  "back": "a > 1",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-084",
+  "front": "y = $a^x$ nghịch biến khi",
+  "back": "0 < a < 1",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-085",
+  "front": "Đồ thị y = $a^x$ đi qua các điểm",
+  "back": "(0;1) và (1;a)",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-086",
+  "front": "Tập xác định y = $log_a x$",
+  "back": "(0; +∞)",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-087",
+  "front": "Tập giá trị y = $log_a x$",
+  "back": "$\\mathbb{R}$",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-088",
+  "front": "y = $log_a x$ đồng biến khi",
+  "back": "a > 1",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-089",
+  "front": "y = $log_a x$ nghịch biến khi",
+  "back": "0 < a < 1",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-090",
+  "front": "Đồ thị y = $log_a x$ đi qua các điểm",
+  "back": "(1;0) và (a;1)",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-091",
+  "front": "Phương trình mũ $a^{f(x)}$ = b (b > 0)",
+  "back": "$f(x) = log_a b$",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-092",
+  "front": "Phương trình mũ $a^{f(x)} = a^{g(x)}$",
+  "back": "f(x) = g(x)",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-093",
+  "front": "Phương trình lôgarit $log_a f(x)$ = b",
+  "back": "$f(x) = a^b$",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-094",
+  "front": "Phương trình lôgarit $log_a f(x) = log_a g(x)$",
+  "back": "f(x) = g(x) và f(x) > 0",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-095",
+  "front": "Bất phương trình mũ $a^{f(x)} > a^{g(x)}$ (a > 1)",
+  "back": "f(x) > g(x)",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-096",
+  "front": "Bất phương trình mũ $a^{f(x)} > a^{g(x)}$ (0 < a < 1)",
+  "back": "f(x) < g(x)",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-097",
+  "front": "Bất phương trình lôgarit $log_a f(x)$ > b (a > 1)",
+  "back": "$f(x) > a^b$",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-098",
+  "front": "Bất phương trình lôgarit $log_a f(x)$ > b (0 < a < 1)",
+  "back": "$0 < f(x) < a^b$",
+  "topic": "ML"
+ },
+ {
+  "key": "toan12-099",
+  "front": "Dấu hiệu 1 hai đường thẳng song song",
+  "back": "Đồng phẳng và không chung điểm",
+  "topic": "HHKG"
+ },
+ {
+  "key": "toan12-100",
+  "front": "Dấu hiệu 3 hai đường thẳng song song",
+  "back": "Cùng song song với đường thẳng thứ ba",
+  "topic": "HHKG"
+ }
+]
