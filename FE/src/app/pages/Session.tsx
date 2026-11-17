@@ -52,6 +52,9 @@ export function SessionPage() {
   const [error, setError] = useState('');
   const { refresh } = useAuth();
 
+  // A different session id: drop what was shown for the previous one.
+  useEffect(() => setPayload(null), [id]);
+
   const load = useCallback(() => {
     setError('');
     api
@@ -71,9 +74,18 @@ export function SessionPage() {
     <Shell>
       {error && <ErrorBox message={error} onRetry={load} />}
       {!payload && !error && <Loading />}
+      {payload?.state === 'in_progress' && payload.session.questions.length === 0 && (
+        <ErrorBox message="Các câu hỏi của bài này không còn trong ngân hàng. Hãy quay lại trang Luyện thi để bắt đầu bài mới." />
+      )}
+      {/* Keyed by session id: moving straight from one session to another must start from a clean state. */}
       {payload?.state === 'in_progress' &&
-        (payload.session.instantFeedback ? <InstantPlayer session={payload.session} onSubmitted={onSubmitted} /> : <TimedPlayer session={payload.session} onSubmitted={onSubmitted} />)}
-      {payload?.state === 'submitted' && <ResultView result={payload.result} />}
+        payload.session.questions.length > 0 &&
+        (payload.session.instantFeedback ? (
+          <InstantPlayer key={payload.session.id} session={payload.session} onSubmitted={onSubmitted} />
+        ) : (
+          <TimedPlayer key={payload.session.id} session={payload.session} onSubmitted={onSubmitted} />
+        ))}
+      {payload?.state === 'submitted' && <ResultView key={payload.result.id} result={payload.result} />}
     </Shell>
   );
 }
@@ -448,16 +460,16 @@ export function ResultView({ result }: { result: SessionResult }) {
       <Card tone={pct >= 80 ? 'lime' : pct >= 50 ? 'butter' : 'pink'} className="!p-6 sm:!p-8">
         <p className="eyebrow !text-ink-2">
           {KIND_LABEL[result.kind]}
-          {result.title && result.title.toLowerCase() !== KIND_LABEL[result.kind].toLowerCase() ? ` · ${result.title}` : ''}
+          {result.title && result.title.toLowerCase() !== (KIND_LABEL[result.kind] || '').toLowerCase() ? ` · ${result.title}` : ''}
         </p>
         <div className="mt-3 flex flex-wrap items-end gap-x-8 gap-y-3">
-          <p className="display text-[4.5rem] normal-case leading-none sm:text-[6rem]">{result.score10 !== null ? result.score10.toFixed(2).replace('.', ',') : `${pct}%`}</p>
+          <p className="display text-[4.5rem] normal-case leading-none sm:text-[6rem]">{typeof result.score10 === 'number' ? result.score10.toFixed(2).replace('.', ',') : `${pct}%`}</p>
           <div className="pb-2 font-semibold text-ink-2">
-            <p>{result.score10 !== null ? 'điểm / 10' : 'chính xác'}</p>
+            <p>{typeof result.score10 === 'number' ? 'điểm / 10' : 'chính xác'}</p>
             <p>
               {result.correctAnswers}/{result.totalQuestions} câu đúng · {duration(result.totalTimeSpent)}
             </p>
-            {result.passed !== null && <p className="font-extrabold text-ink">{result.passed ? 'Đã vượt chặng 🎉' : 'Chưa đạt 70% — luyện thêm rồi thử lại nhé'}</p>}
+            {typeof result.passed === 'boolean' && <p className="font-extrabold text-ink">{result.passed ? 'Đã vượt chặng 🎉' : 'Chưa đạt 70% — luyện thêm rồi thử lại nhé'}</p>}
           </div>
         </div>
         <RewardsBanner result={result} />

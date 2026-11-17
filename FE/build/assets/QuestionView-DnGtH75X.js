@@ -1,4 +1,4 @@
-import{i as k,r as f,j as e,m as u,h as N,X as w}from"./index-CtLdex1V.js";import{MathText as j}from"./math-DZ17hXtj.js";/**
+import{i as k,r as f,j as e,m as u,h as N,X as w}from"./index-BHAp7RBd.js";import{MathText as j}from"./math-DrGTCUOj.js";/**
  * @license lucide-react v0.487.0 - ISC
  *
  * This source code is licensed under the ISC license.

@@ -202,7 +202,7 @@ function HistoryList({ status }: { status: 'submitted' | 'in_progress' }) {
                 </p>
               </div>
               {status === 'submitted' ? (
-                <Pill tone={scoreTone(pct)} className="!text-sm">{h.score10 !== null ? `${h.score10.toFixed(1).replace('.', ',')}đ` : `${pct}%`}</Pill>
+                <Pill tone={scoreTone(pct)} className="!text-sm">{typeof h.score10 === 'number' ? `${h.score10.toFixed(1).replace('.', ',')}đ` : `${pct}%`}</Pill>
               ) : (
                 <span className="btn-lime !h-9 !px-4 !text-sm">Làm tiếp</span>
               )}

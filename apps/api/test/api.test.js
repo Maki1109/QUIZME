@@ -578,8 +578,15 @@ test('migration upgrades legacy challenge attempts and streaks without losing da
   // History shows up in the new endpoints.
   const login = await http('POST', '/api/auth/login', { body: { email: u.email, password: 'matkhau123' } });
   const hist = await http('GET', '/api/practice/sessions', { token: login.body.token });
-  assert.ok(hist.body.items.some((i) => i.id === String(legacy.insertedId)));
+  const row = hist.body.items.find((i) => i.id === String(legacy.insertedId));
+  assert.ok(row);
+  // Legacy rows have no exam-scale score: the field must be an explicit null, never missing
+  // (a missing score10 crashed the "recent attempts" list and blanked the practice page).
+  assert.ok('score10' in row && row.score10 === null);
+  assert.equal(row.passed, null);
   const review = await http('GET', `/api/practice/sessions/${legacy.insertedId}`, { token: login.body.token });
   assert.equal(review.body.state, 'submitted');
   assert.equal(review.body.result.items.length, 3);
+  assert.ok('score10' in review.body.result && review.body.result.score10 === null);
+  assert.equal(review.body.result.passed, null);
 });

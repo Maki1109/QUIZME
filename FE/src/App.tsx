@@ -8,6 +8,7 @@ import { api, errorMessage } from './lib/api';
 import type { Session } from './lib/types';
 import { TutorProvider } from './app/Tutor';
 import { Loading } from './app/ui';
+import { ErrorBoundary, reloadForNewVersion } from './app/ErrorBoundary';
 // Pages are split into separate chunks so the landing page stays light.
 const page = <M extends Record<string, unknown>>(load: () => Promise<M>, name: keyof M) =>
   lazy(() => load().then((m) => ({ default: m[name] as ComponentType })));
@@ -65,11 +66,26 @@ function DailyChallenge() {
 
 const p = (el: ReactNode, onboarding = true) => <Private onboarding={onboarding}>{el}</Private>;
 
+// Vite fires this when a page's JS/CSS chunk can't be preloaded: after a deploy the old file
+// names are gone, so fetch the new build instead of failing.
+if (typeof window !== 'undefined') {
+  window.addEventListener('vite:preloadError', (event) => {
+    if (reloadForNewVersion()) event.preventDefault();
+  });
+}
+
+/** Clears a caught error when the user navigates elsewhere. */
+function RouteBoundary({ children }: { children: ReactNode }) {
+  const { pathname } = useLocation();
+  return <ErrorBoundary resetKey={pathname}>{children}</ErrorBoundary>;
+}
+
 export default function App() {
   return (
     <AuthProvider>
       <BrowserRouter>
         <TutorProvider>
+          <RouteBoundary>
           <Suspense fallback={<Loading />}>
           <Routes>
             <Route path="/" element={<Homepage />} />
@@ -110,6 +126,7 @@ export default function App() {
             <Route path="*" element={<Navigate to="/" replace />} />
           </Routes>
           </Suspense>
+          </RouteBoundary>
         </TutorProvider>
         <Toaster position="top-right" richColors />
       </BrowserRouter>
